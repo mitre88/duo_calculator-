@@ -23,7 +23,7 @@ extension CalcEngineTests {
             let snapshot = engine.snapshot(formatter: Self.formatter(for: Self.fixture))
             #expect(snapshot.primary == testCase.primary, "\(testCase.id): expression=\(snapshot.expressionText)")
             if let expression = testCase.expression {
-                #expect(snapshot.expressionText == expression, testCase.id)
+                #expect(snapshot.expressionText == expression, "\(testCase.id): expression line")
             }
         }
 
