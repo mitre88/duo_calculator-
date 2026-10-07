@@ -29,10 +29,10 @@ extension CalcEngineTests {
         }
 
         @Test func oversizedFractionsDemoteToApprox() {
-            let big = CalcValue(exact: BFraction(BInt.TEN ** 400, BInt.ONE))
+            let big = CalcValue(exact: BFraction(powerOfTen(400), BInt.ONE))
             #expect(!big.isExact)
             #expect(big.decimalExponent == 400)
-            let small = CalcValue(exact: BFraction(BInt.TWO ** 1000, BInt.ONE))
+            let small = CalcValue(exact: BFraction(integerPower(BInt.TWO, 1000), BInt.ONE))
             #expect(small.isExact)
         }
 

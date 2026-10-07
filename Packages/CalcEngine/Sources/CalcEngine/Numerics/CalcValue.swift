@@ -149,9 +149,9 @@ public struct CalcValue: Sendable, Hashable, Comparable, CustomStringConvertible
     static func fraction(from decimal: BigDecimal) -> BFraction? {
         guard decimal.isFinite else { return nil }
         if decimal.exponent >= 0 {
-            return BFraction(decimal.digits * (BInt.TEN ** decimal.exponent), BInt.ONE)
+            return BFraction(decimal.digits * powerOfTen(decimal.exponent), BInt.ONE)
         }
-        return BFraction(decimal.digits, BInt.TEN ** (-decimal.exponent))
+        return BFraction(decimal.digits, powerOfTen(-decimal.exponent))
     }
 
     // MARK: Canonical text (shared with the Python oracle)

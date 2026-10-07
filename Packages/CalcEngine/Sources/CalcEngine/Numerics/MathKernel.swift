@@ -113,7 +113,7 @@ public enum MathKernel {
         if let yf = y.exactFraction, yf.isInteger {
             guard let n = yf.numerator.asInt() else { return try hugeIntegerPower(x, exponent: yf.numerator) }
             if let xf = x.exactFraction, abs(n) <= CalcPrecision.maxIntegerPowerExponent {
-                return CalcValue(exact: xf ** n)
+                return CalcValue(exact: fractionPower(xf, n))
             }
             let xm = x.approx
             let estimate = Double(n) * log10Estimate(xm.abs)
@@ -132,7 +132,7 @@ public enum MathKernel {
            let q = yf.denominator.asInt(), q <= 64,
            let p = yf.numerator.asInt(), abs(p) <= CalcPrecision.maxIntegerPowerExponent,
            let r = exactRoot(xf, q) {
-            return CalcValue(exact: r ** p)
+            return CalcValue(exact: fractionPower(r, p))
         }
         let xm = x.approx, ym = y.approx
         let estimate = ym.asDouble() * log10Estimate(xm)
