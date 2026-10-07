@@ -46,9 +46,9 @@ struct LatencyStats: CustomStringConvertible {
     var p95: Duration { percentile(0.95) }
     var worst: Duration { sorted.last ?? .zero }
     var total: Duration { samples.reduce(Duration.zero, +) }
-    var perSecond: Double { total == .zero ? 0 : Double(samples.count) / (total / .seconds(1)) }
+    var perSecond: Double { total == .zero ? 0 : Double(samples.count) / (total / Duration.seconds(1)) }
 
-    static func ms(_ d: Duration) -> String { String(format: "%.3f ms", d / .milliseconds(1)) }
+    static func ms(_ d: Duration) -> String { String(format: "%.3f ms", d / Duration.milliseconds(1)) }
     var description: String {
         "p50=\(Self.ms(p50)) p95=\(Self.ms(p95)) max=\(Self.ms(worst)) n=\(samples.count) (\(String(format: "%.0f", perSecond))/s)"
     }

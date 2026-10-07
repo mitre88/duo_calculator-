@@ -85,13 +85,13 @@ struct CLI {
 enum Bench {
     static func run(iterations: Int) -> Int32 {
         let clock = ContinuousClock()
-        func ms(_ d: Duration) -> String { String(format: "%8.3f ms", d / .milliseconds(1)) }
+        func ms(_ d: Duration) -> String { String(format: "%8.3f ms", d / Duration.milliseconds(1)) }
         func stats(_ samples: [Duration]) -> String {
             let s = samples.sorted()
             guard !s.isEmpty else { return "n/a" }
             let p50 = s[(s.count - 1) / 2], p95 = s[min(s.count - 1, Int(Double(s.count - 1) * 0.95))]
             let total = s.reduce(Duration.zero, +)
-            return "p50 \(ms(p50))  p95 \(ms(p95))  max \(ms(s[s.count - 1]))  \(String(format: "%9.0f", Double(s.count) / (total / .seconds(1))))/s"
+            return "p50 \(ms(p50))  p95 \(ms(p95))  max \(ms(s[s.count - 1]))  \(String(format: "%9.0f", Double(s.count) / (total / Duration.seconds(1))))/s"
         }
         print("Duo Calculator engine benchmark — \(iterations) iterations, working precision \(CalcPrecision.working) digits")
         print(String(repeating: "─", count: 96))
