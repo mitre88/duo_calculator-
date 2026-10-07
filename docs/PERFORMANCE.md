@@ -30,7 +30,7 @@
 * Sin imágenes ni fuentes empaquetadas: SF Symbols, SF Pro Rounded del sistema, catálogo de strings.
 * Dependencias: BigDecimal + BigInt + UInt128 + swift-numerics (puro Swift, ~1 MB tras *stripping*).
 * `DEAD_CODE_STRIPPING = YES`, optimización `-O` en Release, sin recursos bajo demanda.
-* Icono por capas (Icon Composer `.icon`), un único asset catalog.
+* Icono: tres PNG de 1024 px (normal / oscuro / teñido, ≈ 260 KB en total) en un único asset catalog; un `.icon` de Icon Composer puede sustituirlos.
 * Objetivo: app < 8 MB descargada (App Thinning por dispositivo).
 
 ## Cómo verificar en la Mac

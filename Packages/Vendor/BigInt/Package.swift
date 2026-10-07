@@ -22,8 +22,5 @@ let package = Package(
         .target(
             name: "BigInt",
             dependencies: []),
-        .testTarget(
-            name: "BigIntTests",
-            dependencies: ["BigInt"]),
     ]
 )

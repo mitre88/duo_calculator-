@@ -24,7 +24,7 @@ docs/                  semántica normativa, arquitectura, rendimiento, diseño,
   edición con cursor, memoria, 2nd, Deg/Rad.
 * Validación de dominio antes de cada función (`asin 2`, `tan 90°`, `√−1` → Error, nunca crash).
 * Modo programador (8–64 bits, BIN/OCT/DEC/HEX, bit a bit) y conversor de unidades exacto.
-* 900+ casos de prueba generados por un oráculo independiente (Python + mpmath).
+* Casi 900 casos de prueba: 791 generados por un oráculo independiente (Python + mpmath y un parser de referencia) y 106 escritos a mano (secuencias de teclas de iOS y formato).
 
 ### App
 * Layout decidido **solo** por size classes, espacio medido y regiones reservadas (pliegue y cámara),

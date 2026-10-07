@@ -48,5 +48,5 @@ final, se corrige ahí y nada más cambia.
 
 `Tools/reference_model.py` reimplementa gramática y semántica en Python (Fraction + mpmath) y genera
 `expressions.json`, `ios_sequences.json` y `formatting.json`; `Tools/gen_fixtures.py` genera
-`transcendental.json` con mpmath a 70 dígitos. Las pruebas Swift exigen coincidencia a ≥ 28–55
+`transcendental.json` con mpmath a 70 dígitos. Las pruebas Swift exigen coincidencia a ≥ 28–52
 dígitos según la función y cadena idéntica tras el redondeo de pantalla (16 dígitos).

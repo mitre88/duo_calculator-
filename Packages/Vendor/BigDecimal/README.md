@@ -14,5 +14,8 @@ Verbatim copy of https://github.com/mgriebling/BigDecimal at tag 3.0.2 with **tw
   (`sinh(50)` agreed with the true value to only 36 digits at 94 requested digits).
   Reproduced independently in Python by rounding the denominators to 34 digits.
 
+* `Package.swift`: depends on the sibling `../BigInt` by path, pins the two remote dependencies to exact
+  versions, and drops the `BigDecimalTests` target (its sources are not vendored).
+
 Everything else (Decimal32/64/128, Rounding…) is untouched. The sibling
 `Packages/Vendor/BigInt` is used for its `BigInt` dependency through SwiftPM identity override.
