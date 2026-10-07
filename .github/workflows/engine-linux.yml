@@ -5,11 +5,17 @@ on:
     branches: ["**"]
   pull_request:
 
+# A newer push on the same branch supersedes runs still in flight.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   swift-tests:
     name: swift test (swift:6.2-noble)
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
+    timeout-minutes: 40   # a hang in a soak test must not hold a runner for hours
     steps:
       - uses: actions/checkout@v4
       - name: Cache SwiftPM
@@ -40,6 +46,7 @@ jobs:
   fixtures-up-to-date:
     name: fixtures match generators (mpmath)
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
