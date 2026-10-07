@@ -1,0 +1,113 @@
+# XcodeGen spec — generate with:  xcodegen generate --spec App/project.yml --project App
+# Requires Xcode 27.1+ (iPhone Duo simulator, iOS 27.1 SDK).
+name: DuoCalculator
+options:
+  bundleIdPrefix: com.mitre88
+  deploymentTarget:
+    iOS: "27.1"
+  xcodeVersion: "27.1"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  developmentLanguage: es-MX
+  groupSortPosition: top
+
+packages:
+  CalcEngine:
+    path: ../Packages/CalcEngine
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+    DEAD_CODE_STRIPPING: YES
+
+targets:
+  DuoCalculator:
+    type: application
+    platform: iOS
+    sources:
+      - path: DuoCalculator
+    dependencies:
+      - package: CalcEngine
+        product: CalcEngine
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mitre88.duocalculator
+        PRODUCT_NAME: Duo Calculator
+        PRODUCT_MODULE_NAME: DuoCalculator
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        # Default actor isolation = MainActor for the UI target (Xcode 26+ / Swift 6.2).
+        SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+        SWIFT_APPROACHABLE_CONCURRENCY: YES
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
+        ENABLE_PREVIEWS: YES
+        CODE_SIGN_STYLE: Automatic
+    info:
+      path: DuoCalculator/Info.plist
+      properties:
+        CFBundleDisplayName: Duo Calculator
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSApplicationCategoryType: public.app-category.utilities
+        ITSAppUsesNonExemptEncryption: false
+        UILaunchScreen: {}
+        # The inner display of iPhone Duo ignores supported orientations; declare all of them anyway
+        # so the app resizes freely (and never set UIRequiresFullScreen = YES: Split View must work).
+        UIRequiresFullScreen: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        UIApplicationSupportsIndirectInputEvents: true
+        UIUserInterfaceStyle: Automatic
+        UIStatusBarStyle: UIStatusBarStyleDefault
+        CFBundleLocalizations:
+          - es-MX
+          - en
+        CFBundleDevelopmentRegion: es-MX
+
+  DuoCalculatorTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: DuoCalculatorTests
+    dependencies:
+      - target: DuoCalculator
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mitre88.duocalculator.tests
+        SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+        SWIFT_APPROACHABLE_CONCURRENCY: YES
+
+schemes:
+  DuoCalculator:
+    build:
+      targets:
+        DuoCalculator: all
+        DuoCalculatorTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - DuoCalculatorTests
+      gatherCoverageData: true
+    archive:
+      config: Release

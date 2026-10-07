@@ -1,0 +1,39 @@
+name: CalcEngine (Linux)
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  swift-tests:
+    name: swift test (swift:6.2-noble)
+    runs-on: ubuntu-24.04
+    container: swift:6.2-noble
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: Packages/CalcEngine/.build
+          key: spm-${{ runner.os }}-${{ hashFiles('Packages/CalcEngine/Package.swift') }}
+          restore-keys: spm-${{ runner.os }}-
+      - name: Build
+        run: swift build --package-path Packages/CalcEngine
+      - name: Test
+        run: swift test --package-path Packages/CalcEngine --parallel
+
+  fixtures-up-to-date:
+    name: fixtures match generators (mpmath)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r Tools/requirements.txt
+      - name: Regenerate fixtures and diff
+        run: |
+          python3 -I Tools/gen_fixtures.py --out /tmp/fixtures
+          python3 -I Tools/reference_model.py --out /tmp/fixtures
+          diff -r /tmp/fixtures Packages/CalcEngine/Tests/CalcEngineTests/Fixtures

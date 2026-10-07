@@ -1,0 +1,873 @@
+{
+ "locale": "en_US",
+ "profile": "regular",
+ "angle": "deg",
+ "cases": [
+  {
+   "id": "basic_add",
+   "keys": [
+    "1",
+    "2",
+    "add",
+    "3",
+    "eq"
+   ],
+   "primary": "15",
+   "expression": "12 + 3 ="
+  },
+  {
+   "id": "expression_while_typing",
+   "keys": [
+    "1",
+    "2",
+    "add",
+    "3"
+   ],
+   "primary": "3",
+   "expression": "12 + 3"
+  },
+  {
+   "id": "expression_function",
+   "keys": [
+    "3",
+    "0",
+    "sin",
+    "mul",
+    "2"
+   ],
+   "primary": "2",
+   "expression": "sin(30) × 2"
+  },
+  {
+   "id": "expression_percent",
+   "keys": [
+    "2",
+    "0",
+    "0",
+    "add",
+    "1",
+    "0",
+    "pct"
+   ],
+   "primary": "20",
+   "expression": "200 + 10%"
+  },
+  {
+   "id": "chain_no_eq",
+   "keys": [
+    "2",
+    "add",
+    "3",
+    "mul"
+   ],
+   "primary": "3"
+  },
+  {
+   "id": "chain_no_eq_resolves",
+   "keys": [
+    "2",
+    "mul",
+    "3",
+    "add"
+   ],
+   "primary": "6"
+  },
+  {
+   "id": "chain_no_eq_same_level",
+   "keys": [
+    "2",
+    "add",
+    "3",
+    "add"
+   ],
+   "primary": "5"
+  },
+  {
+   "id": "precedence",
+   "keys": [
+    "2",
+    "add",
+    "3",
+    "mul",
+    "4",
+    "eq"
+   ],
+   "primary": "14"
+  },
+  {
+   "id": "repeat_eq",
+   "keys": [
+    "2",
+    "add",
+    "3",
+    "eq",
+    "eq",
+    "eq"
+   ],
+   "primary": "11"
+  },
+  {
+   "id": "repeat_eq_mul",
+   "keys": [
+    "2",
+    "mul",
+    "3",
+    "eq",
+    "eq"
+   ],
+   "primary": "18"
+  },
+  {
+   "id": "repeat_after_new_entry",
+   "keys": [
+    "2",
+    "add",
+    "3",
+    "eq",
+    "1",
+    "0",
+    "eq"
+   ],
+   "primary": "13"
+  },
+  {
+   "id": "trailing_op_eq",
+   "keys": [
+    "5",
+    "mul",
+    "eq"
+   ],
+   "primary": "25"
+  },
+  {
+   "id": "trailing_add_eq",
+   "keys": [
+    "2",
+    "add",
+    "eq"
+   ],
+   "primary": "4"
+  },
+  {
+   "id": "trailing_after_chain",
+   "keys": [
+    "2",
+    "add",
+    "3",
+    "mul",
+    "eq"
+   ],
+   "primary": "11"
+  },
+  {
+   "id": "operator_replace",
+   "keys": [
+    "6",
+    "mul",
+    "add",
+    "3",
+    "eq"
+   ],
+   "primary": "9"
+  },
+  {
+   "id": "minus_as_sign",
+   "keys": [
+    "2",
+    "mul",
+    "sub",
+    "3",
+    "eq"
+   ],
+   "primary": "-6"
+  },
+  {
+   "id": "percent_add",
+   "keys": [
+    "2",
+    "0",
+    "0",
+    "add",
+    "1",
+    "0",
+    "pct",
+    "eq"
+   ],
+   "primary": "220"
+  },
+  {
+   "id": "percent_preview",
+   "keys": [
+    "2",
+    "0",
+    "0",
+    "add",
+    "1",
+    "0",
+    "pct"
+   ],
+   "primary": "20"
+  },
+  {
+   "id": "percent_sub",
+   "keys": [
+    "2",
+    "0",
+    "0",
+    "sub",
+    "1",
+    "0",
+    "pct",
+    "eq"
+   ],
+   "primary": "180"
+  },
+  {
+   "id": "percent_mul",
+   "keys": [
+    "5",
+    "0",
+    "mul",
+    "1",
+    "0",
+    "pct",
+    "eq"
+   ],
+   "primary": "5"
+  },
+  {
+   "id": "percent_div",
+   "keys": [
+    "5",
+    "0",
+    "div",
+    "1",
+    "0",
+    "pct",
+    "eq"
+   ],
+   "primary": "500"
+  },
+  {
+   "id": "percent_alone",
+   "keys": [
+    "5",
+    "0",
+    "pct"
+   ],
+   "primary": "0.5"
+  },
+  {
+   "id": "percent_alone_eq",
+   "keys": [
+    "5",
+    "0",
+    "pct",
+    "eq"
+   ],
+   "primary": "0.5"
+  },
+  {
+   "id": "sign_then_square",
+   "keys": [
+    "2",
+    "neg",
+    "sq"
+   ],
+   "primary": "4"
+  },
+  {
+   "id": "square_immediate",
+   "keys": [
+    "3",
+    "sq"
+   ],
+   "primary": "9"
+  },
+  {
+   "id": "square_then_digit_replaces",
+   "keys": [
+    "3",
+    "sq",
+    "5"
+   ],
+   "primary": "5"
+  },
+  {
+   "id": "function_wraps",
+   "keys": [
+    "9",
+    "sqrt",
+    "add",
+    "1",
+    "eq"
+   ],
+   "primary": "4"
+  },
+  {
+   "id": "sqrt_negative_error",
+   "keys": [
+    "1",
+    "neg",
+    "sqrt"
+   ],
+   "primary": "Error"
+  },
+  {
+   "id": "div_zero",
+   "keys": [
+    "1",
+    "div",
+    "0",
+    "eq"
+   ],
+   "primary": "Error"
+  },
+  {
+   "id": "error_recovery_digit",
+   "keys": [
+    "1",
+    "div",
+    "0",
+    "eq",
+    "7"
+   ],
+   "primary": "7"
+  },
+  {
+   "id": "error_recovery_ac",
+   "keys": [
+    "1",
+    "div",
+    "0",
+    "eq",
+    "ac"
+   ],
+   "primary": "0"
+  },
+  {
+   "id": "asin_out_of_domain",
+   "keys": [
+    "2",
+    "asin"
+   ],
+   "primary": "Error"
+  },
+  {
+   "id": "clear_entry",
+   "keys": [
+    "1",
+    "2",
+    "add",
+    "3",
+    "4",
+    "clear",
+    "5",
+    "eq"
+   ],
+   "primary": "17"
+  },
+  {
+   "id": "all_clear",
+   "keys": [
+    "1",
+    "2",
+    "add",
+    "3",
+    "ac",
+    "5",
+    "eq"
+   ],
+   "primary": "5"
+  },
+  {
+   "id": "backspace",
+   "keys": [
+    "1",
+    "2",
+    "3",
+    "back"
+   ],
+   "primary": "12"
+  },
+  {
+   "id": "backspace_to_zero",
+   "keys": [
+    "7",
+    "back"
+   ],
+   "primary": "0"
+  },
+  {
+   "id": "decimal_entry",
+   "keys": [
+    "dot",
+    "5",
+    "add",
+    "dot",
+    "2",
+    "5",
+    "eq"
+   ],
+   "primary": "0.75"
+  },
+  {
+   "id": "double_dot_ignored",
+   "keys": [
+    "1",
+    "dot",
+    "dot",
+    "5"
+   ],
+   "primary": "1.5"
+  },
+  {
+   "id": "leading_zeros",
+   "keys": [
+    "0",
+    "0",
+    "7"
+   ],
+   "primary": "7"
+  },
+  {
+   "id": "grouping_entry",
+   "keys": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ],
+   "primary": "1,234,567"
+  },
+  {
+   "id": "grouping_result",
+   "keys": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "mul",
+    "1",
+    "0",
+    "0",
+    "0",
+    "eq"
+   ],
+   "primary": "1,000,000"
+  },
+  {
+   "id": "ee_entry",
+   "keys": [
+    "1",
+    "dot",
+    "5",
+    "ee",
+    "3",
+    "eq"
+   ],
+   "primary": "1,500"
+  },
+  {
+   "id": "ee_negative_exponent",
+   "keys": [
+    "2",
+    "ee",
+    "3",
+    "neg",
+    "eq"
+   ],
+   "primary": "0.002"
+  },
+  {
+   "id": "float_artifact_hidden",
+   "keys": [
+    "dot",
+    "1",
+    "add",
+    "dot",
+    "2",
+    "eq"
+   ],
+   "primary": "0.3"
+  },
+  {
+   "id": "third_times_three",
+   "keys": [
+    "1",
+    "div",
+    "3",
+    "mul",
+    "3",
+    "eq"
+   ],
+   "primary": "1"
+  },
+  {
+   "id": "sqrt2_squared",
+   "keys": [
+    "2",
+    "sqrt",
+    "sq"
+   ],
+   "primary": "2"
+  },
+  {
+   "id": "power_right_assoc",
+   "keys": [
+    "2",
+    "pow",
+    "3",
+    "pow",
+    "2",
+    "eq"
+   ],
+   "primary": "512"
+  },
+  {
+   "id": "parens",
+   "keys": [
+    "lp",
+    "2",
+    "add",
+    "3",
+    "rp",
+    "mul",
+    "4",
+    "eq"
+   ],
+   "primary": "20"
+  },
+  {
+   "id": "parens_autoclose",
+   "keys": [
+    "lp",
+    "2",
+    "add",
+    "3",
+    "mul",
+    "4",
+    "eq"
+   ],
+   "primary": "14"
+  },
+  {
+   "id": "implicit_mul_paren",
+   "keys": [
+    "2",
+    "lp",
+    "3",
+    "add",
+    "4",
+    "rp",
+    "eq"
+   ],
+   "primary": "14"
+  },
+  {
+   "id": "pi_times_two",
+   "keys": [
+    "2",
+    "pi",
+    "eq"
+   ],
+   "primary": "6.283185307179586"
+  },
+  {
+   "id": "pi_alone",
+   "keys": [
+    "pi"
+   ],
+   "primary": "3.141592653589793"
+  },
+  {
+   "id": "e_alone",
+   "keys": [
+    "e"
+   ],
+   "primary": "2.718281828459045"
+  },
+  {
+   "id": "sin_30_deg",
+   "keys": [
+    "3",
+    "0",
+    "sin"
+   ],
+   "primary": "0.5"
+  },
+  {
+   "id": "cos_90_deg",
+   "keys": [
+    "9",
+    "0",
+    "cos"
+   ],
+   "primary": "0"
+  },
+  {
+   "id": "tan_90_deg_error",
+   "keys": [
+    "9",
+    "0",
+    "tan"
+   ],
+   "primary": "Error"
+  },
+  {
+   "id": "sin_pi_rad",
+   "keys": [
+    "rad",
+    "pi",
+    "sin"
+   ],
+   "primary": "0"
+  },
+  {
+   "id": "ln_e",
+   "keys": [
+    "e",
+    "ln"
+   ],
+   "primary": "1"
+  },
+  {
+   "id": "factorial_5",
+   "keys": [
+    "5",
+    "fact"
+   ],
+   "primary": "120"
+  },
+  {
+   "id": "factorial_170",
+   "keys": [
+    "1",
+    "7",
+    "0",
+    "fact"
+   ],
+   "primary": "7.257415615307999e306"
+  },
+  {
+   "id": "factorial_half",
+   "keys": [
+    "dot",
+    "5",
+    "fact"
+   ],
+   "primary": "0.886226925452758"
+  },
+  {
+   "id": "big_sci",
+   "keys": [
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "mul",
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "9",
+    "eq"
+   ],
+   "primary": "9.99999989e16"
+  },
+  {
+   "id": "tiny_sci",
+   "keys": [
+    "1",
+    "div",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "eq"
+   ],
+   "primary": "1e-8"
+  },
+  {
+   "id": "memory_add_recall",
+   "keys": [
+    "5",
+    "mplus",
+    "ac",
+    "3",
+    "add",
+    "mr",
+    "eq"
+   ],
+   "primary": "8"
+  },
+  {
+   "id": "memory_sub",
+   "keys": [
+    "5",
+    "mplus",
+    "2",
+    "mminus",
+    "ac",
+    "mr"
+   ],
+   "primary": "3"
+  },
+  {
+   "id": "memory_clear",
+   "keys": [
+    "5",
+    "mplus",
+    "mc",
+    "mr"
+   ],
+   "primary": "0"
+  },
+  {
+   "id": "second_asin",
+   "keys": [
+    "dot",
+    "5",
+    "second",
+    "sin"
+   ],
+   "primary": "30"
+  },
+  {
+   "id": "second_toggles_off",
+   "keys": [
+    "second",
+    "second",
+    "3",
+    "0",
+    "sin"
+   ],
+   "primary": "0.5"
+  },
+  {
+   "id": "cursor_insert_middle",
+   "keys": [
+    "1",
+    "add",
+    "3",
+    "left",
+    "left",
+    "2",
+    "eq"
+   ],
+   "primary": "15"
+  },
+  {
+   "id": "cursor_delete_middle",
+   "keys": [
+    "1",
+    "2",
+    "add",
+    "3",
+    "left",
+    "left",
+    "back",
+    "eq"
+   ],
+   "primary": "4"
+  },
+  {
+   "id": "recall_result_chain",
+   "keys": [
+    "7",
+    "mul",
+    "6",
+    "eq",
+    "sub",
+    "2",
+    "eq"
+   ],
+   "primary": "40"
+  },
+  {
+   "id": "digit_after_result_starts_fresh",
+   "keys": [
+    "7",
+    "mul",
+    "6",
+    "eq",
+    "9"
+   ],
+   "primary": "9"
+  },
+  {
+   "id": "op_at_start_uses_zero",
+   "keys": [
+    "add",
+    "5",
+    "eq"
+   ],
+   "primary": "5"
+  },
+  {
+   "id": "neg_zero_avoided",
+   "keys": [
+    "0",
+    "neg"
+   ],
+   "primary": "0"
+  },
+  {
+   "id": "neg_on_entry",
+   "keys": [
+    "5",
+    "neg",
+    "neg"
+   ],
+   "primary": "5"
+  },
+  {
+   "id": "inv_zero_error",
+   "keys": [
+    "0",
+    "inv"
+   ],
+   "primary": "Error"
+  },
+  {
+   "id": "entry_digit_cap",
+   "keys": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+   ],
+   "primary": "1,234,567,890,123,456"
+  }
+ ]
+}
