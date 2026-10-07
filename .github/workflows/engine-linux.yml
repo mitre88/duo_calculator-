@@ -15,14 +15,16 @@ jobs:
     name: swift test (swift:6.2-noble)
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
-    timeout-minutes: 40   # a hang in a soak test must not hold a runner for hours
+    timeout-minutes: 25   # a hang in a soak test must not hold a runner for hours
     steps:
       - uses: actions/checkout@v4
       - name: Cache SwiftPM
         uses: actions/cache@v4
         with:
           path: Packages/CalcEngine/.build
-          key: spm-${{ runner.os }}-${{ hashFiles('Packages/**/Package.swift', 'Packages/CalcEngine/Package.resolved') }}
+          # Explicit, committed manifests only: a `**` glob would also match the root-owned checkouts under
+          # .build, which the host-side hashFiles of the post step cannot read.
+          key: spm-${{ runner.os }}-${{ hashFiles('Packages/CalcEngine/Package.swift', 'Packages/Vendor/BigDecimal/Package.swift', 'Packages/Vendor/BigInt/Package.swift') }}
           restore-keys: spm-${{ runner.os }}-
       - name: Build
         run: swift build --package-path Packages/CalcEngine

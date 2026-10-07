@@ -313,9 +313,9 @@ public enum MathKernel {
             }
         }
         let g = guardRounding()
-        let lb = BigDecimal.log(b.approx, g)
+        let lb = naturalLog(b.approx, g)
         if lb.isZero { throw CalcError.domain }
-        return try settle(BigDecimal.log(x.approx, g).divide(lb, g))
+        return try settle(naturalLog(x.approx, g).divide(lb, g).round(working))
     }
 
     // MARK: - Trigonometry
@@ -431,16 +431,16 @@ public enum MathKernel {
     }
 
     static func hyperbolic(_ fn: UnaryFunction, _ x: CalcValue) throws -> CalcValue {
+        let xm = x.approx
         switch fn {
-        case .acosh: if x < .one { throw CalcError.domain }
-        case .atanh: if x.magnitude >= .one { throw CalcError.domain }
+        case .acosh: if xm < BigDecimal.one { throw CalcError.domain }
+        case .atanh: if xm.abs >= BigDecimal.one { throw CalcError.domain }   // checked on the rounded value
         default: break
         }
         if let xf = x.exactFraction {
             if xf.isZero { return fn == .cosh ? .one : .zero }
             if xf == 1 && fn == .acosh { return .zero }
         }
-        let xm = x.approx
         if fn == .sinh || fn == .cosh {
             let estimate = xm.abs.asDouble() / log(10.0)
             if estimate > overflowLimit { throw CalcError.overflow }
