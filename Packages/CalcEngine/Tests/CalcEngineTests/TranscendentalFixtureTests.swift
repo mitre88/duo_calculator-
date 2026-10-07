@@ -19,7 +19,7 @@ extension CalcEngineTests {
             }
         }
 
-        @Test(arguments: fixture.cases)
+        @Test(arguments: Self.fixture.cases)
         func matchesMpmath(_ testCase: TranscendentalCase) throws {
             if let errorName = testCase.error {
                 let expectedError = try #require(CalcError(fixtureName: errorName))

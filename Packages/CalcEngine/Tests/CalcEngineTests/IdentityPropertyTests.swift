@@ -19,7 +19,7 @@ extension CalcEngineTests {
             return (x - y).abs <= y.abs.multiply(BigDecimal(1, -digits), Rounding(.toNearestOrEven, 20))
         }
 
-        @Test(arguments: samples)
+        @Test(arguments: Self.samples)
         func pythagoreanIdentity(x: String) throws {
             let v = Numeric.value(x)
             let s = try MathKernel.apply(.sin, to: v, angle: .radians)
@@ -28,7 +28,7 @@ extension CalcEngineTests {
             #expect(Self.close(sum, .one, digits: 55), "sin²+cos² for \(x) = \(sum)")
         }
 
-        @Test(arguments: samples)
+        @Test(arguments: Self.samples)
         func expLogRoundTrip(x: String) throws {
             let v = Numeric.value(x).magnitude
             guard !v.isZero else { return }
@@ -36,7 +36,7 @@ extension CalcEngineTests {
             #expect(Self.close(back, v, digits: 55), "exp(ln \(x))")
         }
 
-        @Test(arguments: samples)
+        @Test(arguments: Self.samples)
         func powerRootRoundTrip(x: String) throws {
             let v = Numeric.value(x).magnitude
             guard !v.isZero else { return }

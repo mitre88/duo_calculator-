@@ -6,7 +6,7 @@ extension CalcEngineTests {
     @Suite struct ExpressionFixtureTests {
         static let fixture = try! Fixtures.load("expressions", as: ExpressionFixture.self)
 
-        @Test(arguments: fixture.cases)
+        @Test(arguments: Self.fixture.cases)
         func matchesReferenceModel(_ testCase: ExpressionCase) throws {
             let angle = Numeric.angle(testCase.angle)
             if let errorName = testCase.error {

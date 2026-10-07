@@ -30,7 +30,7 @@ extension CalcEngineTests {
             ("rpow(3,2)", "8E+0"),
         ]
 
-        @Test(arguments: precedenceTable)
+        @Test(arguments: Self.precedenceTable)
         func precedence(expression: String, expected: String) throws {
             let value = try Evaluator.evaluate(text: expression, angleMode: .degrees)
             #expect(value.canonicalString() == expected, "\(expression)")

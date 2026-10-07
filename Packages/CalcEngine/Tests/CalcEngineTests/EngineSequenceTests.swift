@@ -12,7 +12,7 @@ extension CalcEngineTests {
                              separators: .named(fixture.locale), usesGrouping: true)
         }
 
-        @Test(arguments: fixture.cases)
+        @Test(arguments: Self.fixture.cases)
         func producesExpectedDisplay(_ testCase: SequenceCase) throws {
             var engine = CalculatorEngine(random: SeededRandomSource(seed: 42))
             engine.send(.setAngleMode(Numeric.angle(Self.fixture.angle)))

@@ -5,7 +5,7 @@ extension CalcEngineTests {
     @Suite struct FormatterTests {
         static let fixture = try! Fixtures.load("formatting", as: FormattingFixture.self)
 
-        @Test(arguments: fixture.cases)
+        @Test(arguments: Self.fixture.cases)
         func formatsLikeFixture(_ testCase: FormattingCase) throws {
             let value = try #require(CalcValue(literal: testCase.value))
             let formatter = DisplayFormatter(profile: testCase.profile == "compact" ? .compact : .regular,

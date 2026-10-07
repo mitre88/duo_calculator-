@@ -1,3 +1,5 @@
+import Foundation
+
 /// Memory register keys.
 public enum MemoryAction: String, Sendable, Codable, Hashable, CaseIterable {
     case clear = "mc"
