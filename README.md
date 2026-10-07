@@ -13,7 +13,7 @@ entre las dos pantallas y un motor matemático exacto.
 ```
 Packages/CalcEngine/   motor matemático (SwiftPM, sin UI, se prueba en Linux y en la Mac)
 App/                   app SwiftUI (iOS 27.1) generada con XcodeGen
-Tools/                 generadores de fixtures (mpmath + modelo de referencia en Python)
+Tools/                 generadores de fixtures (mpmath + modelo de referencia en Python) y del ícono
 docs/                  semántica normativa, arquitectura, rendimiento, diseño, checklist por pose
 ```
 

@@ -90,6 +90,16 @@ Apariencia (sistema / claro / oscuro), *true black*, acento con **swatches** (di
 check; háptico `.selection`), aurora, hápticos, científica en horizontal plegado, mantener pantalla encendida
 (`isIdleTimerDisabled`), separadores de miles, precisión informativa.
 
+## Ícono y arranque
+
+* **Ícono**: el `=` de la calculadora partido por la bisagra del Duo (cuatro segmentos ámbar con brillo de
+  vidrio) sobre el lienzo con la aurora. Se genera con `python3 Tools/gen_icon.py` (Pillow) en tres variantes
+  de 1024 px: normal (fondo opaco), oscura (glifo sobre transparente; iOS pone el fondo) y teñida (escala de
+  grises). Se dibuja a 2048 px y se reduce con Lanczos. Un `AppIcon.icon` de Icon Composer (capas Liquid
+  Glass) puede sustituir estos PNG sin tocar nada más.
+* **Arranque**: `UILaunchScreen.UIColorName = LaunchBackground` (claro `#F2F2F7`, oscuro negro), el mismo
+  color del lienzo, para que no haya un destello blanco antes de la aurora.
+
 ## Lista de revisión visual (en la Mac)
 
 1. Ninguna tecla cambia de forma dos veces durante el morph (círculo → rectángulo una sola vez).

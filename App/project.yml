@@ -59,7 +59,9 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSApplicationCategoryType: public.app-category.utilities
         ITSAppUsesNonExemptEncryption: false
-        UILaunchScreen: {}
+        # Launch color = the app canvas (light #F2F2F7 / dark black), so there is no white flash before the aurora.
+        UILaunchScreen:
+          UIColorName: LaunchBackground
         # The inner display of iPhone Duo ignores supported orientations; declare all of them anyway
         # so the app resizes freely (and never set UIRequiresFullScreen = YES: Split View must work).
         UIRequiresFullScreen: false
