@@ -64,14 +64,6 @@ struct DisplayView: View {
                 Label { Text("display.paste", bundle: .main) } icon: { Image(systemName: "doc.on.clipboard") }
             }
         }
-        .gesture(
-            DragGesture(minimumDistance: 24)
-                .onEnded { value in
-                    if abs(value.translation.width) > abs(value.translation.height) {
-                        model.send(.backspace, haptic: .light)
-                    }
-                }
-        )
     }
 
     private var primaryLine: some View {
@@ -87,6 +79,15 @@ struct DisplayView: View {
             .contentTransition(.numericText(value: snapshot.primaryValue?.doubleValue ?? 0))
             .resultFeedback(trigger: model.resultTick, isError: snapshot.isError, reduceMotion: reduceMotion)
             .privacySensitive()
+            // Swipe on the number deletes the last token (iOS convention); kept off the scrolling expression line.
+            .gesture(
+                DragGesture(minimumDistance: 24)
+                    .onEnded { value in
+                        if abs(value.translation.width) > abs(value.translation.height) {
+                            model.send(.backspace, haptic: .light)
+                        }
+                    }
+            )
             .accessibilityLabel(Text(LocalizedStringKey(snapshot.isError ? "display.error" : "display.result"), bundle: .main))
             .accessibilityValue(Text(verbatim: snapshot.isError ? SpokenNumber.errorDescription(snapshot.errorReason) : SpokenNumber.spoken(snapshot.primary)))
             .accessibilityAddTraits(.updatesFrequently)

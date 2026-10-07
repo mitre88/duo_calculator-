@@ -6,6 +6,8 @@ import CalcEngine
 struct KeypadView: View {
     let spec: KeyGridSpec
     let plan: LayoutPlan
+    /// `plan.keySize`, or the function block's own size in `.scientificStacked`.
+    let keySize: CGSize
     let namespace: Namespace.ID
 
     @Environment(CalculatorModel.self) private var model
@@ -14,7 +16,7 @@ struct KeypadView: View {
 
     var body: some View {
         let snapshot = model.snapshot
-        KeyGridLayout(spec: spec, spacing: plan.keySpacing, centerGutter: plan.centerGutter, keySize: plan.keySize) {
+        KeyGridLayout(spec: spec, spacing: plan.keySpacing, centerGutter: plan.centerGutter, keySize: keySize) {
             ForEach(spec.placements, id: \.key) { placement in
                 let definition = KeyCatalog.definition(placement.key)
                 KeyButton(
@@ -22,7 +24,7 @@ struct KeypadView: View {
                     showsSecondFace: snapshot.isSecondActive,
                     isActive: isActive(definition, snapshot: snapshot),
                     shape: placement.columnSpan > 1 ? .roundedRectangle : plan.keyShape,
-                    keySize: plan.keySize,
+                    keySize: keySize,
                     accent: settings.accent.color,
                     labelOverride: labelOverride(definition, snapshot: snapshot),
                     namespace: namespace,
@@ -55,6 +57,7 @@ struct KeypadView: View {
         switch definition.id {
         case .allClear: snapshot.clearLabel.rawValue
         case .angleMode: snapshot.angleMode == .degrees ? "Rad" : "Deg"
+        case .decimal: model.formatter.separators.decimal   // "," in de_DE, "." in es_MX — same as the display
         default: nil
         }
     }

@@ -184,12 +184,16 @@ struct ConverterState: Equatable {
         (fromUnitID, toUnitID) = (toUnitID, fromUnitID)
     }
 
-    var inputValue: CalcValue? {
-        CalcValue(literal: inputText.replacingOccurrences(of: ",", with: ""))
+    /// The typed text parsed with the display's own separators ("1,5" is 1.5 in de_DE, 15 in es_MX).
+    func inputValue(separators: LocaleSeparators) -> CalcValue? {
+        var text = inputText.replacingOccurrences(of: separators.grouping, with: "")
+        if separators.decimal != "." { text = text.replacingOccurrences(of: separators.decimal, with: ".") }
+        if separators.minus != "-" { text = text.replacingOccurrences(of: separators.minus, with: "-") }
+        return CalcValue(literal: text.trimmingCharacters(in: .whitespaces))
     }
 
-    func result() -> CalcValue? {
-        guard let value = inputValue else { return nil }
+    func result(separators: LocaleSeparators) -> CalcValue? {
+        guard let value = inputValue(separators: separators) else { return nil }
         return try? UnitConverter.convert(value, from: fromUnit, to: toUnit)
     }
 }
@@ -217,8 +221,10 @@ enum KeyboardMapping {
         case .end: return .cursorToEnd
         default: break
         }
+        if press.characters.count == 1, let digit = press.characters.first?.wholeNumberValue, (0...9).contains(digit) {
+            return .digit(digit)
+        }
         switch press.characters {
-        case "0"..."9": return .digit(Int(press.characters)!)
         case ".", ",": return .decimalSeparator
         case "+": return .binary(.add)
         case "-", "−": return .binary(.subtract)
@@ -231,6 +237,7 @@ enum KeyboardMapping {
         case ")": return .closeParen
         case "=": return .equals
         case "p": return .constant(.pi)
+        case "E": return .exponentEntry      // shift-e: 2E5 → 2e5, lowercase e stays Euler's number
         case "e": return .constant(.e)
         case "r": return .function(.sqrt)
         case "s": return .function(.sin)

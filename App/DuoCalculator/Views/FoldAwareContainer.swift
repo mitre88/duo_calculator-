@@ -13,10 +13,11 @@ struct FoldAwareContainer: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Namespace private var keypadNamespace
 
-    /// Programmer and converter need the inner display; when folded the scientific calculator takes over
-    /// (the chosen mode is kept, so unfolding returns to it).
+    /// Programmer and converter need the flat inner display; in compact widths and around an active fold
+    /// (Laptop / Book poses) the scientific calculator takes over. The chosen mode is kept, so the panel
+    /// returns as soon as the pose allows it.
     private var effectiveMode: CalculatorModel.Mode {
-        plan.isCompactWidth ? .scientific : model.mode
+        plan.panelsAvailable ? model.mode : .scientific
     }
 
     var body: some View {
@@ -46,11 +47,11 @@ struct FoldAwareContainer: View {
             GlassEffectContainer(spacing: 14) {
                 ZStack(alignment: .topLeading) {
                     if let frame = plan.secondaryKeypadFrame, let spec = plan.secondaryKeypadSpec {
-                        KeypadView(spec: spec, plan: plan, namespace: keypadNamespace)
+                        KeypadView(spec: spec, plan: plan, keySize: plan.secondaryKeySize ?? plan.keySize, namespace: keypadNamespace)
                             .frame(width: frame.width, height: frame.height)
                             .offset(x: frame.minX, y: frame.minY)
                     }
-                    KeypadView(spec: plan.keypadSpec, plan: plan, namespace: keypadNamespace)
+                    KeypadView(spec: plan.keypadSpec, plan: plan, keySize: plan.keySize, namespace: keypadNamespace)
                         .frame(width: plan.keypadFrame.width, height: plan.keypadFrame.height)
                         .offset(x: plan.keypadFrame.minX, y: plan.keypadFrame.minY)
                 }

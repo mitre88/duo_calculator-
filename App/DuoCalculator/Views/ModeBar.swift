@@ -13,7 +13,7 @@ struct ModeBar: View {
     var body: some View {
         @Bindable var model = model
         HStack(spacing: 10) {
-            if !plan.isCompactWidth {
+            if plan.panelsAvailable {
                 Menu {
                     Picker(selection: $model.mode) {
                         ForEach(CalculatorModel.Mode.allCases) { mode in

@@ -40,8 +40,14 @@ negro (toggles), como la Calculadora de iOS.
 * Teclas **circulares solo en la básica** mientras quepan cuadradas (lado ≤ 96 pt); en cuanto la altura se
   recorta para dejar sitio al display, y en todos los demás modos, rectángulo continuo de radio `0.36·min(w, h)`.
 * `lado = min((W − (n−1)·gap − 2·margen)/n, (H − (filas−1)·gap)/filas)`; mínimo **44 pt** siempre.
-* `gap` 12 pt (regular) / 8 pt (compacto); margen 16 / 12 pt. Canal de 80 pt en pose libro
-  (ancho de división + márgenes), columnas pares siempre que exista una región de división.
+* `gap` 12 pt (regular) / 8 pt (compacto); margen 16 / 12 pt. Columnas pares siempre que exista una región de
+  división.
+* **Pose libro** (división vertical activa): la misma rejilla de 49 teclas repartida **5 | 5** y el canal
+  (`gap` + 72 pt) cubre exactamente la región de división ensanchada (80 pt). Cada mitad se dimensiona con el
+  espacio que queda a su lado del pliegue: 273 pt → teclas de 45.8 pt. Un reparto 6 | 4 daría 36.8 pt, por
+  debajo del mínimo. Con el pliegue inactivo (pantalla plana) se usa la rejilla 6 | 4 sin canal.
+* Los paneles de programador y conversor necesitan la pantalla interior plana: con un pliegue activo (portátil o
+  libro) y en anchos compactos la app vuelve a la científica y conserva el modo elegido.
 
 ## Tipografía (`Design/Typography.swift`)
 

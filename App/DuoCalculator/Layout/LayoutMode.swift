@@ -15,6 +15,8 @@ enum LayoutMode: String, Hashable, Codable, CaseIterable {
     case scientificStacked
     /// Partially folded with a horizontal hinge (Laptop pose): display above the fold, keypad below it.
     case tabletop
+    /// Partially folded with a vertical hinge (Book pose): 5 | 5 keypad with the channel exactly on the fold.
+    case book
 
     var isScientific: Bool {
         switch self {

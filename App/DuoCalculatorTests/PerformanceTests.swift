@@ -10,7 +10,8 @@ final class AppPerformanceTests: XCTestCase {
         [LayoutResolverTests.outerPortrait, LayoutResolverTests.outerLandscape,
          LayoutResolverTests.innerPortrait, LayoutResolverTests.innerLandscape,
          LayoutResolverTests.tabletop, LayoutResolverTests.book,
-         LayoutResolverTests.splitHalf, LayoutResolverTests.splitTwoThirds, LayoutResolverTests.ipad]
+         LayoutResolverTests.splitHalf, LayoutResolverTests.splitTwoThirds, LayoutResolverTests.ipad,
+         LayoutResolverTests.stacked]
     }
 
     /// The resolver runs on every size change while the device folds; 9 poses × 100 must stay far below a frame.

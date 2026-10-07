@@ -3,7 +3,7 @@ import Testing
 
 struct KeyLayoutsTests {
     @Test func gridsAreConsistent() {
-        for spec in [KeyGridSpec.basic, .scientific, .functionBlock] { check(spec) }
+        for spec in [KeyGridSpec.basic, .scientific, .scientificBook, .functionBlock] { check(spec) }
     }
 
     func check(_ spec: KeyGridSpec) {
@@ -30,6 +30,8 @@ struct KeyLayoutsTests {
         #expect(basic.count == 19)
         #expect(scientific.count == 49)
         #expect(Set(KeyGridSpec.functionBlock.keys).union(basic) == scientific)
+        #expect(Set(KeyGridSpec.scientificBook.keys) == scientific)
+        #expect(KeyGridSpec.scientificBook.gutterAfterColumn == 5 && KeyGridSpec.scientificBook.columns == 10)
     }
 
     @Test func catalogCoversEveryKey() {

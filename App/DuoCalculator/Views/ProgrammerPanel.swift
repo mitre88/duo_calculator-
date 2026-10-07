@@ -56,7 +56,7 @@ struct ProgrammerPanel: View {
             keypad(engine: engine)
         }
         .padding(.horizontal, 20)
-        .padding(.top, max(8, (plan.avoidRects.map(\.maxY).max() ?? 0) + 12))
+        .padding(.top, max(8, (plan.avoidRects.map { $0.maxY - plan.contentRect.minY }.max() ?? 0) + 12))
         .padding(.bottom, 16)
         .frame(width: plan.contentRect.width, height: plan.contentRect.height)
         .offset(x: plan.contentRect.minX, y: plan.contentRect.minY)

@@ -24,7 +24,7 @@ Abre `App/DuoCalculator.xcodeproj`, elige el simulador **iPhone Duo** y usa los 
 - [ ] Háptico suave al cambiar de estado de la bisagra.
 
 ## Book
-- [ ] División vertical → canal central ensanchado (≈ 80 pt); columnas pares; teclas ≥ 44 pt.
+- [ ] División vertical → rejilla 5 | 5 con el canal exactamente sobre el pliegue (≈ 80 pt); ninguna tecla bajo la bisagra; teclas ≥ 44 pt; el menú de modo desaparece (programador / conversor vuelven al desplegar en plano).
 - [ ] Dígitos y operadores en la mitad trailing (mano derecha).
 
 ## Tent

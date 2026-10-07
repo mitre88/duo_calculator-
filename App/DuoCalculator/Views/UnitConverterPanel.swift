@@ -62,7 +62,7 @@ struct UnitConverterPanel: View {
                 }
                 .buttonStyle(.glass)
                 Button {
-                    if let value = model.converter.result() {
+                    if let value = model.converter.result(separators: formatter.separators) {
                         model.mode = .scientific
                         model.send(.recall(value))
                     }
@@ -70,13 +70,13 @@ struct UnitConverterPanel: View {
                     Label { Text("converter.sendToCalculator", bundle: .main) } icon: { Image(systemName: "function") }
                 }
                 .buttonStyle(.glass)
-                .disabled(model.converter.result() == nil)
+                .disabled(model.converter.result(separators: formatter.separators) == nil)
                 Spacer()
             }
             table
         }
         .padding(.horizontal, 20)
-        .padding(.top, max(8, (plan.avoidRects.map(\.maxY).max() ?? 0) + 12))
+        .padding(.top, max(8, (plan.avoidRects.map { $0.maxY - plan.contentRect.minY }.max() ?? 0) + 12))
         .padding(.bottom, 16)
         .frame(width: plan.contentRect.width, height: plan.contentRect.height, alignment: .top)
         .offset(x: plan.contentRect.minX, y: plan.contentRect.minY)
@@ -84,7 +84,7 @@ struct UnitConverterPanel: View {
     }
 
     private var resultText: String {
-        guard let result = model.converter.result() else { return "—" }
+        guard let result = model.converter.result(separators: formatter.separators) else { return "—" }
         return formatter.format(result)
     }
 
@@ -156,7 +156,7 @@ struct UnitConverterPanel: View {
     private var table: some View {
         ScrollView {
             VStack(spacing: 0) {
-                if let value = model.converter.inputValue {
+                if let value = model.converter.inputValue(separators: formatter.separators) {
                     ForEach(UnitConverter.table(value, from: model.converter.fromUnit), id: \.unit.id) { row in
                         HStack {
                             Text(LocalizedStringKey(row.unit.nameKey), bundle: .main)

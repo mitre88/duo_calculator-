@@ -51,8 +51,8 @@ extension KeyGridSpec {
         [(.angleMode, 1), (.hyperbolicSine, 1), (.hyperbolicCosine, 1), (.hyperbolicTangent, 1), (.pi, 1), (.random, 1)],
     ])
 
-    /// Full scientific keypad (iOS order): 6 function columns + 4 basic columns = 10 (even, so the
-    /// Book-pose fold falls in the channel after column 6 — never under a key).
+    /// Full scientific keypad (iOS order): 6 function columns + 4 basic columns = 10 (even, as the HIG
+    /// asks whenever a division region exists). Used on the flat inner display and in the Laptop pose.
     static let scientific = KeyGridSpec.grid("scientific", columns: 10, gutterAfterColumn: 6, [
         [(.openParen, 1), (.closeParen, 1), (.memoryClear, 1), (.memoryAdd, 1), (.memorySubtract, 1), (.memoryRecall, 1),
          (.allClear, 1), (.toggleSign, 1), (.percent, 1), (.divide, 1)],
@@ -65,4 +65,14 @@ extension KeyGridSpec {
         [(.angleMode, 1), (.hyperbolicSine, 1), (.hyperbolicCosine, 1), (.hyperbolicTangent, 1), (.pi, 1), (.random, 1),
          (.digit(0), 2), (.decimal, 1), (.equals, 1)],
     ])
+
+    /// Book pose (active vertical fold): the same keys in the same order, but split **5 | 5** so the channel
+    /// sits exactly on the hinge. A 6 | 4 split cannot keep 44 pt keys on a 626 pt display: each half has
+    /// 273 pt beside an 80 pt fold region, which gives 36.8 pt keys for six columns and 45.8 pt for five.
+    static let scientificBook: KeyGridSpec = {
+        var spec = KeyGridSpec.scientific
+        spec.name = "scientificBook"
+        spec.gutterAfterColumn = 5
+        return spec
+    }()
 }

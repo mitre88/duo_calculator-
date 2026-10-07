@@ -25,6 +25,10 @@ struct LayoutPlan: Equatable {
     var isCompactWidth: Bool
     /// Regions the display text must stay clear of (the inner camera).
     var avoidRects: [CGRect]
+    /// Key size of the function block in `.scientificStacked` (its 6 columns are narrower than the basic 4).
+    var secondaryKeySize: CGSize? = nil
+    /// Programmer / converter panels need the flat inner display: false in compact widths and around an active fold.
+    var panelsAvailable: Bool = true
 
     static let placeholder = LayoutPlan(
         mode: .basic,
