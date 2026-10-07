@@ -11,8 +11,9 @@ let package = Package(
         .executable(name: "calc", targets: ["calc"]),
     ],
     dependencies: [
-        // Arbitrary-precision decimal arithmetic + transcendental functions (MIT).
-        .package(url: "https://github.com/mgriebling/BigDecimal.git", from: "3.0.2"),
+        // Arbitrary-precision decimal arithmetic + transcendental functions (MIT). Vendored copy of 3.0.2
+        // whose Foundation.Decimal bridging also compiles against swift-foundation (Linux).
+        .package(path: "../Vendor/BigDecimal"),
         // Exact rational numbers (BFraction) and big integers (MIT). Vendored copy of 2.3.0 with a
         // Linux-compatible random source; same identity ("bigint"), so BigDecimal uses it too.
         .package(path: "../Vendor/BigInt"),
