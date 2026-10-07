@@ -1,0 +1,60 @@
+name: CalcEngine (Linux)
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+# A newer push on the same branch supersedes runs still in flight.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  swift-tests:
+    name: swift test (swift:6.2-noble)
+    runs-on: ubuntu-24.04
+    container: swift:6.2-noble
+    timeout-minutes: 40   # a hang in a soak test must not hold a runner for hours
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: Packages/CalcEngine/.build
+          key: spm-${{ runner.os }}-${{ hashFiles('Packages/**/Package.swift', 'Packages/CalcEngine/Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+      - name: Build
+        run: swift build --package-path Packages/CalcEngine
+      - name: Test
+        run: swift test --package-path Packages/CalcEngine
+      - name: Performance & memory report (release build)
+        shell: bash   # GitHub's bash shell runs with `-eo pipefail`, so a failing test is not hidden by `tee`
+        run: |
+          stdbuf -oL -eL swift test -c release --package-path Packages/CalcEngine \
+            --filter 'PerformanceTests|PerformanceGuardTests|ReviewRegressionTests' 2>&1 | tee perf.log
+      - name: Publish report to the job summary
+        if: always()
+        run: |
+          {
+            echo '### Engine performance & memory (release, Linux container)'
+            echo '```'
+            grep -E '^\[(perf|mem)\]' perf.log || echo 'no report lines found'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  fixtures-up-to-date:
+    name: fixtures match generators (mpmath)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r Tools/requirements.txt
+      - name: Regenerate fixtures and diff
+        run: |
+          python3 -I Tools/gen_fixtures.py --out /tmp/fixtures
+          python3 -I Tools/reference_model.py --out /tmp/fixtures
+          diff -r /tmp/fixtures Packages/CalcEngine/Tests/CalcEngineTests/Fixtures

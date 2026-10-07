@@ -1,0 +1,3140 @@
+{
+ "workingDigits": 60,
+ "canonDigits": 30,
+ "cases": [
+  {
+   "id": "deg_0_1_0_2",
+   "expr": "0.1+0.2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E-1",
+   "expected16": "3E-1"
+  },
+  {
+   "id": "deg_1_3_3_1",
+   "expr": "1/3*3-1",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_1_3_3",
+   "expr": "1/3*3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_2_3_4",
+   "expr": "2+3*4",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.4E+1",
+   "expected16": "1.4E+1"
+  },
+  {
+   "id": "deg_2_3__4",
+   "expr": "(2+3)*4",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+1",
+   "expected16": "2E+1"
+  },
+  {
+   "id": "deg_10_4_3",
+   "expr": "10-4-3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_100_10_5",
+   "expr": "100/10/5",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_2_3_2",
+   "expr": "2^3^2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.12E+2",
+   "expected16": "5.12E+2"
+  },
+  {
+   "id": "deg_2_3__2",
+   "expr": "(2^3)^2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.4E+1",
+   "expected16": "6.4E+1"
+  },
+  {
+   "id": "deg_2_2",
+   "expr": "-2^2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-4E+0",
+   "expected16": "-4E+0"
+  },
+  {
+   "id": "deg_2__2",
+   "expr": "(-2)^2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4E+0",
+   "expected16": "4E+0"
+  },
+  {
+   "id": "deg_2__3",
+   "expr": "2^-3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.25E-1",
+   "expected16": "1.25E-1"
+  },
+  {
+   "id": "deg_2_3",
+   "expr": "2^3!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.4E+1",
+   "expected16": "6.4E+1"
+  },
+  {
+   "id": "deg_2__3_b",
+   "expr": "2^(3!)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.4E+1",
+   "expected16": "6.4E+1"
+  },
+  {
+   "id": "deg_6_2_1_2",
+   "expr": "6/2(1+2)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9E+0",
+   "expected16": "9E+0"
+  },
+  {
+   "id": "deg_2_3__2_b",
+   "expr": "2(3)^2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.8E+1",
+   "expected16": "1.8E+1"
+  },
+  {
+   "id": "deg_2_3_4_b",
+   "expr": "2(3+4)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.4E+1",
+   "expected16": "1.4E+1"
+  },
+  {
+   "id": "deg_3_4_1",
+   "expr": "3(4+1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.5E+1",
+   "expected16": "1.5E+1"
+  },
+  {
+   "id": "deg_2__3_b",
+   "expr": "2*-3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-6E+0",
+   "expected16": "-6E+0"
+  },
+  {
+   "id": "deg_2__3_b",
+   "expr": "2--3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E+0",
+   "expected16": "5E+0"
+  },
+  {
+   "id": "deg_2__3_b",
+   "expr": "2+-3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1E+0",
+   "expected16": "-1E+0"
+  },
+  {
+   "id": "deg_2_3_b",
+   "expr": "-(2+3)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-5E+0",
+   "expected16": "-5E+0"
+  },
+  {
+   "id": "deg_5",
+   "expr": "--5",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E+0",
+   "expected16": "5E+0"
+  },
+  {
+   "id": "deg_1e3_1",
+   "expr": "1e3+1",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.001E+3",
+   "expected16": "1.001E+3"
+  },
+  {
+   "id": "deg_2e3_2",
+   "expr": "2e3*2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4E+3",
+   "expected16": "4E+3"
+  },
+  {
+   "id": "deg_1_5e_3_1000",
+   "expr": "1.5e-3*1000",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.5E+0",
+   "expected16": "1.5E+0"
+  },
+  {
+   "id": "deg_123456789_987654321",
+   "expr": "123456789*987654321",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.21932631112635269E+17",
+   "expected16": "1.219326311126353E+17"
+  },
+  {
+   "id": "deg_0_000001_1000000",
+   "expr": "0.000001*1000000",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_1_7_7",
+   "expr": "1/7*7",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_1_3_1_6__2",
+   "expr": "(1/3+1/6)*2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_22_7",
+   "expr": "22/7",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.14285714285714285714285714286E+0",
+   "expected16": "3.142857142857143E+0"
+  },
+  {
+   "id": "deg_1_3",
+   "expr": "1/3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.33333333333333333333333333333E-1",
+   "expected16": "3.333333333333333E-1"
+  },
+  {
+   "id": "deg_2_3_b",
+   "expr": "2/3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.66666666666666666666666666667E-1",
+   "expected16": "6.666666666666667E-1"
+  },
+  {
+   "id": "deg_1_8",
+   "expr": "1/8",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.25E-1",
+   "expected16": "1.25E-1"
+  },
+  {
+   "id": "deg_1_1024",
+   "expr": "1/1024",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.765625E-4",
+   "expected16": "9.765625E-4"
+  },
+  {
+   "id": "deg_7_4",
+   "expr": "7/4",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.75E+0",
+   "expected16": "1.75E+0"
+  },
+  {
+   "id": "deg_1234567890123456789_1",
+   "expr": "1234567890123456789+1",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.23456789012345679E+18",
+   "expected16": "1.234567890123457E+18"
+  },
+  {
+   "id": "deg_0_1_3",
+   "expr": "0.1*3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E-1",
+   "expected16": "3E-1"
+  },
+  {
+   "id": "deg_1_0_9",
+   "expr": "1-0.9",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E-1",
+   "expected16": "1E-1"
+  },
+  {
+   "id": "deg_0_3_0_1",
+   "expr": "0.3-0.1",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E-1",
+   "expected16": "2E-1"
+  },
+  {
+   "id": "deg_4_35_100",
+   "expr": "4.35*100",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.35E+2",
+   "expected16": "4.35E+2"
+  },
+  {
+   "id": "deg_1_1_1_1",
+   "expr": "1.1*1.1",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.21E+0",
+   "expected16": "1.21E+0"
+  },
+  {
+   "id": "deg_10_4",
+   "expr": "10/4",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.5E+0",
+   "expected16": "2.5E+0"
+  },
+  {
+   "id": "deg_9_3",
+   "expr": "9/3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_50",
+   "expr": "50%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E-1",
+   "expected16": "5E-1"
+  },
+  {
+   "id": "deg_200_10",
+   "expr": "200+10%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.2E+2",
+   "expected16": "2.2E+2"
+  },
+  {
+   "id": "deg_200_10_b",
+   "expr": "200-10%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.8E+2",
+   "expected16": "1.8E+2"
+  },
+  {
+   "id": "deg_50_10",
+   "expr": "50*10%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E+0",
+   "expected16": "5E+0"
+  },
+  {
+   "id": "deg_50_10_b",
+   "expr": "50/10%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E+2",
+   "expected16": "5E+2"
+  },
+  {
+   "id": "deg_10__50",
+   "expr": "10%*50",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E+0",
+   "expected16": "5E+0"
+  },
+  {
+   "id": "deg_2_3_10",
+   "expr": "2+3*10%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.3E+0",
+   "expected16": "2.3E+0"
+  },
+  {
+   "id": "deg_100_100",
+   "expr": "100+100%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+2",
+   "expected16": "2E+2"
+  },
+  {
+   "id": "deg_0_5",
+   "expr": "0+5%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_25__25",
+   "expr": "25%+25%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.125E-1",
+   "expected16": "3.125E-1"
+  },
+  {
+   "id": "deg_200_10___2",
+   "expr": "(200+10%)*2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.4E+2",
+   "expected16": "4.4E+2"
+  },
+  {
+   "id": "deg_10",
+   "expr": "10%%",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E-3",
+   "expected16": "1E-3"
+  },
+  {
+   "id": "deg_2_0_5",
+   "expr": "2^0.5",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.41421356237309504880168872421E+0",
+   "expected16": "1.414213562373095E+0"
+  },
+  {
+   "id": "deg_sqrt_2",
+   "expr": "sqrt(2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.41421356237309504880168872421E+0",
+   "expected16": "1.414213562373095E+0"
+  },
+  {
+   "id": "deg_sqrt_4",
+   "expr": "sqrt(4)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_sqrt_0_25",
+   "expr": "sqrt(0.25)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E-1",
+   "expected16": "5E-1"
+  },
+  {
+   "id": "deg_sqrt_1e10",
+   "expr": "sqrt(1e10)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+5",
+   "expected16": "1E+5"
+  },
+  {
+   "id": "deg_sqrt_2__2",
+   "expr": "sqrt(2)^2",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_sqrt_2__sqrt_2",
+   "expr": "sqrt(2)*sqrt(2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_sqrt_2__sqrt_2__2",
+   "expr": "sqrt(2)*sqrt(2)-2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_cbrt_27",
+   "expr": "cbrt(27)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_cbrt__27",
+   "expr": "cbrt(-27)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-3E+0",
+   "expected16": "-3E+0"
+  },
+  {
+   "id": "deg_cbrt_2",
+   "expr": "cbrt(2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.25992104989487316476721060728E+0",
+   "expected16": "1.259921049894873E+0"
+  },
+  {
+   "id": "deg_root_8_3",
+   "expr": "root(8,3)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_root__8_3",
+   "expr": "root(-8,3)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-2E+0",
+   "expected16": "-2E+0"
+  },
+  {
+   "id": "deg_root_16_4",
+   "expr": "root(16,4)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_root__16_4",
+   "expr": "root(-16,4)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_root_2_2",
+   "expr": "root(2,2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.41421356237309504880168872421E+0",
+   "expected16": "1.414213562373095E+0"
+  },
+  {
+   "id": "deg_root_10_3",
+   "expr": "root(10,3)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.15443469003188372175929356652E+0",
+   "expected16": "2.154434690031884E+0"
+  },
+  {
+   "id": "deg_root_0_001_3",
+   "expr": "root(0.001,3)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E-1",
+   "expected16": "1E-1"
+  },
+  {
+   "id": "deg_root_32_5",
+   "expr": "root(32,5)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_4_0_5",
+   "expr": "4^0.5",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_8__1_3",
+   "expr": "8^(1/3)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_8___1_3",
+   "expr": "(-8)^(1/3)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_27__2_3",
+   "expr": "27^(2/3)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9E+0",
+   "expected16": "9E+0"
+  },
+  {
+   "id": "deg_0_0",
+   "expr": "0^0",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_0__1",
+   "expr": "0^-1",
+   "angle": "deg",
+   "error": "divisionByZero"
+  },
+  {
+   "id": "deg_0_5_b",
+   "expr": "0^5",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_2_100",
+   "expr": "2^100",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.26765060022822940149670320538E+30",
+   "expected16": "1.267650600228229E+30"
+  },
+  {
+   "id": "deg_2_1000",
+   "expr": "2^1000",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.07150860718626732094842504906E+301",
+   "expected16": "1.071508607186267E+301"
+  },
+  {
+   "id": "deg_2_4097",
+   "expr": "2^4097",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.08877776282630501338350542143E+1233",
+   "expected16": "2.088777762826305E+1233"
+  },
+  {
+   "id": "deg_10__3",
+   "expr": "10^-3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E-3",
+   "expected16": "1E-3"
+  },
+  {
+   "id": "deg_10_20",
+   "expr": "10^20",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+20",
+   "expected16": "1E+20"
+  },
+  {
+   "id": "deg_1_5_2_5",
+   "expr": "1.5^2.5",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.75567596063107536047194458404E+0",
+   "expected16": "2.755675960631075E+0"
+  },
+  {
+   "id": "deg_9_0_5",
+   "expr": "9^0.5",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_0_5_0_5",
+   "expr": "0.5^0.5",
+   "angle": "deg",
+   "exact": false,
+   "expected": "7.07106781186547524400844362105E-1",
+   "expected16": "7.071067811865475E-1"
+  },
+  {
+   "id": "deg_2_10",
+   "expr": "2^10",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.024E+3",
+   "expected16": "1.024E+3"
+  },
+  {
+   "id": "deg_2__3_b",
+   "expr": "(-2)^3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-8E+0",
+   "expected16": "-8E+0"
+  },
+  {
+   "id": "deg_2___2",
+   "expr": "(-2)^-2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.5E-1",
+   "expected16": "2.5E-1"
+  },
+  {
+   "id": "deg_99999_99999",
+   "expr": "99999^99999",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.67881280579378064819168577504E+499994",
+   "expected16": "3.678812805793781E+499994"
+  },
+  {
+   "id": "deg_10_1000001",
+   "expr": "10^1000001",
+   "angle": "deg",
+   "error": "overflow"
+  },
+  {
+   "id": "deg_inv_4",
+   "expr": "inv(4)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.5E-1",
+   "expected16": "2.5E-1"
+  },
+  {
+   "id": "deg_inv_0_5",
+   "expr": "inv(0.5)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_inv_0",
+   "expr": "inv(0)",
+   "angle": "deg",
+   "error": "divisionByZero"
+  },
+  {
+   "id": "deg_inv_3",
+   "expr": "inv(3)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.33333333333333333333333333333E-1",
+   "expected16": "3.333333333333333E-1"
+  },
+  {
+   "id": "deg_sq_1_5",
+   "expr": "sq(1.5)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.25E+0",
+   "expected16": "2.25E+0"
+  },
+  {
+   "id": "deg_cube__2",
+   "expr": "cube(-2)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-8E+0",
+   "expected16": "-8E+0"
+  },
+  {
+   "id": "deg_sq_sqrt_2",
+   "expr": "sq(sqrt(2))",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_ln_1",
+   "expr": "ln(1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_ln_e",
+   "expr": "ln(e)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_ln_2",
+   "expr": "ln(2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "6.93147180559945309417232121458E-1",
+   "expected16": "6.931471805599453E-1"
+  },
+  {
+   "id": "deg_ln_0",
+   "expr": "ln(0)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_ln__1",
+   "expr": "ln(-1)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_log10_1000",
+   "expr": "log10(1000)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_log10_0_001",
+   "expr": "log10(0.001)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-3E+0",
+   "expected16": "-3E+0"
+  },
+  {
+   "id": "deg_log10_2",
+   "expr": "log10(2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.01029995663981195213738894724E-1",
+   "expected16": "3.010299956639812E-1"
+  },
+  {
+   "id": "deg_log10_10",
+   "expr": "log10(10)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_log2_8",
+   "expr": "log2(8)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_log2_0_5",
+   "expr": "log2(0.5)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1E+0",
+   "expected16": "-1E+0"
+  },
+  {
+   "id": "deg_log2_10",
+   "expr": "log2(10)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.32192809488736234787031942949E+0",
+   "expected16": "3.321928094887362E+0"
+  },
+  {
+   "id": "deg_exp_0",
+   "expr": "exp(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_exp_1",
+   "expr": "exp(1)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.71828182845904523536028747135E+0",
+   "expected16": "2.718281828459045E+0"
+  },
+  {
+   "id": "deg_exp__1",
+   "expr": "exp(-1)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.67879441171442321595523770161E-1",
+   "expected16": "3.678794411714423E-1"
+  },
+  {
+   "id": "deg_exp_10",
+   "expr": "exp(10)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.20264657948067165169579006453E+4",
+   "expected16": "2.202646579480672E+4"
+  },
+  {
+   "id": "deg_exp_1000",
+   "expr": "exp(1000)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.97007111401704699388887935224E+434",
+   "expected16": "1.970071114017047E+434"
+  },
+  {
+   "id": "deg_exp__1000",
+   "expr": "exp(-1000)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "5.07595889754945676529180947957E-435",
+   "expected16": "5.075958897549457E-435"
+  },
+  {
+   "id": "deg_pow10_3",
+   "expr": "pow10(3)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+3",
+   "expected16": "1E+3"
+  },
+  {
+   "id": "deg_pow10__2",
+   "expr": "pow10(-2)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E-2",
+   "expected16": "1E-2"
+  },
+  {
+   "id": "deg_pow10_0_5",
+   "expr": "pow10(0.5)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.16227766016837933199889354443E+0",
+   "expected16": "3.162277660168379E+0"
+  },
+  {
+   "id": "deg_pow2_10",
+   "expr": "pow2(10)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.024E+3",
+   "expected16": "1.024E+3"
+  },
+  {
+   "id": "deg_pow2_0_5",
+   "expr": "pow2(0.5)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.41421356237309504880168872421E+0",
+   "expected16": "1.414213562373095E+0"
+  },
+  {
+   "id": "deg_logb_8_2",
+   "expr": "logb(8,2)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_logb_1000_10",
+   "expr": "logb(1000,10)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_logb_10_3",
+   "expr": "logb(10,3)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.09590327428938460429656752202E+0",
+   "expected16": "2.095903274289385E+0"
+  },
+  {
+   "id": "deg_logb_5_1",
+   "expr": "logb(5,1)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_e_2",
+   "expr": "e^2",
+   "angle": "deg",
+   "exact": false,
+   "expected": "7.38905609893065022723042746058E+0",
+   "expected16": "7.38905609893065E+0"
+  },
+  {
+   "id": "deg_e_ln_2",
+   "expr": "e^ln(2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_sin_30",
+   "expr": "sin(30)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E-1",
+   "expected16": "5E-1"
+  },
+  {
+   "id": "deg_sin_90",
+   "expr": "sin(90)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_sin_180",
+   "expr": "sin(180)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_sin_270",
+   "expr": "sin(270)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1E+0",
+   "expected16": "-1E+0"
+  },
+  {
+   "id": "deg_sin_360",
+   "expr": "sin(360)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_sin_45",
+   "expr": "sin(45)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "7.07106781186547524400844362105E-1",
+   "expected16": "7.071067811865475E-1"
+  },
+  {
+   "id": "deg_sin_60",
+   "expr": "sin(60)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "8.66025403784438646763723170753E-1",
+   "expected16": "8.660254037844386E-1"
+  },
+  {
+   "id": "deg_sin__30",
+   "expr": "sin(-30)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-5E-1",
+   "expected16": "-5E-1"
+  },
+  {
+   "id": "deg_sin_390",
+   "expr": "sin(390)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E-1",
+   "expected16": "5E-1"
+  },
+  {
+   "id": "deg_sin_1000030",
+   "expr": "sin(1000030)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "-7.66044443118978035202392650555E-1",
+   "expected16": "-7.66044443118978E-1"
+  },
+  {
+   "id": "deg_cos_0",
+   "expr": "cos(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_cos_60",
+   "expr": "cos(60)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E-1",
+   "expected16": "5E-1"
+  },
+  {
+   "id": "deg_cos_90",
+   "expr": "cos(90)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_cos_180",
+   "expr": "cos(180)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1E+0",
+   "expected16": "-1E+0"
+  },
+  {
+   "id": "deg_cos_270",
+   "expr": "cos(270)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_cos_45",
+   "expr": "cos(45)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "7.07106781186547524400844362105E-1",
+   "expected16": "7.071067811865475E-1"
+  },
+  {
+   "id": "deg_tan_45",
+   "expr": "tan(45)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_tan_90",
+   "expr": "tan(90)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_tan_270",
+   "expr": "tan(270)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_tan_135",
+   "expr": "tan(135)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1E+0",
+   "expected16": "-1E+0"
+  },
+  {
+   "id": "deg_tan_180",
+   "expr": "tan(180)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_tan_30",
+   "expr": "tan(30)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "5.77350269189625764509148780502E-1",
+   "expected16": "5.773502691896258E-1"
+  },
+  {
+   "id": "deg_tan_60",
+   "expr": "tan(60)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.73205080756887729352744634151E+0",
+   "expected16": "1.732050807568877E+0"
+  },
+  {
+   "id": "deg_sin_12_5",
+   "expr": "sin(12.5)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.16439613938102879759553669618E-1",
+   "expected16": "2.164396139381029E-1"
+  },
+  {
+   "id": "deg_cos_33_3",
+   "expr": "cos(33.3)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "8.35807361368270258475006238149E-1",
+   "expected16": "8.358073613682703E-1"
+  },
+  {
+   "id": "deg_tan_89_9",
+   "expr": "tan(89.9)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "5.72957213354287731136420126622E+2",
+   "expected16": "5.729572133542877E+2"
+  },
+  {
+   "id": "deg_sin_1e_10",
+   "expr": "sin(1e-10)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.74532925199432957692368988239E-12",
+   "expected16": "1.74532925199433E-12"
+  },
+  {
+   "id": "deg_sin_pi",
+   "expr": "sin(pi)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "5.48036651487895308877487135398E-2",
+   "expected16": "5.480366514878953E-2"
+  },
+  {
+   "id": "deg_sin_sqrt_2",
+   "expr": "sin(sqrt(2))",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.46801768077106718487524061868E-2",
+   "expected16": "2.468017680771067E-2"
+  },
+  {
+   "id": "deg_asin_0_5",
+   "expr": "asin(0.5)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+1",
+   "expected16": "3E+1"
+  },
+  {
+   "id": "deg_asin_1",
+   "expr": "asin(1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9E+1",
+   "expected16": "9E+1"
+  },
+  {
+   "id": "deg_asin__1",
+   "expr": "asin(-1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-9E+1",
+   "expected16": "-9E+1"
+  },
+  {
+   "id": "deg_asin_2",
+   "expr": "asin(2)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_asin_0_3",
+   "expr": "asin(0.3)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.74576031237220922902460457924E+1",
+   "expected16": "1.745760312372209E+1"
+  },
+  {
+   "id": "deg_acos_0_5",
+   "expr": "acos(0.5)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6E+1",
+   "expected16": "6E+1"
+  },
+  {
+   "id": "deg_acos_0",
+   "expr": "acos(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9E+1",
+   "expected16": "9E+1"
+  },
+  {
+   "id": "deg_acos__1",
+   "expr": "acos(-1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.8E+2",
+   "expected16": "1.8E+2"
+  },
+  {
+   "id": "deg_acos_1",
+   "expr": "acos(1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_acos_1_5",
+   "expr": "acos(1.5)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_atan_1",
+   "expr": "atan(1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.5E+1",
+   "expected16": "4.5E+1"
+  },
+  {
+   "id": "deg_atan__1",
+   "expr": "atan(-1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-4.5E+1",
+   "expected16": "-4.5E+1"
+  },
+  {
+   "id": "deg_atan_0",
+   "expr": "atan(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_atan_1e10",
+   "expr": "atan(1e10)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "8.99999999942704220486917679123E+1",
+   "expected16": "8.999999999427042E+1"
+  },
+  {
+   "id": "deg_atan_0_5",
+   "expr": "atan(0.5)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.65650511770779893515721937205E+1",
+   "expected16": "2.656505117707799E+1"
+  },
+  {
+   "id": "deg_sin_30__2_cos_30__2",
+   "expr": "sin(30)^2+cos(30)^2",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_2sin_30",
+   "expr": "2sin(30)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_sin_30_b",
+   "expr": "sin 30",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5E-1",
+   "expected16": "5E-1"
+  },
+  {
+   "id": "deg_sin_30_2",
+   "expr": "sin 30*2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_sin_30_2_b",
+   "expr": "sin 30^2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_sin_30__2",
+   "expr": "sin(30)*2",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_asin_sin_30",
+   "expr": "asin(sin(30))",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+1",
+   "expected16": "3E+1"
+  },
+  {
+   "id": "deg_sin_asin_0_3",
+   "expr": "sin(asin(0.3))",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3E-1",
+   "expected16": "3E-1"
+  },
+  {
+   "id": "rad_sin_pi",
+   "expr": "sin(pi)",
+   "angle": "rad",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "rad_cos_pi",
+   "expr": "cos(pi)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "-1E+0",
+   "expected16": "-1E+0"
+  },
+  {
+   "id": "rad_sin_pi_2",
+   "expr": "sin(pi/2)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "rad_cos_pi_2",
+   "expr": "cos(pi/2)",
+   "angle": "rad",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "rad_tan_pi_4",
+   "expr": "tan(pi/4)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "rad_sin_0",
+   "expr": "sin(0)",
+   "angle": "rad",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "rad_cos_0",
+   "expr": "cos(0)",
+   "angle": "rad",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "rad_sin_1",
+   "expr": "sin(1)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "8.4147098480789650665250232163E-1",
+   "expected16": "8.414709848078965E-1"
+  },
+  {
+   "id": "rad_cos_1",
+   "expr": "cos(1)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "5.40302305868139717400936607443E-1",
+   "expected16": "5.403023058681397E-1"
+  },
+  {
+   "id": "rad_tan_1",
+   "expr": "tan(1)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "1.55740772465490223050697480746E+0",
+   "expected16": "1.557407724654902E+0"
+  },
+  {
+   "id": "rad_sin_100",
+   "expr": "sin(100)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "-5.0636564110975879365655761046E-1",
+   "expected16": "-5.063656411097588E-1"
+  },
+  {
+   "id": "rad_sin_1e5",
+   "expr": "sin(1e5)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "3.57487979720165093164705006958E-2",
+   "expected16": "3.574879797201651E-2"
+  },
+  {
+   "id": "rad_sin_1e_45",
+   "expr": "sin(1e-45)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "1E-45",
+   "expected16": "1E-45"
+  },
+  {
+   "id": "rad_sin_2pi",
+   "expr": "sin(2pi)",
+   "angle": "rad",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "rad_sin_pi_6",
+   "expr": "sin(pi/6)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "5E-1",
+   "expected16": "5E-1"
+  },
+  {
+   "id": "rad_asin_0_5",
+   "expr": "asin(0.5)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "5.23598775598298873077107230547E-1",
+   "expected16": "5.235987755982989E-1"
+  },
+  {
+   "id": "rad_acos_0",
+   "expr": "acos(0)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "1.57079632679489661923132169164E+0",
+   "expected16": "1.570796326794897E+0"
+  },
+  {
+   "id": "rad_atan_1",
+   "expr": "atan(1)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "7.8539816339744830961566084582E-1",
+   "expected16": "7.853981633974483E-1"
+  },
+  {
+   "id": "rad_atan_1__4",
+   "expr": "atan(1)*4",
+   "angle": "rad",
+   "exact": false,
+   "expected": "3.14159265358979323846264338328E+0",
+   "expected16": "3.141592653589793E+0"
+  },
+  {
+   "id": "rad_asin_1",
+   "expr": "asin(1)",
+   "angle": "rad",
+   "exact": false,
+   "expected": "1.57079632679489661923132169164E+0",
+   "expected16": "1.570796326794897E+0"
+  },
+  {
+   "id": "rad_sin_1__2_cos_1__2",
+   "expr": "sin(1)^2+cos(1)^2",
+   "angle": "rad",
+   "exact": false,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "rad_tan_pi_2",
+   "expr": "tan(pi/2)",
+   "angle": "rad",
+   "error": "domain"
+  },
+  {
+   "id": "deg_sinh_0",
+   "expr": "sinh(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_cosh_0",
+   "expr": "cosh(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_tanh_0",
+   "expr": "tanh(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_sinh_1",
+   "expr": "sinh(1)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.1752011936438014568823818506E+0",
+   "expected16": "1.175201193643801E+0"
+  },
+  {
+   "id": "deg_cosh_1",
+   "expr": "cosh(1)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.54308063481524377847790562076E+0",
+   "expected16": "1.543080634815244E+0"
+  },
+  {
+   "id": "deg_tanh_1",
+   "expr": "tanh(1)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "7.61594155955764888119458282605E-1",
+   "expected16": "7.615941559557649E-1"
+  },
+  {
+   "id": "deg_sinh__3",
+   "expr": "sinh(-3)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "-1.00178749274099018989745936195E+1",
+   "expected16": "-1.00178749274099E+1"
+  },
+  {
+   "id": "deg_cosh_10",
+   "expr": "cosh(10)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.10132329201033231397213760904E+4",
+   "expected16": "1.101323292010332E+4"
+  },
+  {
+   "id": "deg_tanh_50",
+   "expr": "tanh(50)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_asinh_0",
+   "expr": "asinh(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_asinh_1",
+   "expr": "asinh(1)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "8.8137358701954302523260932498E-1",
+   "expected16": "8.81373587019543E-1"
+  },
+  {
+   "id": "deg_acosh_1",
+   "expr": "acosh(1)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_acosh_2",
+   "expr": "acosh(2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.31695789692481670862504634731E+0",
+   "expected16": "1.316957896924817E+0"
+  },
+  {
+   "id": "deg_acosh_0_5",
+   "expr": "acosh(0.5)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_atanh_0",
+   "expr": "atanh(0)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "deg_atanh_0_5",
+   "expr": "atanh(0.5)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "5.49306144334054845697622618461E-1",
+   "expected16": "5.493061443340548E-1"
+  },
+  {
+   "id": "deg_atanh_1",
+   "expr": "atanh(1)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_atanh__1",
+   "expr": "atanh(-1)",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_sinh_1e7",
+   "expr": "sinh(1e7)",
+   "angle": "deg",
+   "error": "overflow"
+  },
+  {
+   "id": "deg_cosh_2__2_sinh_2__2",
+   "expr": "cosh(2)^2-sinh(2)^2",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_0",
+   "expr": "0!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_1",
+   "expr": "1!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_5_b",
+   "expr": "5!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.2E+2",
+   "expected16": "1.2E+2"
+  },
+  {
+   "id": "deg_10_b",
+   "expr": "10!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.6288E+6",
+   "expected16": "3.6288E+6"
+  },
+  {
+   "id": "deg_20",
+   "expr": "20!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.43290200817664E+18",
+   "expected16": "2.43290200817664E+18"
+  },
+  {
+   "id": "deg_69",
+   "expr": "69!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.71122452428141311372468338881E+98",
+   "expected16": "1.711224524281413E+98"
+  },
+  {
+   "id": "deg_170",
+   "expr": "170!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "7.25741561530799896739672821113E+306",
+   "expected16": "7.257415615307999E+306"
+  },
+  {
+   "id": "deg_171",
+   "expr": "171!",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.2410180702176678234248405241E+309",
+   "expected16": "1.241018070217668E+309"
+  },
+  {
+   "id": "deg_500",
+   "expr": "500!",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.22013682599111006870123878542E+1134",
+   "expected16": "1.22013682599111E+1134"
+  },
+  {
+   "id": "deg_1000",
+   "expr": "1000!",
+   "angle": "deg",
+   "exact": false,
+   "expected": "4.02387260077093773543702433923E+2567",
+   "expected16": "4.023872600770938E+2567"
+  },
+  {
+   "id": "deg_0_5_b",
+   "expr": "0.5!",
+   "angle": "deg",
+   "exact": false,
+   "expected": "8.86226925452758013649083741671E-1",
+   "expected16": "8.86226925452758E-1"
+  },
+  {
+   "id": "deg_2_5",
+   "expr": "2.5!",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.32335097044784255118406403126E+0",
+   "expected16": "3.323350970447843E+0"
+  },
+  {
+   "id": "deg_10_5",
+   "expr": "10.5!",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.18994230839622484570130287387E+7",
+   "expected16": "1.189942308396225E+7"
+  },
+  {
+   "id": "deg_1_b",
+   "expr": "(-1)!",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_0_5_b",
+   "expr": "(-0.5)!",
+   "angle": "deg",
+   "error": "domain"
+  },
+  {
+   "id": "deg_20000",
+   "expr": "20000!",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1.81920632023034513482764175687E+77337",
+   "expected16": "1.819206320230345E+77337"
+  },
+  {
+   "id": "deg_20001",
+   "expr": "20001!",
+   "angle": "deg",
+   "error": "overflow"
+  },
+  {
+   "id": "deg_3",
+   "expr": "3!!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "7.2E+2",
+   "expected16": "7.2E+2"
+  },
+  {
+   "id": "deg_2_1",
+   "expr": "(2+1)!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6E+0",
+   "expected16": "6E+0"
+  },
+  {
+   "id": "deg_2_3_b",
+   "expr": "2*3!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.2E+1",
+   "expected16": "1.2E+1"
+  },
+  {
+   "id": "deg_3_b",
+   "expr": "-3!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-6E+0",
+   "expected16": "-6E+0"
+  },
+  {
+   "id": "deg_pi",
+   "expr": "pi",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.14159265358979323846264338328E+0",
+   "expected16": "3.141592653589793E+0"
+  },
+  {
+   "id": "deg_2pi",
+   "expr": "2pi",
+   "angle": "deg",
+   "exact": false,
+   "expected": "6.28318530717958647692528676656E+0",
+   "expected16": "6.283185307179586E+0"
+  },
+  {
+   "id": "deg_pi_2",
+   "expr": "pi*2",
+   "angle": "deg",
+   "exact": false,
+   "expected": "6.28318530717958647692528676656E+0",
+   "expected16": "6.283185307179586E+0"
+  },
+  {
+   "id": "deg_pi_pi",
+   "expr": "pi/pi",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1E+0",
+   "expected16": "1E+0"
+  },
+  {
+   "id": "deg_e",
+   "expr": "e",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2.71828182845904523536028747135E+0",
+   "expected16": "2.718281828459045E+0"
+  },
+  {
+   "id": "deg_2e",
+   "expr": "2e",
+   "angle": "deg",
+   "exact": false,
+   "expected": "5.43656365691809047072057494271E+0",
+   "expected16": "5.43656365691809E+0"
+  },
+  {
+   "id": "deg_e_e",
+   "expr": "e*e",
+   "angle": "deg",
+   "exact": false,
+   "expected": "7.38905609893065022723042746058E+0",
+   "expected16": "7.38905609893065E+0"
+  },
+  {
+   "id": "deg_pi_2_b",
+   "expr": "pi^2",
+   "angle": "deg",
+   "exact": false,
+   "expected": "9.86960440108935861883449099988E+0",
+   "expected16": "9.869604401089359E+0"
+  },
+  {
+   "id": "deg_pi_b",
+   "expr": "(pi)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.14159265358979323846264338328E+0",
+   "expected16": "3.141592653589793E+0"
+  },
+  {
+   "id": "deg_2_pi",
+   "expr": "2(pi)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "6.28318530717958647692528676656E+0",
+   "expected16": "6.283185307179586E+0"
+  },
+  {
+   "id": "deg_pi_2_b",
+   "expr": "pi(2)",
+   "angle": "deg",
+   "exact": false,
+   "expected": "6.28318530717958647692528676656E+0",
+   "expected16": "6.283185307179586E+0"
+  },
+  {
+   "id": "deg_2pi_2",
+   "expr": "2pi/2",
+   "angle": "deg",
+   "exact": false,
+   "expected": "3.14159265358979323846264338328E+0",
+   "expected16": "3.141592653589793E+0"
+  },
+  {
+   "id": "deg_2",
+   "expr": "2+",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_2_b",
+   "expr": "*2",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_2__3_b",
+   "expr": "2**3",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_",
+   "expr": "()",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_2_b",
+   "expr": "(2",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_2_b",
+   "expr": "2)",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_sin",
+   "expr": "sin",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_sin_b",
+   "expr": "sin()",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_1__2",
+   "expr": "1..2",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_2_3_b",
+   "expr": "2+3)",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_root_8",
+   "expr": "root(8)",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_foo_2",
+   "expr": "foo(2)",
+   "angle": "deg",
+   "error": "syntax"
+  },
+  {
+   "id": "deg_sqrt_16__2_3_5",
+   "expr": "sqrt(16)+2^3-5!",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1.08E+2",
+   "expected16": "-1.08E+2"
+  },
+  {
+   "id": "deg_1_2___3_4__7",
+   "expr": "(1+2)*(3+4)/7",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3E+0",
+   "expected16": "3E+0"
+  },
+  {
+   "id": "deg_1__2_2",
+   "expr": "1/(2-2)",
+   "angle": "deg",
+   "error": "divisionByZero"
+  },
+  {
+   "id": "deg_1__1_0_999999999999999999999",
+   "expr": "1/(1-0.999999999999999999999)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+21",
+   "expected16": "1E+21"
+  },
+  {
+   "id": "deg_2_0_5_2_0_5",
+   "expr": "2^0.5*2^0.5",
+   "angle": "deg",
+   "exact": false,
+   "expected": "2E+0",
+   "expected16": "2E+0"
+  },
+  {
+   "id": "deg_10_3_3",
+   "expr": "10/3*3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1E+1",
+   "expected16": "1E+1"
+  },
+  {
+   "id": "deg_1e308_10",
+   "expr": "1e308*10",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1E+309",
+   "expected16": "1E+309"
+  },
+  {
+   "id": "deg_1e_308_10",
+   "expr": "1e-308/10",
+   "angle": "deg",
+   "exact": false,
+   "expected": "1E-309",
+   "expected16": "1E-309"
+  },
+  {
+   "id": "deg_123456789012345678901234567890_10",
+   "expr": "123456789012345678901234567890*10",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.2345678901234567890123456789E+30",
+   "expected16": "1.234567890123457E+30"
+  },
+  {
+   "id": "deg_0_1_0_2_0_3",
+   "expr": "0.1+0.2-0.3",
+   "angle": "deg",
+   "exact": true,
+   "expected": "0E+0",
+   "expected16": "0E+0"
+  },
+  {
+   "id": "rand_000",
+   "expr": "26487-375.427000-(38806*5818.45331)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-2.2576478757486E+8",
+   "expected16": "-2.2576478757486E+8"
+  },
+  {
+   "id": "rand_001",
+   "expr": "96686*53466*655.595853*99641-97586",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.37687949268145653059548E+17",
+   "expected16": "3.376879492681457E+17"
+  },
+  {
+   "id": "rand_002",
+   "expr": "(-91820-4803)*9904.746641+2985.9756",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-9.57023348717743E+8",
+   "expected16": "-9.57023348717743E+8"
+  },
+  {
+   "id": "rand_003",
+   "expr": "93892/51656+2887.673969/67761",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.86025534566484147083682372898E+0",
+   "expected16": "1.860255345664841E+0"
+  },
+  {
+   "id": "rand_004",
+   "expr": "(61710-32156)-5184.477240",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.436952276E+4",
+   "expected16": "2.436952276E+4"
+  },
+  {
+   "id": "rand_005",
+   "expr": "58748+4150+54033+9259.251468",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.26190251468E+5",
+   "expected16": "1.26190251468E+5"
+  },
+  {
+   "id": "rand_006",
+   "expr": "6010.128190-74010",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-6.799987181E+4",
+   "expected16": "-6.799987181E+4"
+  },
+  {
+   "id": "rand_007",
+   "expr": "1089.225177+51106",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.2195225177E+4",
+   "expected16": "5.2195225177E+4"
+  },
+  {
+   "id": "rand_008",
+   "expr": "(9586.671399-3524.537011)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.062134388E+3",
+   "expected16": "6.062134388E+3"
+  },
+  {
+   "id": "rand_009",
+   "expr": "(56929*4658.722029)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.65216386388941E+8",
+   "expected16": "2.65216386388941E+8"
+  },
+  {
+   "id": "rand_010",
+   "expr": "57999/79780-6043.212893",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-6.04248590628653797944346954124E+3",
+   "expected16": "-6.042485906286538E+3"
+  },
+  {
+   "id": "rand_011",
+   "expr": "(47170+78670)*4263.344207",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.3649923500888E+8",
+   "expected16": "5.3649923500888E+8"
+  },
+  {
+   "id": "rand_012",
+   "expr": "50104-7008.314330*91397",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-6.4048880081901E+8",
+   "expected16": "-6.4048880081901E+8"
+  },
+  {
+   "id": "rand_013",
+   "expr": "-78859/8123.213486-15561+57956",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.23852921423724847307306137196E+4",
+   "expected16": "4.238529214237248E+4"
+  },
+  {
+   "id": "rand_014",
+   "expr": "-5826.341362/7370.167005",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-7.90530439547346457992507864481E-1",
+   "expected16": "-7.905304395473465E-1"
+  },
+  {
+   "id": "rand_015",
+   "expr": "59063/71597-33310",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-3.33091750632009721077698786262E+4",
+   "expected16": "-3.330917506320097E+4"
+  },
+  {
+   "id": "rand_016",
+   "expr": "(26448-21594)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.854E+3",
+   "expected16": "4.854E+3"
+  },
+  {
+   "id": "rand_017",
+   "expr": "3083.190961/(33135*7571.408481)-95760",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-9.57599999877104276132434620406E+4",
+   "expected16": "-9.575999998771043E+4"
+  },
+  {
+   "id": "rand_018",
+   "expr": "78407+3106.406588*214.839028/2829.46658/19388",
+   "angle": "deg",
+   "exact": true,
+   "expected": "7.84070121656102174293295731722E+4",
+   "expected16": "7.840701216561022E+4"
+  },
+  {
+   "id": "rand_019",
+   "expr": "67653+(38777-5065.231112)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.01364768888E+5",
+   "expected16": "1.01364768888E+5"
+  },
+  {
+   "id": "rand_020",
+   "expr": "(783.728754*81331)+2431.238827/21251",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.37414434059798551127005787963E+7",
+   "expected16": "6.374144340597986E+7"
+  },
+  {
+   "id": "rand_021",
+   "expr": "(5280.543378*1553.202051)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "8.201750805104068278E+6",
+   "expected16": "8.201750805104068E+6"
+  },
+  {
+   "id": "rand_022",
+   "expr": "43966/7321.670266/30629*41910/12480",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.58380632535241546778230464419E-4",
+   "expected16": "6.583806325352415E-4"
+  },
+  {
+   "id": "rand_023",
+   "expr": "99529+49388+(1882.629192-90773)-2152",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.7874629192E+4",
+   "expected16": "5.7874629192E+4"
+  },
+  {
+   "id": "rand_024",
+   "expr": "(4300.979409-54337)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-5.0036020591E+4",
+   "expected16": "-5.0036020591E+4"
+  },
+  {
+   "id": "rand_025",
+   "expr": "50200+3167.712948-2436.991506",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.0930721442E+4",
+   "expected16": "5.0930721442E+4"
+  },
+  {
+   "id": "rand_026",
+   "expr": "17921/26235*9614.356382",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.56751975307116447493805984372E+3",
+   "expected16": "6.567519753071164E+3"
+  },
+  {
+   "id": "rand_027",
+   "expr": "81268/6109.376876*10462+67.946527",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.39235300785339586513339858983E+5",
+   "expected16": "1.392353007853396E+5"
+  },
+  {
+   "id": "rand_028",
+   "expr": "(93719*3381.730330)/3292.480681",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.6259451612335823452019216267E+4",
+   "expected16": "9.625945161233582E+4"
+  },
+  {
+   "id": "rand_029",
+   "expr": "(20167+8763.646034)*89987*31769",
+   "angle": "deg",
+   "exact": true,
+   "expected": "8.2706844176853036102E+13",
+   "expected16": "8.270684417685304E+13"
+  },
+  {
+   "id": "rand_030",
+   "expr": "(65574-62687)-83589-94859",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1.75561E+5",
+   "expected16": "-1.75561E+5"
+  },
+  {
+   "id": "rand_031",
+   "expr": "6287.652852+2408.135233-57500",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-4.8804211915E+4",
+   "expected16": "-4.8804211915E+4"
+  },
+  {
+   "id": "rand_032",
+   "expr": "82267+79363-63554",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.8076E+4",
+   "expected16": "9.8076E+4"
+  },
+  {
+   "id": "rand_033",
+   "expr": "4499.128458/96385",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.66787203195517974788608185921E-2",
+   "expected16": "4.66787203195518E-2"
+  },
+  {
+   "id": "rand_034",
+   "expr": "9577-2032.557229*2529.698384*5986/28289",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1.07842737736246117448110573014E+6",
+   "expected16": "-1.078427377362461E+6"
+  },
+  {
+   "id": "rand_035",
+   "expr": "93088-7737/94770*335.182906/70595",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.30879996123769132840713295735E+4",
+   "expected16": "9.308799961237691E+4"
+  },
+  {
+   "id": "rand_036",
+   "expr": "82166+31802-1555.163602*9546.324956",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1.4732129104435451512E+7",
+   "expected16": "-1.473212910443545E+7"
+  },
+  {
+   "id": "rand_037",
+   "expr": "(93149+79651)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.728E+5",
+   "expected16": "1.728E+5"
+  },
+  {
+   "id": "rand_038",
+   "expr": "46273/34948*1420.142881",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.88034426955800045782305139064E+3",
+   "expected16": "1.880344269558E+3"
+  },
+  {
+   "id": "rand_039",
+   "expr": "88280-86884+(47845/80469)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.39659457679354782587083224596E+3",
+   "expected16": "1.396594576793548E+3"
+  },
+  {
+   "id": "rand_040",
+   "expr": "-39487-36234",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-7.5721E+4",
+   "expected16": "-7.5721E+4"
+  },
+  {
+   "id": "rand_041",
+   "expr": "(6987.355328/5044.145255)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.38524070477030701606946487508E+0",
+   "expected16": "1.385240704770307E+0"
+  },
+  {
+   "id": "rand_042",
+   "expr": "-7409.923060*6694",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-4.960202496364E+7",
+   "expected16": "-4.960202496364E+7"
+  },
+  {
+   "id": "rand_043",
+   "expr": "60954-1101.547715+9743.364296/73325*43413",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.56211351923610364814183429935E+4",
+   "expected16": "6.562113519236104E+4"
+  },
+  {
+   "id": "rand_044",
+   "expr": "69878-45715",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.4163E+4",
+   "expected16": "2.4163E+4"
+  },
+  {
+   "id": "rand_045",
+   "expr": "97457+369.120796-9661.402974",
+   "angle": "deg",
+   "exact": true,
+   "expected": "8.8164717822E+4",
+   "expected16": "8.8164717822E+4"
+  },
+  {
+   "id": "rand_046",
+   "expr": "99160/91725+(21707*724)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.57158690810575088579994548923E+7",
+   "expected16": "1.571586908105751E+7"
+  },
+  {
+   "id": "rand_047",
+   "expr": "69475-1449.318702*38238+9137.662264",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-5.5340435864812E+7",
+   "expected16": "-5.5340435864812E+7"
+  },
+  {
+   "id": "rand_048",
+   "expr": "29606-(9419.618067/7603.615189)-3810.763031-52584",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-2.67900018651378226472475946862E+4",
+   "expected16": "-2.679000186513782E+4"
+  },
+  {
+   "id": "rand_049",
+   "expr": "24104*98663/7009.797791*7273/5820.023973",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.23961831086708812812820317791E+5",
+   "expected16": "4.239618310867088E+5"
+  },
+  {
+   "id": "rand_050",
+   "expr": "9595.583013+18002",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.7597583013E+4",
+   "expected16": "2.7597583013E+4"
+  },
+  {
+   "id": "rand_051",
+   "expr": "8616.741846-50237",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-4.1620258154E+4",
+   "expected16": "-4.1620258154E+4"
+  },
+  {
+   "id": "rand_052",
+   "expr": "13829*(8271.622092*9106.591605)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.04168718562258783210014E+12",
+   "expected16": "1.041687185622588E+12"
+  },
+  {
+   "id": "rand_053",
+   "expr": "60382-5911.829521-98727/36432",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.44674605811080368906455862978E+4",
+   "expected16": "5.446746058110804E+4"
+  },
+  {
+   "id": "rand_054",
+   "expr": "5370.184582/6887.836696+10858/3488.828724",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.89188128138255470032565041188E+0",
+   "expected16": "3.891881281382555E+0"
+  },
+  {
+   "id": "rand_055",
+   "expr": "-2567.95156+2950.230113+46978+41790+6939.520483",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.6089799036E+4",
+   "expected16": "9.6089799036E+4"
+  },
+  {
+   "id": "rand_056",
+   "expr": "86948*85774+49543",
+   "angle": "deg",
+   "exact": true,
+   "expected": "7.457927295E+9",
+   "expected16": "7.457927295E+9"
+  },
+  {
+   "id": "rand_057",
+   "expr": "44103+7944.103766*4830.440329+72873-32137",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.8458358209047179014E+7",
+   "expected16": "3.845835820904718E+7"
+  },
+  {
+   "id": "rand_058",
+   "expr": "-1308.146928+42164/(7623.158031+9832.876270)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1.30573148820004586263902759044E+3",
+   "expected16": "-1.305731488200046E+3"
+  },
+  {
+   "id": "rand_059",
+   "expr": "77416-2040.131965/3504.10349",
+   "angle": "deg",
+   "exact": true,
+   "expected": "7.74154177877534661511952091346E+4",
+   "expected16": "7.741541778775347E+4"
+  },
+  {
+   "id": "rand_060",
+   "expr": "86311-796.792974-46345-98343+8784.94674",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-5.0388846234E+4",
+   "expected16": "-5.0388846234E+4"
+  },
+  {
+   "id": "rand_061",
+   "expr": "335.508380/267.235650*24484+58099",
+   "angle": "deg",
+   "exact": true,
+   "expected": "8.88381142458725098990348031784E+4",
+   "expected16": "8.883811424587251E+4"
+  },
+  {
+   "id": "rand_062",
+   "expr": "87173/3606.492402-39276*60896",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-2.39175127182886908297443295154E+9",
+   "expected16": "-2.391751271828869E+9"
+  },
+  {
+   "id": "rand_063",
+   "expr": "(26376-2846.94330)+7819.870561",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.1348927261E+4",
+   "expected16": "3.1348927261E+4"
+  },
+  {
+   "id": "rand_064",
+   "expr": "(-26548/53621)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-4.95104529941627347494451800601E-1",
+   "expected16": "-4.951045299416273E-1"
+  },
+  {
+   "id": "rand_065",
+   "expr": "5727.499773/75212/982.856582-23894",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-2.38939999225203245466116148776E+4",
+   "expected16": "-2.389399992252032E+4"
+  },
+  {
+   "id": "rand_066",
+   "expr": "86050+13810*7156",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.891041E+7",
+   "expected16": "9.891041E+7"
+  },
+  {
+   "id": "rand_067",
+   "expr": "-9629.508708/67462/36729-79105-7730.611545",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-8.68356115488862954465599812274E+4",
+   "expected16": "-8.68356115488863E+4"
+  },
+  {
+   "id": "rand_068",
+   "expr": "79214+19172",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.8386E+4",
+   "expected16": "9.8386E+4"
+  },
+  {
+   "id": "rand_069",
+   "expr": "2942.996012*1477.43729",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.34809205245008748E+6",
+   "expected16": "4.348092052450087E+6"
+  },
+  {
+   "id": "rand_070",
+   "expr": "(4842.725515+2089)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.931725515E+3",
+   "expected16": "6.931725515E+3"
+  },
+  {
+   "id": "rand_071",
+   "expr": "5519.538908-9728.596367/6231.391681",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.51797768430150207853705288535E+3",
+   "expected16": "5.517977684301502E+3"
+  },
+  {
+   "id": "rand_072",
+   "expr": "(48939+229.403439)/45842",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.07256235415121504297369224728E+0",
+   "expected16": "1.072562354151215E+0"
+  },
+  {
+   "id": "rand_073",
+   "expr": "6168.52103*5496.665183",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.390629477620429849E+7",
+   "expected16": "3.39062947762043E+7"
+  },
+  {
+   "id": "rand_074",
+   "expr": "2705.209534+87478-5350.408968-(23637-1943.173914)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.313897448E+4",
+   "expected16": "6.313897448E+4"
+  },
+  {
+   "id": "rand_075",
+   "expr": "77836+69006-2579.852731+8229.881229",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.52492028498E+5",
+   "expected16": "1.52492028498E+5"
+  },
+  {
+   "id": "rand_076",
+   "expr": "3093.151661+3850.520566/17673*(88326+66289)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.67800320611635262830306116675E+4",
+   "expected16": "3.678003206116353E+4"
+  },
+  {
+   "id": "rand_077",
+   "expr": "34884-1975.111131*4174.951846/4340.375878",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.29841659546999266071398067981E+4",
+   "expected16": "3.298416595469993E+4"
+  },
+  {
+   "id": "rand_078",
+   "expr": "9463.101752+(5805.146527+3685.771013)+9364.407426+3986.660040",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.2305086758E+4",
+   "expected16": "3.2305086758E+4"
+  },
+  {
+   "id": "rand_079",
+   "expr": "-9341.763456+7764/5011.531391",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-9.34021422894857555048685915734E+3",
+   "expected16": "-9.340214228948576E+3"
+  },
+  {
+   "id": "rand_080",
+   "expr": "28354+5805.781229/23171-15047",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.33072505623938975443442233827E+4",
+   "expected16": "1.33072505623939E+4"
+  },
+  {
+   "id": "rand_081",
+   "expr": "3773.120383-9226.046659-5589.446905",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1.1042373181E+4",
+   "expected16": "-1.1042373181E+4"
+  },
+  {
+   "id": "rand_082",
+   "expr": "72185*65159+51607*8032.464315",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.118033800904205E+9",
+   "expected16": "5.118033800904205E+9"
+  },
+  {
+   "id": "rand_083",
+   "expr": "90042-7733.374299-4413.688282/45763",
+   "angle": "deg",
+   "exact": true,
+   "expected": "8.23085292543447981994187444005E+4",
+   "expected16": "8.23085292543448E+4"
+  },
+  {
+   "id": "rand_084",
+   "expr": "79467+19083",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.855E+4",
+   "expected16": "9.855E+4"
+  },
+  {
+   "id": "rand_085",
+   "expr": "9767/29864-1560.941689-59241+26640",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-3.41616146397098848111438521297E+4",
+   "expected16": "-3.416161463970988E+4"
+  },
+  {
+   "id": "rand_086",
+   "expr": "5157.295974*74528/86730+3304.78695*49134",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.62381833719901986302317537184E+8",
+   "expected16": "1.62381833719902E+8"
+  },
+  {
+   "id": "rand_087",
+   "expr": "2499.606624+26636-9955.688469-8502.543045",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.067737511E+4",
+   "expected16": "1.067737511E+4"
+  },
+  {
+   "id": "rand_088",
+   "expr": "(7120.199816+72437)/8810.741662-7504.602007*7509.636238",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-5.63568221539657253761997255223E+7",
+   "expected16": "-5.635682215396573E+7"
+  },
+  {
+   "id": "rand_089",
+   "expr": "(397.780345+1225.866567)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.623646912E+3",
+   "expected16": "1.623646912E+3"
+  },
+  {
+   "id": "rand_090",
+   "expr": "49161*51665-73719*1114.286195",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.457759000990795E+9",
+   "expected16": "2.457759000990795E+9"
+  },
+  {
+   "id": "rand_091",
+   "expr": "-99806-3692.992484-3734.513290",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1.07233505774E+5",
+   "expected16": "-1.07233505774E+5"
+  },
+  {
+   "id": "rand_092",
+   "expr": "22544-17189-94123+61442",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-2.7326E+4",
+   "expected16": "-2.7326E+4"
+  },
+  {
+   "id": "rand_093",
+   "expr": "7868/8097.156486-32462-4022.760544-39026",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-7.55097888448592456144363071903E+4",
+   "expected16": "-7.550978884485925E+4"
+  },
+  {
+   "id": "rand_094",
+   "expr": "20581+36286*2882.346736*2375.437771+26528",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.48444313015729264536416E+11",
+   "expected16": "2.484443130157293E+11"
+  },
+  {
+   "id": "rand_095",
+   "expr": "6670.423931-7275.829617*873.810708",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-6.351027404987138836E+6",
+   "expected16": "-6.351027404987139E+6"
+  },
+  {
+   "id": "rand_096",
+   "expr": "(78859/46948)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.67970946579194001874414245548E+0",
+   "expected16": "1.67970946579194E+0"
+  },
+  {
+   "id": "rand_097",
+   "expr": "-854.878230*4219.65376*3836.691773*5683",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-7.86530632168674494266602733632E+13",
+   "expected16": "-7.865306321686745E+13"
+  },
+  {
+   "id": "rand_098",
+   "expr": "(1401.141682/95817)*1593.269879",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.32985465850735931828381184967E+1",
+   "expected16": "2.329854658507359E+1"
+  },
+  {
+   "id": "rand_099",
+   "expr": "73844*(5012.209530*6865.541407)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "2.54108517408662174318124E+12",
+   "expected16": "2.541085174086622E+12"
+  },
+  {
+   "id": "rand_100",
+   "expr": "(8911.514930+9148.678098)+38302",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.6362193028E+4",
+   "expected16": "5.6362193028E+4"
+  },
+  {
+   "id": "rand_101",
+   "expr": "8966.971442*54379+55977*9469.152820",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.017669707449658E+9",
+   "expected16": "1.017669707449658E+9"
+  },
+  {
+   "id": "rand_102",
+   "expr": "26151-3990.829724*50838",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-2.02859650508712E+8",
+   "expected16": "-2.02859650508712E+8"
+  },
+  {
+   "id": "rand_103",
+   "expr": "6662.213367-9302.559513-15553",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-1.8193346146E+4",
+   "expected16": "-1.8193346146E+4"
+  },
+  {
+   "id": "rand_104",
+   "expr": "67828*89819",
+   "angle": "deg",
+   "exact": true,
+   "expected": "6.092243132E+9",
+   "expected16": "6.092243132E+9"
+  },
+  {
+   "id": "rand_105",
+   "expr": "5300.392396*2065.790629/83408+4433.540767",
+   "angle": "deg",
+   "exact": true,
+   "expected": "4.5648171546568153784289276808E+3",
+   "expected16": "4.564817154656815E+3"
+  },
+  {
+   "id": "rand_106",
+   "expr": "66014-6687-9888.353766*95330-55242",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-9.4265267951278E+8",
+   "expected16": "-9.4265267951278E+8"
+  },
+  {
+   "id": "rand_107",
+   "expr": "17105-84749-700.386509",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-6.8344386509E+4",
+   "expected16": "-6.8344386509E+4"
+  },
+  {
+   "id": "rand_108",
+   "expr": "3484.459521+96412/92612",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.48550055239981859802185461927E+3",
+   "expected16": "3.485500552399819E+3"
+  },
+  {
+   "id": "rand_109",
+   "expr": "5297.616679/5856.446157",
+   "angle": "deg",
+   "exact": true,
+   "expected": "9.04578738876980680145267832606E-1",
+   "expected16": "9.045787388769807E-1"
+  },
+  {
+   "id": "rand_110",
+   "expr": "376.707934*4635.386520/3266.502738",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.34573829964029768402416688867E+2",
+   "expected16": "5.345738299640298E+2"
+  },
+  {
+   "id": "rand_111",
+   "expr": "(7657.89742/9955)/5883.814593",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.30740246998008504542342149882E-4",
+   "expected16": "1.307402469980085E-4"
+  },
+  {
+   "id": "rand_112",
+   "expr": "99917+71389",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.71306E+5",
+   "expected16": "1.71306E+5"
+  },
+  {
+   "id": "rand_113",
+   "expr": "(83707/94355)+1354.143395/2251",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.4887237372193650071644274893E+0",
+   "expected16": "1.488723737219365E+0"
+  },
+  {
+   "id": "rand_114",
+   "expr": "8568.604562*69910",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.9903114492942E+8",
+   "expected16": "5.9903114492942E+8"
+  },
+  {
+   "id": "rand_115",
+   "expr": "69127-70894*9767.154145+42192",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-6.9232130695563E+8",
+   "expected16": "-6.9232130695563E+8"
+  },
+  {
+   "id": "rand_116",
+   "expr": "82131*6536.339397",
+   "angle": "deg",
+   "exact": true,
+   "expected": "5.36836091015007E+8",
+   "expected16": "5.36836091015007E+8"
+  },
+  {
+   "id": "rand_117",
+   "expr": "8506.651675+39828-55657",
+   "angle": "deg",
+   "exact": true,
+   "expected": "-7.322348325E+3",
+   "expected16": "-7.322348325E+3"
+  },
+  {
+   "id": "rand_118",
+   "expr": "(3002*62136)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "1.86532272E+8",
+   "expected16": "1.86532272E+8"
+  },
+  {
+   "id": "rand_119",
+   "expr": "2818.972519/(8770.193016+67598)",
+   "angle": "deg",
+   "exact": true,
+   "expected": "3.69129137101540870639368749628E-2",
+   "expected16": "3.691291371015409E-2"
+  }
+ ]
+}

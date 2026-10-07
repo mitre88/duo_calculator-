@@ -1,0 +1,186 @@
+{
+ "cases": [
+  {
+   "value": "1234567.891",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1,234,567.891"
+  },
+  {
+   "value": "1234567.891",
+   "profile": "regular",
+   "locale": "de_DE",
+   "grouping": true,
+   "expected": "1.234.567,891"
+  },
+  {
+   "value": "1234567.891",
+   "profile": "regular",
+   "locale": "es_MX",
+   "grouping": true,
+   "expected": "1,234,567.891"
+  },
+  {
+   "value": "1234567.891",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": false,
+   "expected": "1234567.891"
+  },
+  {
+   "value": "0.1",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "0.1"
+  },
+  {
+   "value": "-0.5",
+   "profile": "regular",
+   "locale": "de_DE",
+   "grouping": true,
+   "expected": "-0,5"
+  },
+  {
+   "value": "100",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "100"
+  },
+  {
+   "value": "1000",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1,000"
+  },
+  {
+   "value": "1234567890123456",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1,234,567,890,123,456"
+  },
+  {
+   "value": "12345678901234567",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1.234567890123457e16"
+  },
+  {
+   "value": "123456789012",
+   "profile": "compact",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "123,456,789,012"
+  },
+  {
+   "value": "1234567890123",
+   "profile": "compact",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1.23456789012e12"
+  },
+  {
+   "value": "0.000001",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "0.000001"
+  },
+  {
+   "value": "0.0000001",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1e-7"
+  },
+  {
+   "value": "0.00000012345",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1.2345e-7"
+  },
+  {
+   "value": "3.14159265358979323846",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "3.141592653589793"
+  },
+  {
+   "value": "3.14159265358979323846",
+   "profile": "compact",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "3.14159265359"
+  },
+  {
+   "value": "2.5",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "2.5"
+  },
+  {
+   "value": "0.99999999999999999",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1"
+  },
+  {
+   "value": "-0",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "0"
+  },
+  {
+   "value": "1e100",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1e100"
+  },
+  {
+   "value": "-1.5e-30",
+   "profile": "regular",
+   "locale": "de_DE",
+   "grouping": true,
+   "expected": "-1,5e-30"
+  },
+  {
+   "value": "7.257415615307994e306",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "7.257415615307994e306"
+  },
+  {
+   "value": "123.4500",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "123.45"
+  },
+  {
+   "value": "999999999999999.9",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "999,999,999,999,999.9"
+  },
+  {
+   "value": "9999999999999999.5",
+   "profile": "regular",
+   "locale": "en_US",
+   "grouping": true,
+   "expected": "1e16"
+  }
+ ]
+}
