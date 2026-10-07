@@ -1,6 +1,7 @@
 import Foundation
 import Testing
 import BigDecimal
+import BigInt
 @testable import CalcEngine
 
 extension CalcEngineTests {
@@ -92,6 +93,22 @@ extension CalcEngineTests {
             _ = try MathKernel.hyperbolic(.asinh, e300k)
             _ = try MathKernel.inverseTrig(.atan, e300k, angle: .radians)
             #expect(clock.now - start < PerfBudget.limit(.seconds(1)), "extreme-magnitude logs/inverses took \(clock.now - start)")
+        }
+
+        @Test func logBaseAndAtanhEdgeCases() throws {
+            let clock = ContinuousClock()
+            let start = clock.now
+            let tiny = CalcValue(approx: BigDecimal(1, -999_999))
+            #expect(Numeric.agree(try MathKernel.logBase(tiny, base: CalcValue(2)), "-3.32192477295926746050797155916996068647465552819318758747414E+6", digits: 55))
+            #expect(Numeric.agree(try MathKernel.logBase(CalcValue(8), base: CalcValue(approx: BigDecimal(1, -500_000))), "-1.80617997398388717128243336834695816060913928877265124786256E-6", digits: 55))
+            #expect(try MathKernel.logBase(CalcValue(1_000_000), base: CalcValue(10)) == CalcValue(6))
+            #expect(clock.now - start < PerfBudget.limit(.seconds(1)))
+            // An exact fraction just below 1 rounds to 1.000… at 60 digits: atanh must report the domain error
+            // instead of tripping BigDecimal's precondition.
+            let almostOne = CalcValue(exact: BFraction(BInt(1) << 1000 - 1, BInt(1) << 1000))
+            #expect(throws: CalcError.self) { try MathKernel.hyperbolic(.atanh, almostOne) }
+            #expect(throws: CalcError.self) { try MathKernel.hyperbolic(.atanh, almostOne.negated) }
+            #expect(try MathKernel.hyperbolic(.acosh, CalcValue(exact: BFraction(BInt(1) << 1000 + 1, BInt(1) << 1000))) == .zero)
         }
 
         @Test func programmerEntryRespectsTheWordSize() {

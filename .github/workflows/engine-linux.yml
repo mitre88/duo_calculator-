@@ -15,7 +15,7 @@ jobs:
     name: swift test (swift:6.2-noble)
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
-    timeout-minutes: 40   # a hang in a soak test must not hold a runner for hours
+    timeout-minutes: 25   # a hang in a soak test must not hold a runner for hours
     steps:
       - uses: actions/checkout@v4
       - name: Cache SwiftPM

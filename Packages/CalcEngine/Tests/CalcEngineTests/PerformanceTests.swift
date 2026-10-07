@@ -219,7 +219,7 @@ extension CalcEngineTests {
             #expect(perValue < PerfBudget.limit(.microseconds(40)), "formatting too slow: \(LatencyStats.ms(perValue))")
         }
 
-        @Test(.timeLimit(.minutes(10))) func memoryStaysBoundedOverALongSession() throws {
+        @Test(.timeLimit(.minutes(4))) func memoryStaysBoundedOverALongSession() throws {
             var rng = SplitMix64(state: 0xD1CE_F00D)
             var engine = CalculatorEngine(random: SeededRandomSource(seed: 3))
             let formatter = DisplayFormatter.regularUS
@@ -247,7 +247,7 @@ extension CalcEngineTests {
             #expect(payload < 64 * 1024, "persisted state is \(payload) bytes")
         }
 
-        @Test(.timeLimit(.minutes(10)), arguments: [UInt64(1), 2, 3, 4, 5])
+        @Test(.timeLimit(.minutes(4)), arguments: [UInt64(1), 2, 3, 4, 5])
         func randomSessionsNeverCrashOrStall(seed: UInt64) {
             var rng = SplitMix64(state: seed &* 0x2545_F491_4F6C_DD1D)
             var engine = CalculatorEngine(random: SeededRandomSource(seed: seed))
@@ -257,6 +257,10 @@ extension CalcEngineTests {
             var snapshots = 0
             for step in 0..<PerfBudget.fuzzEvents {
                 let event = FuzzEvents.event(&rng)
+                if !PerfBudget.isDebugBuild {
+                    // Streams to stderr so a stall leaves the offending key and document in the CI log.
+                    Report.line("[fuzz-trace] seed \(seed) step \(step) \(engine.phase) tokens=\(engine.document.tokens.count) ← \(event)")
+                }
                 let start = clock.now
                 engine.send(event)
                 if step % 5 == 0 {
