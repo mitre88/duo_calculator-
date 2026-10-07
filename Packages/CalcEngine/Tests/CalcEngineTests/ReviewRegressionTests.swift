@@ -5,6 +5,8 @@ import BigDecimal
 
 extension CalcEngineTests {
     /// Regressions found by the quality review; every test reproduces a bug that was fixed.
+    /// Timing assertions use `PerfBudget.limit` (release budget ×25 in debug): they guard against
+    /// algorithmic blow-ups (minutes), not against the slowness of an unoptimised BigDecimal.
     @Suite struct ReviewRegressionTests {
         @Test func approxZeroBehavesLikeTheExactZero() throws {
             let settled = try MathKernel.settle(BigDecimal.zero)
@@ -50,7 +52,7 @@ extension CalcEngineTests {
             #expect(Numeric.agree(try MathKernel.hyperbolic(.sinh, CalcValue(-25)), "-3.60024496686929362620737317611305969473144360248245959396555E+10", digits: 55))
             #expect(Numeric.agree(try MathKernel.hyperbolic(.tanh, CalcValue(20)),
                                   "0.99999999999999999150329148941682204543855819119098725713047456", digits: 55))
-            #expect(clock.now - start < .seconds(5), "large hyperbolic arguments took \(clock.now - start)")
+            #expect(clock.now - start < PerfBudget.limit(.seconds(1)), "large hyperbolic arguments took \(clock.now - start)")
         }
 
         @Test func hugeExponentsNeverAlignOrExpandExactly() throws {
@@ -69,7 +71,7 @@ extension CalcEngineTests {
             #expect(!powered.isExact && Numeric.agree(powered, "1E+900000", digits: 55))
             #expect(throws: CalcError.self) { try MathKernel.power(tenTo300, CalcValue(4000)) }   // overflow
             #expect(Numeric.agree(try MathKernel.root(CalcValue(approx: BigDecimal(1, 1000)), CalcValue(200)), "1E+5", digits: 55))
-            #expect(clock.now - start < .seconds(3), "pathological inputs took \(clock.now - start)")
+            #expect(clock.now - start < PerfBudget.limit(.seconds(1)), "pathological inputs took \(clock.now - start)")
         }
 
         @Test func logsAndInverseFunctionsOfExtremeMagnitudesAreCheap() throws {
@@ -89,7 +91,7 @@ extension CalcEngineTests {
             let e300k = CalcValue(approx: BigDecimal(1, 300_000))
             _ = try MathKernel.hyperbolic(.asinh, e300k)
             _ = try MathKernel.inverseTrig(.atan, e300k, angle: .radians)
-            #expect(clock.now - start < .seconds(3), "extreme-magnitude logs/inverses took \(clock.now - start)")
+            #expect(clock.now - start < PerfBudget.limit(.seconds(1)), "extreme-magnitude logs/inverses took \(clock.now - start)")
         }
 
         @Test func programmerEntryRespectsTheWordSize() {
