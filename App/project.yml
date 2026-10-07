@@ -96,7 +96,10 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mitre88.duocalculator.tests
-        SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+        GENERATE_INFOPLIST_FILE: YES
+        # Tests stay nonisolated by default (XCTestCase's overrides are nonisolated); suites that touch the
+        # MainActor-isolated app types opt in with an explicit @MainActor.
+        SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
         SWIFT_APPROACHABLE_CONCURRENCY: YES
 
 schemes:

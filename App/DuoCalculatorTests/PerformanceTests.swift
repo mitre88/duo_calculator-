@@ -5,6 +5,7 @@ import CalcEngine
 /// Metrics-based performance tests for the app layer (run in Xcode with ⌘U or `xcodebuild test`).
 /// XCTest records a baseline per device the first time; afterwards a regression above the tolerance
 /// fails the test. The engine's own latency / memory suite lives in the CalcEngine package.
+@MainActor
 final class AppPerformanceTests: XCTestCase {
     private var poses: [LayoutInput] {
         [LayoutResolverTests.outerPortrait, LayoutResolverTests.outerLandscape,

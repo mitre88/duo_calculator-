@@ -35,7 +35,8 @@ extension HingeState {
         case .closed: status = .closed
         case .partiallyOpen: status = .partiallyOpen
         case .fullyOpen: status = .fullyOpen
-        @unknown default: status = .unknown
+        // `DeviceHinge.Status` is a struct of static constants, not an enum: a plain default covers new values.
+        default: status = .unknown
         }
         self.init(angle: hinge.angle.degrees, status: status)
     }

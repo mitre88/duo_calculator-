@@ -31,9 +31,4 @@ enum Typography {
     static func indicator() -> Font {
         .system(size: 13, weight: .semibold, design: .rounded)
     }
-
-    /// Primary font size that fits the display box.
-    static func primarySize(displayHeight: CGFloat, compact: Bool) -> CGFloat {
-        min(compact ? 76 : 96, max(40, displayHeight * 0.40))
-    }
 }
