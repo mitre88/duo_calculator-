@@ -21,15 +21,17 @@ extension BigDecimal {
     /// Creates a BigDecimal for the integer _n_ where the
     /// integer can be any type conforming to the _BinaryInteger_ protocols.
     public init<T:BinaryInteger>(_ int: T) {
-        var x = Self.zero, m = Self.one
-        var n = BInt(int.magnitude), r = BInt.zero
-        let base = 1_000_000_000, rd = Self(base), id = BInt(base)
-        while n != 0 {
-            (n, r) = n.quotientAndRemainder(dividingBy: id)
-            if r != 0 { x = x.addingProduct(m, Self(r)) }
-            m *= rd
+        // Vendored patch (DuoCalculator): the upstream implementation
+        // accumulated the digits with `addingProduct`, which rounds to
+        // `Rounding.decimal128` (34 digits). Every integer wider than that,
+        // e.g. the factorial denominators used by the Taylor-series
+        // calculators, was silently truncated regardless of the requested
+        // precision. Converting through `BInt` is exact.
+        if let big = int as? BInt {
+            self.init(big, 0)
+        } else {
+            self.init(BInt(int), 0)
         }
-        self = int.signum() < 0 ? -x : x
     }
     
     public func asInt<I:FixedWidthInteger>() -> I? {
