@@ -31,8 +31,8 @@ jobs:
       - name: Performance & memory report (release build)
         shell: bash   # GitHub's bash shell runs with `-eo pipefail`, so a failing test is not hidden by `tee`
         run: |
-          swift test -c release --package-path Packages/CalcEngine \
-            --filter 'PerformanceTests|PerformanceGuardTests' 2>&1 | tee perf.log
+          stdbuf -oL -eL swift test -c release --package-path Packages/CalcEngine \
+            --filter 'PerformanceTests|PerformanceGuardTests|ReviewRegressionTests' 2>&1 | tee perf.log
       - name: Publish report to the job summary
         if: always()
         run: |

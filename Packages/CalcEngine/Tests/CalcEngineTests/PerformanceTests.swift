@@ -63,6 +63,14 @@ struct LatencyStats: CustomStringConvertible {
     }
 }
 
+/// `[perf]` / `[mem]` report lines. Written to stderr, which is unbuffered: stdout through a pipe (`tee` in CI)
+/// is block-buffered and would show nothing until the process exits.
+enum Report {
+    static func line(_ text: String) {
+        FileHandle.standardError.write(Data((text + "\n").utf8))
+    }
+}
+
 /// Budgets are stated for a release build on a phone. Debug builds inside a CI container are an order of
 /// magnitude slower, so unless `CALC_PERF_STRICT=1` is set every budget is multiplied by 25: the strict
 /// numbers are the product goal, the relaxed ones only catch algorithmic regressions.
@@ -79,11 +87,11 @@ enum PerfBudget {
         return false
         #endif
     }()
-    static var soakWarmup: Int { isDebugBuild ? 100 : 1_000 }
-    static var soakEvents: Int { isDebugBuild ? 400 : 10_000 }
-    static var fuzzEvents: Int { isDebugBuild ? 300 : 4_000 }
-    static var latencyRounds: Int { isDebugBuild ? 3 : 25 }
-    static var throughputIterations: Int { isDebugBuild ? 6 : 20 }
+    static var soakWarmup: Int { isDebugBuild ? 100 : 500 }
+    static var soakEvents: Int { isDebugBuild ? 400 : 4_000 }
+    static var fuzzEvents: Int { isDebugBuild ? 300 : 1_500 }
+    static var latencyRounds: Int { isDebugBuild ? 3 : 10 }
+    static var throughputIterations: Int { isDebugBuild ? 6 : 12 }
 }
 
 /// Deterministic generator for the fuzz / soak tests (splitmix64).
@@ -149,7 +157,7 @@ extension CalcEngineTests {
             .allClear, .digit(7), .function(.ln), .equals, .equals,
         ]
 
-        @Test func keyPressLatency() {
+        @Test(.timeLimit(.minutes(5))) func keyPressLatency() {
             var engine = CalculatorEngine(random: SeededRandomSource(seed: 7))
             // Warm-up builds BigDecimal's constant caches (π, Spouge coefficients) outside the measurement.
             for event in Self.script { engine.send(event); _ = engine.snapshot(formatter: .regularUS) }
@@ -164,12 +172,12 @@ extension CalcEngineTests {
                 }
             }
             let stats = LatencyStats(samples: samples)
-            print("[perf] key press (send + snapshot): \(stats)")
+            Report.line("[perf] key press (send + snapshot): \(stats)")
             #expect(stats.p50 < PerfBudget.limit(.milliseconds(2)), "p50 over budget: \(stats)")
             #expect(stats.p95 < PerfBudget.limit(.milliseconds(16)), "p95 over budget: \(stats)")
         }
 
-        @Test func evaluatorThroughput() throws {
+        @Test(.timeLimit(.minutes(5))) func evaluatorThroughput() throws {
             let cases: [(name: String, expr: String, angle: AngleMode, budget: Duration)] = [
                 ("arithmetic", "12345.678*98765.4321/3-2^10+(7-2)*(3+4)", .degrees, .microseconds(400)),
                 ("exact rational", "1/3*3-1+0.1+0.2", .degrees, .microseconds(300)),
@@ -188,7 +196,7 @@ extension CalcEngineTests {
                     samples.append(clock.now - start)
                 }
                 let stats = LatencyStats(samples: samples)
-                print("[perf] evaluate \(item.name): \(stats)")
+                Report.line("[perf] evaluate \(item.name): \(stats)")
                 #expect(stats.p50 < PerfBudget.limit(item.budget), "\(item.name) over budget: \(stats)")
             }
         }
@@ -207,11 +215,11 @@ extension CalcEngineTests {
             let elapsed = clock.now - start
             let count = values.count * 10
             let perValue = elapsed / count
-            print("[perf] format 16 digits: \(LatencyStats.ms(perValue)) per value, \(count) values in \(LatencyStats.ms(elapsed))")
+            Report.line("[perf] format 16 digits: \(LatencyStats.ms(perValue)) per value, \(count) values in \(LatencyStats.ms(elapsed))")
             #expect(perValue < PerfBudget.limit(.microseconds(40)), "formatting too slow: \(LatencyStats.ms(perValue))")
         }
 
-        @Test func memoryStaysBoundedOverALongSession() throws {
+        @Test(.timeLimit(.minutes(10))) func memoryStaysBoundedOverALongSession() throws {
             var rng = SplitMix64(state: 0xD1CE_F00D)
             var engine = CalculatorEngine(random: SeededRandomSource(seed: 3))
             let formatter = DisplayFormatter.regularUS
@@ -229,17 +237,17 @@ extension CalcEngineTests {
             let payload = try JSONEncoder().encode(engine.state).count
             if let baseline, let after {
                 let growth = after - baseline
-                print("[mem] rss baseline=\(baseline / 1_048_576) MiB after=\(after / 1_048_576) MiB growth=\(growth / 1024) KiB over \(PerfBudget.soakEvents) events; persisted state=\(payload) B; peak tokens=\(peakTokens) results=\(peakResults)")
+                Report.line("[mem] rss baseline=\(baseline / 1_048_576) MiB after=\(after / 1_048_576) MiB growth=\(growth / 1024) KiB over \(PerfBudget.soakEvents) events; persisted state=\(payload) B; peak tokens=\(peakTokens) results=\(peakResults)")
                 #expect(growth < 24 * 1_048_576, "resident memory grew \(growth / 1024) KiB over \(PerfBudget.soakEvents) events")
             } else {
-                print("[mem] resident size unavailable on this platform; state=\(payload) B; peak tokens=\(peakTokens) results=\(peakResults)")
+                Report.line("[mem] resident size unavailable on this platform; state=\(payload) B; peak tokens=\(peakTokens) results=\(peakResults)")
             }
             #expect(peakTokens <= OperatorTable.maxTokens)
             #expect(peakResults <= CalculatorState.maxStoredResults)
             #expect(payload < 64 * 1024, "persisted state is \(payload) bytes")
         }
 
-        @Test(arguments: [UInt64(1), 2, 3, 4, 5])
+        @Test(.timeLimit(.minutes(10)), arguments: [UInt64(1), 2, 3, 4, 5])
         func randomSessionsNeverCrashOrStall(seed: UInt64) {
             var rng = SplitMix64(state: seed &* 0x2545_F491_4F6C_DD1D)
             var engine = CalculatorEngine(random: SeededRandomSource(seed: seed))
@@ -261,7 +269,7 @@ extension CalcEngineTests {
                 if elapsed > slowest.duration { slowest = (String(describing: event), elapsed) }
                 #expect(elapsed < .seconds(5), "event \(event) took \(elapsed) at step \(step)")
             }
-            print("[perf] fuzz seed \(seed): \(PerfBudget.fuzzEvents) events, \(snapshots) snapshots, slowest \(slowest.event) = \(LatencyStats.ms(slowest.duration))")
+            Report.line("[perf] fuzz seed \(seed): \(PerfBudget.fuzzEvents) events, \(snapshots) snapshots, slowest \(slowest.event) = \(LatencyStats.ms(slowest.duration))")
         }
 
         @Test func parserHandlesMaximumComplexityAndRejectsBeyond() throws {

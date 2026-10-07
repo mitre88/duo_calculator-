@@ -53,8 +53,8 @@ GitHub Actions las recoge como informe. En la Mac: `swift test -c release --pack
 | `keyPressLatency` | `send` + `snapshot` por tecla en un guion de 42 teclas realistas (funciones, `%`, memoria, `=` repetido, error) | p50 < 2 ms · p95 < 16 ms |
 | `evaluatorThroughput` | evaluación completa por familia: aritmética, racional exacta, trig en grados y radianes, hiperbólicas, potencias y raíces | 0.3–12 ms p50 según familia |
 | `formatterThroughput` | formateo a 16 dígitos con agrupación es‑MX | < 40 µs por valor |
-| `memoryStaysBoundedOverALongSession` | RSS antes y después de 10 000 teclas aleatorias (tras 1 000 de calentamiento; 400 en debug); tamaño del estado persistido; picos de tokens y resultados | crecimiento < 24 MiB · estado < 64 KB · tokens ≤ 512 · resultados ≤ 50 |
-| `randomSessionsNeverCrashOrStall` | 5 semillas × 4 000 eventos de todo el alfabeto de teclas (300 en debug), incluidos dominios inválidos, paréntesis, cursor y memoria | ningún crash · ningún evento > 5 s |
+| `memoryStaysBoundedOverALongSession` | RSS antes y después de 4 000 teclas aleatorias (tras 500 de calentamiento; 400 en debug); tamaño del estado persistido; picos de tokens y resultados | crecimiento < 24 MiB · estado < 64 KB · tokens ≤ 512 · resultados ≤ 50 |
+| `randomSessionsNeverCrashOrStall` | 5 semillas × 1 500 eventos de todo el alfabeto de teclas (300 en debug), incluidos dominios inválidos, paréntesis, cursor y memoria | ningún crash · ningún evento > 5 s · límite de 10 min por test |
 | `parserHandlesMaximumComplexityAndRejectsBeyond` | 511 tokens y 60 paréntesis anidados se evalúan; 513 tokens y 80 niveles devuelven `tooComplex` | sin crash |
 | `PerformanceGuardTests` | `99999^99999`, `20000!`, `sin(1e30)`, `100.25!`, `exp(2e6)`, `2^4097`, `1.0000001^1e7` | < 3 s cada uno |
 
