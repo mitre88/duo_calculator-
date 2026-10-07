@@ -69,6 +69,19 @@ struct LatencyStats: CustomStringConvertible {
 enum PerfBudget {
     static let strict = ProcessInfo.processInfo.environment["CALC_PERF_STRICT"] == "1"
     static func limit(_ release: Duration) -> Duration { strict ? release : release * 25 }
+
+    /// Debug builds run a short smoke version of the soak tests (BigDecimal is ~50× slower unoptimised);
+    /// the release step in CI and `swift test -c release` run the full counts.
+    static let isDebugBuild: Bool = {
+        #if DEBUG
+        return true
+        #else
+        return false
+        #endif
+    }()
+    static var soakWarmup: Int { isDebugBuild ? 300 : 2_000 }
+    static var soakEvents: Int { isDebugBuild ? 1_500 : 20_000 }
+    static var fuzzEvents: Int { isDebugBuild ? 1_000 : 10_000 }
 }
 
 /// Deterministic generator for the fuzz / soak tests (splitmix64).
@@ -201,10 +214,10 @@ extension CalcEngineTests {
             var engine = CalculatorEngine(random: SeededRandomSource(seed: 3))
             let formatter = DisplayFormatter.regularUS
             // Warm-up: caches that legitimately grow once (π at each precision, gamma constants) fill up here.
-            for _ in 0..<2_000 { engine.send(FuzzEvents.event(&rng)); _ = engine.snapshot(formatter: formatter) }
+            for _ in 0..<PerfBudget.soakWarmup { engine.send(FuzzEvents.event(&rng)); _ = engine.snapshot(formatter: formatter) }
             let baseline = ProcessMemory.residentBytes()
             var peakTokens = 0, peakResults = 0
-            for _ in 0..<20_000 {
+            for _ in 0..<PerfBudget.soakEvents {
                 engine.send(FuzzEvents.event(&rng))
                 _ = engine.snapshot(formatter: formatter)
                 peakTokens = max(peakTokens, engine.document.tokens.count)
@@ -214,8 +227,8 @@ extension CalcEngineTests {
             let payload = try JSONEncoder().encode(engine.state).count
             if let baseline, let after {
                 let growth = after - baseline
-                print("[mem] rss baseline=\(baseline / 1_048_576) MiB after=\(after / 1_048_576) MiB growth=\(growth / 1024) KiB over 20k events; persisted state=\(payload) B; peak tokens=\(peakTokens) results=\(peakResults)")
-                #expect(growth < 24 * 1_048_576, "resident memory grew \(growth / 1024) KiB over 20k events")
+                print("[mem] rss baseline=\(baseline / 1_048_576) MiB after=\(after / 1_048_576) MiB growth=\(growth / 1024) KiB over \(PerfBudget.soakEvents) events; persisted state=\(payload) B; peak tokens=\(peakTokens) results=\(peakResults)")
+                #expect(growth < 24 * 1_048_576, "resident memory grew \(growth / 1024) KiB over \(PerfBudget.soakEvents) events")
             } else {
                 print("[mem] resident size unavailable on this platform; state=\(payload) B; peak tokens=\(peakTokens) results=\(peakResults)")
             }
@@ -232,7 +245,7 @@ extension CalcEngineTests {
             let clock = ContinuousClock()
             var slowest: (event: String, duration: Duration) = ("", .zero)
             var snapshots = 0
-            for step in 0..<10_000 {
+            for step in 0..<PerfBudget.fuzzEvents {
                 let event = FuzzEvents.event(&rng)
                 let start = clock.now
                 engine.send(event)
@@ -246,7 +259,7 @@ extension CalcEngineTests {
                 if elapsed > slowest.duration { slowest = (String(describing: event), elapsed) }
                 #expect(elapsed < .seconds(5), "event \(event) took \(elapsed) at step \(step)")
             }
-            print("[perf] fuzz seed \(seed): 10k events, \(snapshots) snapshots, slowest \(slowest.event) = \(LatencyStats.ms(slowest.duration))")
+            print("[perf] fuzz seed \(seed): \(PerfBudget.fuzzEvents) events, \(snapshots) snapshots, slowest \(slowest.event) = \(LatencyStats.ms(slowest.duration))")
         }
 
         @Test func parserHandlesMaximumComplexityAndRejectsBeyond() throws {

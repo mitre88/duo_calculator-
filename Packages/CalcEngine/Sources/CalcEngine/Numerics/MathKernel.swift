@@ -394,7 +394,27 @@ public enum MathKernel {
             let estimate = xm.abs.asDouble() / log(10.0)
             if estimate > overflowLimit { throw CalcError.overflow }
         }
+        if fn == .tanh, xm.abs >= BigDecimal(CalcPrecision.tanhSaturationArgument) {
+            // 1 − tanh|x| < 2e^(−2|x|) < 10^−60 here: ±1 at working precision.
+            return CalcValue(approx: xm.isNegative ? -BigDecimal.one : BigDecimal.one)
+        }
         let g = guardRounding()
+        if fn == .sinh || fn == .cosh || fn == .tanh, xm.abs >= BigDecimal(CalcPrecision.hyperbolicSeriesLimit) {
+            // BigDecimal's sinh/cosh are Taylor series whose term count grows with |x| (sinh(2·10^6) would
+            // never finish); its exp splits integral and fractional parts and is fast for any argument.
+            let magnitude = xm.abs
+            let e = BigDecimal.exp(magnitude, g)
+            let inverse = BigDecimal.one.divide(e, g)
+            let two = BigDecimal(2)
+            let r: BigDecimal
+            switch fn {
+            case .sinh: r = (e - inverse).divide(two, g)
+            case .cosh: r = (e + inverse).divide(two, g)
+            default:    r = (e - inverse).divide(e + inverse, g)   // tanh = sinh / cosh
+            }
+            let signed = (fn != .cosh && xm.isNegative) ? -r : r
+            return try settle(signed.round(working))
+        }
         let r: BigDecimal
         switch fn {
         case .sinh: r = BigDecimal.sinh(xm, g)

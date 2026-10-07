@@ -40,6 +40,10 @@ public enum CalcPrecision {
     public static let maxTrigArgumentExponent = 300
     /// Beyond 10^±300 BigDecimal's Newton seeds (`Double`) under/overflow; use exp(log) instead.
     public static let maxDoubleSeedExponent = 300
+    /// |x| ≥ 70 → tanh x = ±1 at 60 digits (1 − tanh 70 ≈ 3·10^−61); avoids evaluating e^x for huge x.
+    public static let tanhSaturationArgument = 70
+    /// From |x| ≥ 20 the hyperbolic functions are evaluated through exp instead of BigDecimal's Taylor series.
+    public static let hyperbolicSeriesLimit = 20
 
     /// Rounding context for the working precision (`Rounding` is not `Sendable`, so it is built on demand).
     public static var workingRounding: Rounding { Rounding(.toNearestOrEven, working) }

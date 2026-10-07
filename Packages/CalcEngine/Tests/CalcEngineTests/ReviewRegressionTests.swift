@@ -37,6 +37,22 @@ extension CalcEngineTests {
             #expect(throws: CalcError.self) { try MathKernel.trig(.sin, tooLarge, angle: .radians) }
         }
 
+        @Test func largeHyperbolicArgumentsAreFastAndAccurate() throws {
+            let clock = ContinuousClock()
+            let start = clock.now
+            let huge = try #require(CalcValue(literal: "1e300"))
+            #expect(try MathKernel.hyperbolic(.tanh, huge) == CalcValue(approx: BigDecimal.one))
+            #expect(try MathKernel.hyperbolic(.tanh, huge.negated) == CalcValue(approx: -BigDecimal.one))
+            #expect(throws: CalcError.self) { try MathKernel.hyperbolic(.sinh, huge) }   // overflow, not a hang
+            let x = CalcValue(100_000)
+            #expect(Numeric.agree(try MathKernel.hyperbolic(.sinh, x), "1.40333168021306158965919290928587135426818313528294327269372E+43429", digits: 55))
+            #expect(Numeric.agree(try MathKernel.hyperbolic(.cosh, x), "1.40333168021306158965919290928587135426818313528294327269372E+43429", digits: 55))
+            #expect(Numeric.agree(try MathKernel.hyperbolic(.sinh, CalcValue(-25)), "-3.60024496686929362620737317611305969473144360248245959396555E+10", digits: 55))
+            #expect(Numeric.agree(try MathKernel.hyperbolic(.tanh, CalcValue(20)),
+                                  "0.99999999999999999150329148941682204543855819119098725713047456", digits: 55))
+            #expect(clock.now - start < .seconds(5), "large hyperbolic arguments took \(clock.now - start)")
+        }
+
         @Test func programmerEntryRespectsTheWordSize() {
             var engine = ProgrammerEngine()
             engine.send(.setWidth(.eight))
