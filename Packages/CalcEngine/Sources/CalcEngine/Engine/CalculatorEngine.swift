@@ -467,8 +467,10 @@ public struct CalculatorEngine: Sendable {
             state.memory = .zero
         case .add:
             if let value = currentValue(), let sum = try? MathKernel.add(state.memory, value) { state.memory = sum }
+            if state.phase == .entering { state.phase = .operandComputed }
         case .subtract:
             if let value = currentValue(), let difference = try? MathKernel.subtract(state.memory, value) { state.memory = difference }
+            if state.phase == .entering { state.phase = .operandComputed }
         case .recall:
             if state.phase == .entering, let literal = state.document.tokenBeforeCursor?.numberLiteral, !literal.isComputed {
                 state.document.removeBeforeCursor()

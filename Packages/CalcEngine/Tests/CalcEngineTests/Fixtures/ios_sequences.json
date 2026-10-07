@@ -821,12 +821,37 @@
    "primary": "5"
   },
   {
-   "id": "neg_zero_avoided",
+   "id": "neg_zero_entry_echo",
    "keys": [
     "0",
     "neg"
    ],
+   "primary": "-0"
+  },
+  {
+   "id": "neg_zero_result_normalized",
+   "keys": [
+    "0",
+    "neg",
+    "eq"
+   ],
    "primary": "0"
+  },
+  {
+   "id": "neg_on_empty_ignored",
+   "keys": [
+    "neg"
+   ],
+   "primary": "0"
+  },
+  {
+   "id": "memory_add_ends_entry",
+   "keys": [
+    "5",
+    "mplus",
+    "2"
+   ],
+   "primary": "2"
   },
   {
    "id": "neg_on_entry",

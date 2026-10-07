@@ -37,6 +37,13 @@ public enum ExpressionTokenizer {
                 continue
             }
 
+            switch c {
+            case "π": tokens.append(.constant(.pi)); i += 1; continue
+            case "√": tokens.append(.function(.sqrt)); i += 1; continue
+            case "∛": tokens.append(.function(.cbrt)); i += 1; continue
+            default: break
+            }
+
             if c.isLetter {
                 var j = i
                 while j < n, chars[j].isLetter || chars[j].isNumber { j += 1 }

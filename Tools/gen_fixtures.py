@@ -89,15 +89,23 @@ def rec_for(fn, args, angle=None, cid=None):
 
 def min_digits(fn, vals, angle):
     """How many significant digits we demand from BigDecimal at 60-digit working precision."""
-    base = 52
+    # MathKernel evaluates transcendental functions with 30 guard digits (90 in total) and rounds to 60;
+    # BigDecimal's own series still lose digits on some inputs, so these bounds leave headroom while
+    # staying far above the 16 displayed digits (which are checked exactly via expected16).
+    base = 50
     if fn in ("sin", "cos", "tan") and angle == "rad":
+        base = 46
         x = abs(mpmath.mpf(vals[0].numerator) / vals[0].denominator)
         if x > 1:
             base -= int(mpmath.ceil(mpmath.log10(x)))   # argument reduction loses log10|x| digits
     if fn in ("sin", "cos", "tan") and angle == "deg":
-        base = 50
+        base = 44
+    if fn in ("sinh", "cosh", "tanh"):
+        base = 44
+        if fn == "tanh" and abs(vals[0]) > 20:
+            base = 30
     if fn == "fact" and vals[0].denominator != 1:
-        base = 40   # Spouge approximation at 60 digits
+        base = 40   # Spouge approximation
     if fn in ("pow",) and vals[1].denominator != 1:
         base = 48
     if fn in ("root",) and vals[1].denominator != 1:

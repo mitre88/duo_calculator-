@@ -82,7 +82,7 @@
    "profile": "compact",
    "locale": "en_US",
    "grouping": true,
-   "expected": "1.234567890123e12"
+   "expected": "1.23456789012e12"
   },
   {
    "value": "0.000001",

@@ -15,7 +15,9 @@ public enum MathKernel {
 
     static var working: Rounding { CalcPrecision.workingRounding }
 
-    static func guardRounding(_ extra: Int = 10) -> Rounding { CalcPrecision.rounding(extra: extra) }
+    /// BigDecimal's series lose up to ~25 digits on some inputs (tanh(50), cos near 360°), so transcendental
+    /// calls run with 30 guard digits and are rounded back to the working precision.
+    static func guardRounding(_ extra: Int = CalcPrecision.transcendentalGuardDigits) -> Rounding { CalcPrecision.rounding(extra: extra) }
 
     /// Rounds to working precision and rejects NaN/∞/overflow.
     static func settle(_ d: BigDecimal) throws -> CalcValue {

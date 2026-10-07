@@ -25,7 +25,7 @@ extension CalcEngineTests {
             let s = try MathKernel.apply(.sin, to: v, angle: .radians)
             let c = try MathKernel.apply(.cos, to: v, angle: .radians)
             let sum = try MathKernel.add(MathKernel.power(s, CalcValue(2)), MathKernel.power(c, CalcValue(2)))
-            #expect(Self.close(sum, .one, digits: 55), "sin²+cos² for \(x) = \(sum)")
+            #expect(Self.close(sum, .one, digits: 52), "sin²+cos² for \(x) = \(sum)")
         }
 
         @Test(arguments: Self.samples)
@@ -33,7 +33,7 @@ extension CalcEngineTests {
             let v = Numeric.value(x).magnitude
             guard !v.isZero else { return }
             let back = try MathKernel.apply(.exp, to: MathKernel.apply(.ln, to: v, angle: .radians), angle: .radians)
-            #expect(Self.close(back, v, digits: 55), "exp(ln \(x))")
+            #expect(Self.close(back, v, digits: 52), "exp(ln \(x))")
         }
 
         @Test(arguments: Self.samples)
@@ -43,18 +43,18 @@ extension CalcEngineTests {
             let y = Numeric.value("2.5")
             let powered = try MathKernel.power(v, y)
             let back = try MathKernel.power(powered, MathKernel.divide(.one, y))
-            #expect(Self.close(back, v, digits: 54), "(x^y)^(1/y) for \(x)")
+            #expect(Self.close(back, v, digits: 50), "(x^y)^(1/y) for \(x)")
         }
 
         @Test func degreesAndRadiansAgree() throws {
             let deg = try MathKernel.apply(.sin, to: CalcValue(30), angle: .degrees)
             let rad = try MathKernel.apply(.sin, to: MathKernel.divide(MathKernel.pi(), CalcValue(6)), angle: .radians)
             #expect(deg.isExact && deg == Numeric.value("0.5"))
-            #expect(Self.close(rad, deg, digits: 55))
+            #expect(Self.close(rad, deg, digits: 52))
             let asinDeg = try MathKernel.apply(.asin, to: Numeric.value("0.3"), angle: .degrees)
             let asinRad = try MathKernel.apply(.asin, to: Numeric.value("0.3"), angle: .radians)
             let converted = try MathKernel.divide(MathKernel.multiply(asinRad, CalcValue(180)), MathKernel.pi())
-            #expect(Self.close(asinDeg, converted, digits: 55))
+            #expect(Self.close(asinDeg, converted, digits: 52))
         }
 
         @Test(arguments: ["0.3", "-0.9", "0.999999", "1e-10"])

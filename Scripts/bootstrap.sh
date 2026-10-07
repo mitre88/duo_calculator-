@@ -13,7 +13,7 @@ xcodegen generate --spec App/project.yml --project App
 
 echo "▶ Building and testing CalcEngine (SwiftPM)"
 swift build --package-path Packages/CalcEngine
-swift test  --package-path Packages/CalcEngine --parallel
+swift test  --package-path Packages/CalcEngine
 
 cat <<MSG
 

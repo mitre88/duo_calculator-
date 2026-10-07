@@ -16,6 +16,8 @@ public enum CalcPrecision {
     public static let displayRegular = 16
     /// Significant digits shown on a compact-width display.
     public static let displayCompact = 12
+    /// Extra digits used *inside* transcendental evaluations before rounding back to `working`.
+    public static let transcendentalGuardDigits = 30
     /// `a ± b` snaps to exact zero when `|r| < 10^-(working - guard) · max(|a|, |b|)`.
     public static let cancellationGuardDigits = 5
     /// Transcendental results with `|r| < 10^zeroSnapExponent` snap to zero…

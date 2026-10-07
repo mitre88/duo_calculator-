@@ -128,6 +128,7 @@ public struct PrattParser {
             case .binary(let op):
                 let (leftBP, rightBP) = OperatorTable.binding(op)
                 if leftBP < minBindingPower { break loop }
+                let operatorIndex = position
                 position += 1
                 if atTrailingPosition {
                     switch options.trailingOperator {
@@ -137,8 +138,9 @@ public struct PrattParser {
                         if previewNode == nil { previewNode = lhs }
                         return lhs
                     case .duplicateLeftOperand:
-                        lhs = .binary(op, lhs, lhs)
-                        noteLastBinary(op, rhs: lhs, operatorIndex: position)
+                        let left = lhs
+                        lhs = .binary(op, left, left)
+                        noteLastBinary(op, rhs: left, operatorIndex: operatorIndex)
                     }
                 } else {
                     let hadCandidate = focusCandidate != nil
@@ -147,7 +149,7 @@ public struct PrattParser {
                     let left = lhs
                     lhs = .binary(op, left, rhs)
                     noteBinary(op, lhs: left, rhs: rhs, rhsWasFocus: rhsWasFocus)
-                    noteLastBinary(op, rhs: rhs, operatorIndex: position)
+                    noteLastBinary(op, rhs: rhs, operatorIndex: operatorIndex)
                 }
 
             case .number, .constant, .function, .namedBinary, .openParen:

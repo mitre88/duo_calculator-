@@ -39,7 +39,7 @@ docs/                  semántica normativa, arquitectura, rendimiento, checklis
 
 ### Motor (Linux, macOS)
 ```bash
-swift test --package-path Packages/CalcEngine --parallel
+swift test --package-path Packages/CalcEngine
 swift run --package-path Packages/CalcEngine calc "2^3^2"            # 512
 swift run --package-path Packages/CalcEngine calc --rad "sin(pi/2)"  # 1
 swift run --package-path Packages/CalcEngine calc --keys "2,0,0,add,1,0,pct,eq"   # 220

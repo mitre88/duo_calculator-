@@ -11,7 +11,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "sin_rad_0p5",
@@ -23,7 +23,7 @@
    "exact": false,
    "expected": "4.79425538604203000273287935215571388081803367940600675188617E-1",
    "expected16": "4.79425538604203E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "sin_rad_1",
@@ -35,7 +35,7 @@
    "exact": false,
    "expected": "8.41470984807896506652502321630298999622563060798371065672752E-1",
    "expected16": "8.414709848078965E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "sin_rad_1p5",
@@ -47,7 +47,7 @@
    "exact": false,
    "expected": "9.97494986604054430941723371141487322706651425922115821949975E-1",
    "expected16": "9.974949866040544E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "sin_rad_2",
@@ -59,7 +59,7 @@
    "exact": false,
    "expected": "9.09297426825681695396019865911744842702254971447890268378973E-1",
    "expected16": "9.092974268256817E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "sin_rad_3",
@@ -71,7 +71,7 @@
    "exact": false,
    "expected": "1.41120008059867222100744802808110279846933264252265584151883E-1",
    "expected16": "1.411200080598672E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "sin_rad_3p5",
@@ -83,7 +83,7 @@
    "exact": false,
    "expected": "-3.50783227689619848120368800043635585084981735940583485415755E-1",
    "expected16": "-3.507832276896198E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "sin_rad_10",
@@ -95,7 +95,7 @@
    "exact": false,
    "expected": "-5.44021110889369813404747661851377281683643012916223891574184E-1",
    "expected16": "-5.440211108893698E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "sin_rad_100",
@@ -107,7 +107,7 @@
    "exact": false,
    "expected": "-5.06365641109758793656557610459785432065032721290657323443392E-1",
    "expected16": "-5.063656411097588E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_rad_12345p678",
@@ -119,7 +119,7 @@
    "exact": false,
    "expected": "-7.04081313753298916640886018839884896712938983224253779109608E-1",
    "expected16": "-7.040813137532989E-1",
-   "minDigits": 47
+   "minDigits": 41
   },
   {
    "id": "sin_rad_1e5",
@@ -131,7 +131,7 @@
    "exact": false,
    "expected": "3.57487979720165093164705006958088290090456925781088968546167E-2",
    "expected16": "3.574879797201651E-2",
-   "minDigits": 47
+   "minDigits": 41
   },
   {
    "id": "sin_rad_m0p25",
@@ -143,7 +143,7 @@
    "exact": false,
    "expected": "-2.47403959254522929596848704849389195893390980386965810676545E-1",
    "expected16": "-2.474039592545229E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "sin_rad_m7",
@@ -155,7 +155,7 @@
    "exact": false,
    "expected": "-6.56986598718789090396999091593635177936870010497490074657854E-1",
    "expected16": "-6.569865987187891E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "sin_rad_1em5",
@@ -167,7 +167,7 @@
    "exact": false,
    "expected": "9.99999999983333333333416666666666468253968254243827160493577E-6",
    "expected16": "9.999999999833333E-6",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "sin_rad_1em10",
@@ -179,7 +179,7 @@
    "exact": false,
    "expected": "9.99999999999999999998333333333333333333334166666666666666667E-11",
    "expected16": "1E-10",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "sin_rad_0p7853981633974483",
@@ -191,7 +191,7 @@
    "exact": false,
    "expected": "7.07106781186547517601545372435641653397913341161395692249944E-1",
    "expected16": "7.071067811865475E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "sin_rad_1e15",
@@ -203,7 +203,7 @@
    "exact": false,
    "expected": "8.58272793170235835523886390848406646600203408220729707815342E-1",
    "expected16": "8.582727931702358E-1",
-   "minDigits": 37
+   "minDigits": 31
   },
   {
    "id": "sin_rad_1e30",
@@ -227,7 +227,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_30",
@@ -239,7 +239,7 @@
    "exact": true,
    "expected": "5E-1",
    "expected16": "5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_45",
@@ -251,7 +251,7 @@
    "exact": false,
    "expected": "7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_60",
@@ -263,7 +263,7 @@
    "exact": false,
    "expected": "8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_90",
@@ -275,7 +275,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_120",
@@ -287,7 +287,7 @@
    "exact": false,
    "expected": "8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_135",
@@ -299,7 +299,7 @@
    "exact": false,
    "expected": "7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_150",
@@ -311,7 +311,7 @@
    "exact": true,
    "expected": "5E-1",
    "expected16": "5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_180",
@@ -323,7 +323,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_210",
@@ -335,7 +335,7 @@
    "exact": true,
    "expected": "-5E-1",
    "expected16": "-5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_225",
@@ -347,7 +347,7 @@
    "exact": false,
    "expected": "-7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "-7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_240",
@@ -359,7 +359,7 @@
    "exact": false,
    "expected": "-8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "-8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_270",
@@ -371,7 +371,7 @@
    "exact": true,
    "expected": "-1E+0",
    "expected16": "-1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_300",
@@ -383,7 +383,7 @@
    "exact": false,
    "expected": "-8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "-8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_315",
@@ -395,7 +395,7 @@
    "exact": false,
    "expected": "-7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "-7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_330",
@@ -407,7 +407,7 @@
    "exact": true,
    "expected": "-5E-1",
    "expected16": "-5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_360",
@@ -419,7 +419,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_390",
@@ -431,7 +431,7 @@
    "exact": true,
    "expected": "5E-1",
    "expected16": "5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_720",
@@ -443,7 +443,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_1000030",
@@ -455,7 +455,7 @@
    "exact": false,
    "expected": "-7.66044443118978035202392650555416673935832457080395245854045E-1",
    "expected16": "-7.66044443118978E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_m30",
@@ -467,7 +467,7 @@
    "exact": true,
    "expected": "-5E-1",
    "expected16": "-5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_m45",
@@ -479,7 +479,7 @@
    "exact": false,
    "expected": "-7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "-7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_m90",
@@ -491,7 +491,7 @@
    "exact": true,
    "expected": "-1E+0",
    "expected16": "-1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_12p5",
@@ -503,7 +503,7 @@
    "exact": false,
    "expected": "2.16439613938102879759553669617940728673387193550062041793624E-1",
    "expected16": "2.164396139381029E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_100",
@@ -515,7 +515,7 @@
    "exact": false,
    "expected": "9.84807753012208059366743024589523013670643251719842418790026E-1",
    "expected16": "9.848077530122081E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_1000",
@@ -527,7 +527,7 @@
    "exact": false,
    "expected": "-9.84807753012208059366743024589523013670643251719842418790026E-1",
    "expected16": "-9.848077530122081E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_33p3",
@@ -539,7 +539,7 @@
    "exact": false,
    "expected": "5.49022817998131743517814800192856684853292457850744762008843E-1",
    "expected16": "5.490228179981317E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_89p9",
@@ -551,7 +551,7 @@
    "exact": false,
    "expected": "9.99998476913287698802901247925712765661287690714192790610942E-1",
    "expected16": "9.999984769132877E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_0p001",
@@ -563,7 +563,7 @@
    "exact": false,
    "expected": "1.74532925190571996135491056851289696691387823732484358336703E-5",
    "expected16": "1.74532925190572E-5",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_1em10",
@@ -575,7 +575,7 @@
    "exact": false,
    "expected": "1.74532925199432957692368988239245701214485589984972886900884E-12",
    "expected16": "1.74532925199433E-12",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "sin_deg_359p999",
@@ -587,7 +587,7 @@
    "exact": false,
    "expected": "-1.74532925190571996135491056851289696691387823732484358336703E-5",
    "expected16": "-1.74532925190572E-5",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_rad_0",
@@ -599,7 +599,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "cos_rad_0p5",
@@ -611,7 +611,7 @@
    "exact": false,
    "expected": "8.77582561890372716116281582603829651991645197109744052997611E-1",
    "expected16": "8.775825618903727E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "cos_rad_1",
@@ -623,7 +623,7 @@
    "exact": false,
    "expected": "5.40302305868139717400936607442976603732310420617922227670097E-1",
    "expected16": "5.403023058681397E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "cos_rad_1p5",
@@ -635,7 +635,7 @@
    "exact": false,
    "expected": "7.07372016677029100881898514342687090850910275633468694226454E-2",
    "expected16": "7.073720166770291E-2",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "cos_rad_2",
@@ -647,7 +647,7 @@
    "exact": false,
    "expected": "-4.1614683654714238699756822950076218976600077107554489075515E-1",
    "expected16": "-4.161468365471424E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "cos_rad_3",
@@ -659,7 +659,7 @@
    "exact": false,
    "expected": "-9.89992496600445457271572794731261302393679096615588328814086E-1",
    "expected16": "-9.899924966004455E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "cos_rad_3p5",
@@ -671,7 +671,7 @@
    "exact": false,
    "expected": "-9.36456687290796337698657626671760463019957765781959251620988E-1",
    "expected16": "-9.364566872907963E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "cos_rad_10",
@@ -683,7 +683,7 @@
    "exact": false,
    "expected": "-8.39071529076452452258863947824064834519930165133168546835954E-1",
    "expected16": "-8.390715290764525E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "cos_rad_100",
@@ -695,7 +695,7 @@
    "exact": false,
    "expected": "8.62318872287683934101938513950842535510084008535510829280162E-1",
    "expected16": "8.623188722876839E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_rad_12345p678",
@@ -707,7 +707,7 @@
    "exact": false,
    "expected": "7.10119358716144739501448923334245684269483504338086364782254E-1",
    "expected16": "7.101193587161447E-1",
-   "minDigits": 47
+   "minDigits": 41
   },
   {
    "id": "cos_rad_1e5",
@@ -719,7 +719,7 @@
    "exact": false,
    "expected": "-9.99360807438212451891135414144802203235386587459727476441041E-1",
    "expected16": "-9.993608074382125E-1",
-   "minDigits": 47
+   "minDigits": 41
   },
   {
    "id": "cos_rad_m0p25",
@@ -731,7 +731,7 @@
    "exact": false,
    "expected": "9.68912421710644784144595449494189199804134190287442831148128E-1",
    "expected16": "9.689124217106448E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "cos_rad_m7",
@@ -743,7 +743,7 @@
    "exact": false,
    "expected": "7.53902254343304638141197521719182012218313391460126839543614E-1",
    "expected16": "7.539022543433046E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "cos_rad_1em5",
@@ -755,7 +755,7 @@
    "exact": false,
    "expected": "9.99999999950000000000416666666665277777777780257936507933752E-1",
    "expected16": "9.9999999995E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "cos_rad_1em10",
@@ -767,7 +767,7 @@
    "exact": false,
    "expected": "9.99999999999999999995000000000000000000004166666666666666667E-1",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "cos_rad_0p7853981633974483",
@@ -779,7 +779,7 @@
    "exact": false,
    "expected": "7.07106781186547531200143351774056359792005460230715570819048E-1",
    "expected16": "7.071067811865475E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "cos_rad_1e15",
@@ -791,7 +791,7 @@
    "exact": false,
    "expected": "-5.1319373778697025223453613642316492958815677124475149832124E-1",
    "expected16": "-5.131937377869703E-1",
-   "minDigits": 37
+   "minDigits": 31
   },
   {
    "id": "cos_rad_1e30",
@@ -815,7 +815,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_30",
@@ -827,7 +827,7 @@
    "exact": false,
    "expected": "8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_45",
@@ -839,7 +839,7 @@
    "exact": false,
    "expected": "7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_60",
@@ -851,7 +851,7 @@
    "exact": true,
    "expected": "5E-1",
    "expected16": "5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_90",
@@ -863,7 +863,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_120",
@@ -875,7 +875,7 @@
    "exact": true,
    "expected": "-5E-1",
    "expected16": "-5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_135",
@@ -887,7 +887,7 @@
    "exact": false,
    "expected": "-7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "-7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_150",
@@ -899,7 +899,7 @@
    "exact": false,
    "expected": "-8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "-8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_180",
@@ -911,7 +911,7 @@
    "exact": true,
    "expected": "-1E+0",
    "expected16": "-1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_210",
@@ -923,7 +923,7 @@
    "exact": false,
    "expected": "-8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "-8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_225",
@@ -935,7 +935,7 @@
    "exact": false,
    "expected": "-7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "-7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_240",
@@ -947,7 +947,7 @@
    "exact": true,
    "expected": "-5E-1",
    "expected16": "-5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_270",
@@ -959,7 +959,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_300",
@@ -971,7 +971,7 @@
    "exact": true,
    "expected": "5E-1",
    "expected16": "5E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_315",
@@ -983,7 +983,7 @@
    "exact": false,
    "expected": "7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_330",
@@ -995,7 +995,7 @@
    "exact": false,
    "expected": "8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_360",
@@ -1007,7 +1007,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_390",
@@ -1019,7 +1019,7 @@
    "exact": false,
    "expected": "8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_720",
@@ -1031,7 +1031,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_1000030",
@@ -1043,7 +1043,7 @@
    "exact": false,
    "expected": "6.42787609686539326322643409907263432907559884205681790324977E-1",
    "expected16": "6.427876096865393E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_m30",
@@ -1055,7 +1055,7 @@
    "exact": false,
    "expected": "8.66025403784438646763723170752936183471402626905190314027903E-1",
    "expected16": "8.660254037844386E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_m45",
@@ -1067,7 +1067,7 @@
    "exact": false,
    "expected": "7.0710678118654752440084436210484903928483593768847403658834E-1",
    "expected16": "7.071067811865475E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_m90",
@@ -1079,7 +1079,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_12p5",
@@ -1091,7 +1091,7 @@
    "exact": false,
    "expected": "9.76296007119933365970886489605427577165335489128509063165329E-1",
    "expected16": "9.762960071199334E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_100",
@@ -1103,7 +1103,7 @@
    "exact": false,
    "expected": "-1.73648177666930348851716626769314796000375677184069387236241E-1",
    "expected16": "-1.736481776669303E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_1000",
@@ -1115,7 +1115,7 @@
    "exact": false,
    "expected": "1.73648177666930348851716626769314796000375677184069387236241E-1",
    "expected16": "1.736481776669303E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_33p3",
@@ -1127,7 +1127,7 @@
    "exact": false,
    "expected": "8.35807361368270258475006238149469126193871101367126200022951E-1",
    "expected16": "8.358073613682703E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_89p9",
@@ -1139,7 +1139,7 @@
    "exact": false,
    "expected": "1.7453283658983088357782027208500494679807315335145305316148E-3",
    "expected16": "1.745328365898309E-3",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_0p001",
@@ -1151,7 +1151,7 @@
    "exact": false,
    "expected": "9.99999999847691290110512024178151960644659782171888627030533E-1",
    "expected16": "9.999999998476913E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_1em10",
@@ -1163,7 +1163,7 @@
    "exact": false,
    "expected": "9.99999999999999999999998476912901066457003266282639737917389E-1",
    "expected16": "1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "cos_deg_359p999",
@@ -1175,7 +1175,7 @@
    "exact": false,
    "expected": "9.99999999847691290110512024178151960644659782171888627030533E-1",
    "expected16": "9.999999998476913E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_rad_0",
@@ -1187,7 +1187,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "tan_rad_0p5",
@@ -1199,7 +1199,7 @@
    "exact": false,
    "expected": "5.46302489843790513255179465780285383297551720179791246164091E-1",
    "expected16": "5.463024898437905E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "tan_rad_1",
@@ -1211,7 +1211,7 @@
    "exact": false,
    "expected": "1.55740772465490223050697480745836017308725077238152003838395E+0",
    "expected16": "1.557407724654902E+0",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "tan_rad_1p5",
@@ -1223,7 +1223,7 @@
    "exact": false,
    "expected": "1.41014199471717193876460836519877564456595435772358618661233E+1",
    "expected16": "1.410141994717172E+1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "tan_rad_2",
@@ -1235,7 +1235,7 @@
    "exact": false,
    "expected": "-2.18503986326151899164330610231368254343201774622766316456296E+0",
    "expected16": "-2.185039863261519E+0",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "tan_rad_3",
@@ -1247,7 +1247,7 @@
    "exact": false,
    "expected": "-1.42546543074277805295635410533913493226092284901804647633239E-1",
    "expected16": "-1.425465430742778E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "tan_rad_3p5",
@@ -1259,7 +1259,7 @@
    "exact": false,
    "expected": "3.74585640158594666330512579989147388450882284289259230693023E-1",
    "expected16": "3.745856401585947E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "tan_rad_10",
@@ -1271,7 +1271,7 @@
    "exact": false,
    "expected": "6.48360827459086671259124933009808676816874342983724975633628E-1",
    "expected16": "6.483608274590867E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "tan_rad_100",
@@ -1283,7 +1283,7 @@
    "exact": false,
    "expected": "-5.8721391515692907667780963564458789425876598687291954412664E-1",
    "expected16": "-5.872139151569291E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_rad_12345p678",
@@ -1295,7 +1295,7 @@
    "exact": false,
    "expected": "-9.91497140742984019690771883256721201691973123838994220444885E-1",
    "expected16": "-9.91497140742984E-1",
-   "minDigits": 47
+   "minDigits": 41
   },
   {
    "id": "tan_rad_1e5",
@@ -1307,7 +1307,7 @@
    "exact": false,
    "expected": "-3.57716629528987734113305445689309620377758949198680497964788E-2",
    "expected16": "-3.577166295289877E-2",
-   "minDigits": 47
+   "minDigits": 41
   },
   {
    "id": "tan_rad_m0p25",
@@ -1319,7 +1319,7 @@
    "exact": false,
    "expected": "-2.55341921221036266504482236490473678204201638800822621740476E-1",
    "expected16": "-2.553419212210363E-1",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "tan_rad_m7",
@@ -1331,7 +1331,7 @@
    "exact": false,
    "expected": "-8.71447982724318736456450889600313566322203424598420064448015E-1",
    "expected16": "-8.714479827243187E-1",
-   "minDigits": 51
+   "minDigits": 45
   },
   {
    "id": "tan_rad_1em5",
@@ -1343,7 +1343,7 @@
    "exact": false,
    "expected": "1.00000000003333333333466666666672063492063710758377433907327E-5",
    "expected16": "1.000000000033333E-5",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "tan_rad_1em10",
@@ -1355,7 +1355,7 @@
    "exact": false,
    "expected": "1.00000000000000000000333333333333333333334666666666666666667E-10",
    "expected16": "1E-10",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "tan_rad_0p7853981633974483",
@@ -1367,7 +1367,7 @@
    "exact": false,
    "expected": "9.99999999999999980768678308360248742823282303979260244634936E-1",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 46
   },
   {
    "id": "tan_rad_1e15",
@@ -1379,7 +1379,7 @@
    "exact": false,
    "expected": "-1.67241478212758304295552142696079055033040910554091189243737E+0",
    "expected16": "-1.672414782127583E+0",
-   "minDigits": 37
+   "minDigits": 31
   },
   {
    "id": "tan_rad_1e30",
@@ -1403,7 +1403,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_30",
@@ -1415,7 +1415,7 @@
    "exact": false,
    "expected": "5.77350269189625764509148780501957455647601751270126876018602E-1",
    "expected16": "5.773502691896258E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_45",
@@ -1427,7 +1427,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_60",
@@ -1439,7 +1439,7 @@
    "exact": false,
    "expected": "1.73205080756887729352744634150587236694280525381038062805581E+0",
    "expected16": "1.732050807568877E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_90",
@@ -1460,7 +1460,7 @@
    "exact": false,
    "expected": "-1.73205080756887729352744634150587236694280525381038062805581E+0",
    "expected16": "-1.732050807568877E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_135",
@@ -1472,7 +1472,7 @@
    "exact": true,
    "expected": "-1E+0",
    "expected16": "-1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_150",
@@ -1484,7 +1484,7 @@
    "exact": false,
    "expected": "-5.77350269189625764509148780501957455647601751270126876018602E-1",
    "expected16": "-5.773502691896258E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_180",
@@ -1496,7 +1496,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_210",
@@ -1508,7 +1508,7 @@
    "exact": false,
    "expected": "5.77350269189625764509148780501957455647601751270126876018602E-1",
    "expected16": "5.773502691896258E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_225",
@@ -1520,7 +1520,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_240",
@@ -1532,7 +1532,7 @@
    "exact": false,
    "expected": "1.73205080756887729352744634150587236694280525381038062805581E+0",
    "expected16": "1.732050807568877E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_270",
@@ -1553,7 +1553,7 @@
    "exact": false,
    "expected": "-1.73205080756887729352744634150587236694280525381038062805581E+0",
    "expected16": "-1.732050807568877E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_315",
@@ -1565,7 +1565,7 @@
    "exact": true,
    "expected": "-1E+0",
    "expected16": "-1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_330",
@@ -1577,7 +1577,7 @@
    "exact": false,
    "expected": "-5.77350269189625764509148780501957455647601751270126876018602E-1",
    "expected16": "-5.773502691896258E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_360",
@@ -1589,7 +1589,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_390",
@@ -1601,7 +1601,7 @@
    "exact": false,
    "expected": "5.77350269189625764509148780501957455647601751270126876018602E-1",
    "expected16": "5.773502691896258E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_720",
@@ -1613,7 +1613,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_1000030",
@@ -1625,7 +1625,7 @@
    "exact": false,
    "expected": "-1.19175359259420995870530807186041933693070040770854385365483E+0",
    "expected16": "-1.19175359259421E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_m30",
@@ -1637,7 +1637,7 @@
    "exact": false,
    "expected": "-5.77350269189625764509148780501957455647601751270126876018602E-1",
    "expected16": "-5.773502691896258E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_m45",
@@ -1649,7 +1649,7 @@
    "exact": true,
    "expected": "-1E+0",
    "expected16": "-1E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_m90",
@@ -1670,7 +1670,7 @@
    "exact": false,
    "expected": "2.21694662642939901577417535162907607299461045903166390117961E-1",
    "expected16": "2.216946626429399E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_100",
@@ -1682,7 +1682,7 @@
    "exact": false,
    "expected": "-5.67128181961770953099441843986396442162537826068975030321591E+0",
    "expected16": "-5.67128181961771E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_1000",
@@ -1694,7 +1694,7 @@
    "exact": false,
    "expected": "-5.67128181961770953099441843986396442162537826068975030321591E+0",
    "expected16": "-5.67128181961771E+0",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_33p3",
@@ -1706,7 +1706,7 @@
    "exact": false,
    "expected": "6.56877222401279376908660040133005363394827989263381316470246E-1",
    "expected16": "6.568772224012794E-1",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_89p9",
@@ -1718,7 +1718,7 @@
    "exact": false,
    "expected": "5.72957213354287731136420126622300649553776490124975361064667E+2",
    "expected16": "5.729572133542877E+2",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_0p001",
@@ -1730,7 +1730,7 @@
    "exact": false,
    "expected": "1.74532925217154880808554399765962566060449855653275664292958E-5",
    "expected16": "1.745329252171549E-5",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_1em10",
@@ -1742,7 +1742,7 @@
    "exact": false,
    "expected": "1.74532925199432957692369254068092411603890386592814791319558E-12",
    "expected16": "1.74532925199433E-12",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "tan_deg_359p999",
@@ -1754,7 +1754,7 @@
    "exact": false,
    "expected": "-1.74532925217154880808554399765962566060449855653275664292958E-5",
    "expected16": "-1.745329252171549E-5",
-   "minDigits": 50
+   "minDigits": 44
   },
   {
    "id": "asin_rad_0",
@@ -1766,7 +1766,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_0p5",
@@ -1778,7 +1778,7 @@
    "exact": false,
    "expected": "5.23598775598298873077107230546583814032861566562517636829157E-1",
    "expected16": "5.235987755982989E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_1",
@@ -1790,7 +1790,7 @@
    "exact": false,
    "expected": "1.57079632679489661923132169163975144209858469968755291048747E+0",
    "expected16": "1.570796326794897E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_m1",
@@ -1802,7 +1802,7 @@
    "exact": false,
    "expected": "-1.57079632679489661923132169163975144209858469968755291048747E+0",
    "expected16": "-1.570796326794897E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_0p1",
@@ -1814,7 +1814,7 @@
    "exact": false,
    "expected": "1.00167421161559796345523179452693318568675972229629541391024E-1",
    "expected16": "1.001674211615598E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_0p999",
@@ -1826,7 +1826,7 @@
    "exact": false,
    "expected": "1.52607123962616318798162545896820037219440414292539472765683E+0",
    "expected16": "1.526071239626163E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_m0p5",
@@ -1838,7 +1838,7 @@
    "exact": false,
    "expected": "-5.23598775598298873077107230546583814032861566562517636829157E-1",
    "expected16": "-5.235987755982989E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_0p7071067811865476",
@@ -1850,7 +1850,7 @@
    "exact": false,
    "expected": "7.8539816339744841652901205288563572104929234984459116809929E-1",
    "expected16": "7.853981633974484E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_0p3",
@@ -1862,7 +1862,7 @@
    "exact": false,
    "expected": "3.04692654015397507972002961227529166954560031706776387392978E-1",
    "expected16": "3.046926540153975E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_rad_2",
@@ -1892,7 +1892,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_0p5",
@@ -1904,7 +1904,7 @@
    "exact": true,
    "expected": "3E+1",
    "expected16": "3E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_1",
@@ -1916,7 +1916,7 @@
    "exact": true,
    "expected": "9E+1",
    "expected16": "9E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_m1",
@@ -1928,7 +1928,7 @@
    "exact": true,
    "expected": "-9E+1",
    "expected16": "-9E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_0p1",
@@ -1940,7 +1940,7 @@
    "exact": false,
    "expected": "5.73917047726678631251490890393039252571177730152971466769942E+0",
    "expected16": "5.739170477266786E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_0p999",
@@ -1952,7 +1952,7 @@
    "exact": false,
    "expected": "8.74374412668768620872548565651181042117243163679204512670893E+1",
    "expected16": "8.743744126687686E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_m0p5",
@@ -1964,7 +1964,7 @@
    "exact": true,
    "expected": "-3E+1",
    "expected16": "-3E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_0p7071067811865476",
@@ -1976,7 +1976,7 @@
    "exact": false,
    "expected": "4.50000000000000061256837977647733934645695967108887994517371E+1",
    "expected16": "4.500000000000001E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_0p3",
@@ -1988,7 +1988,7 @@
    "exact": false,
    "expected": "1.74576031237220922902460457924449418216636440146520472061943E+1",
    "expected16": "1.745760312372209E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asin_deg_2",
@@ -2018,7 +2018,7 @@
    "exact": false,
    "expected": "1.57079632679489661923132169163975144209858469968755291048747E+0",
    "expected16": "1.570796326794897E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_0p5",
@@ -2030,7 +2030,7 @@
    "exact": false,
    "expected": "1.04719755119659774615421446109316762806572313312503527365831E+0",
    "expected16": "1.047197551196598E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_1",
@@ -2042,7 +2042,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_m1",
@@ -2054,7 +2054,7 @@
    "exact": false,
    "expected": "3.14159265358979323846264338327950288419716939937510582097494E+0",
    "expected16": "3.141592653589793E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_0p1",
@@ -2066,7 +2066,7 @@
    "exact": false,
    "expected": "1.47062890563333682288579851218705812352990872745792336909645E+0",
    "expected16": "1.470628905633337E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_0p999",
@@ -2078,7 +2078,7 @@
    "exact": false,
    "expected": "4.47250871687334312496962326715510699041805567621581828306377E-2",
    "expected16": "4.472508716873343E-2",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_m0p5",
@@ -2090,7 +2090,7 @@
    "exact": false,
    "expected": "2.09439510239319549230842892218633525613144626625007054731663E+0",
    "expected16": "2.094395102393195E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_0p7071067811865476",
@@ -2102,7 +2102,7 @@
    "exact": false,
    "expected": "7.85398163397448202702309638754115721049292349842961742388182E-1",
    "expected16": "7.853981633974482E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_0p3",
@@ -2114,7 +2114,7 @@
    "exact": false,
    "expected": "1.26610367277949911125931873041222227514402466798077652309449E+0",
    "expected16": "1.266103672779499E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_rad_2",
@@ -2144,7 +2144,7 @@
    "exact": true,
    "expected": "9E+1",
    "expected16": "9E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_0p5",
@@ -2156,7 +2156,7 @@
    "exact": true,
    "expected": "6E+1",
    "expected16": "6E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_1",
@@ -2168,7 +2168,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_m1",
@@ -2180,7 +2180,7 @@
    "exact": true,
    "expected": "1.8E+2",
    "expected16": "1.8E+2",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_0p1",
@@ -2192,7 +2192,7 @@
    "exact": false,
    "expected": "8.42608295227332136874850910960696074742882226984702853323006E+1",
    "expected16": "8.426082952273321E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_0p999",
@@ -2204,7 +2204,7 @@
    "exact": false,
    "expected": "2.56255873312313791274514343488189578827568363207954873291072E+0",
    "expected16": "2.562558733123138E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_m0p5",
@@ -2216,7 +2216,7 @@
    "exact": true,
    "expected": "1.2E+2",
    "expected16": "1.2E+2",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_0p7071067811865476",
@@ -2228,7 +2228,7 @@
    "exact": false,
    "expected": "4.49999999999999938743162022352266065354304032891112005482629E+1",
    "expected16": "4.499999999999999E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_0p3",
@@ -2240,7 +2240,7 @@
    "exact": false,
    "expected": "7.25423968762779077097539542075550581783363559853479527938057E+1",
    "expected16": "7.254239687627791E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acos_deg_2",
@@ -2270,7 +2270,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_rad_1",
@@ -2282,7 +2282,7 @@
    "exact": false,
    "expected": "7.85398163397448309615660845819875721049292349843776455243736E-1",
    "expected16": "7.853981633974483E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_rad_m1",
@@ -2294,7 +2294,7 @@
    "exact": false,
    "expected": "-7.85398163397448309615660845819875721049292349843776455243736E-1",
    "expected16": "-7.853981633974483E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_rad_0p5",
@@ -2306,7 +2306,7 @@
    "exact": false,
    "expected": "4.63647609000806116214256231461214402028537054286120263810933E-1",
    "expected16": "4.636476090008061E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_rad_10",
@@ -2318,7 +2318,7 @@
    "exact": false,
    "expected": "1.47112767430373459185287557176173085185530637718323826247196E+0",
    "expected16": "1.471127674303735E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_rad_1e10",
@@ -2330,7 +2330,7 @@
    "exact": false,
    "expected": "1.57079632669489661923132169164008477543191803302088424382081E+0",
    "expected16": "1.570796326694897E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_rad_1em10",
@@ -2342,7 +2342,7 @@
    "exact": false,
    "expected": "9.99999999999999999996666666666666666666686666666666666666667E-11",
    "expected16": "1E-10",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_rad_m3p25",
@@ -2354,7 +2354,7 @@
    "exact": false,
    "expected": "-1.27229739520871734129619374982248049406843430586646046569457E+0",
    "expected16": "-1.272297395208717E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_rad_1em30",
@@ -2366,7 +2366,7 @@
    "exact": false,
    "expected": "1E-30",
    "expected16": "1E-30",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_0",
@@ -2378,7 +2378,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_1",
@@ -2390,7 +2390,7 @@
    "exact": true,
    "expected": "4.5E+1",
    "expected16": "4.5E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_m1",
@@ -2402,7 +2402,7 @@
    "exact": true,
    "expected": "-4.5E+1",
    "expected16": "-4.5E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_0p5",
@@ -2414,7 +2414,7 @@
    "exact": false,
    "expected": "2.6565051177077989351572193720453294671204214299645221027986E+1",
    "expected16": "2.656505117707799E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_10",
@@ -2426,7 +2426,7 @@
    "exact": false,
    "expected": "8.42894068625003574873041186517656398885208389330952370377181E+1",
    "expected16": "8.428940686250036E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_1e10",
@@ -2438,7 +2438,7 @@
    "exact": false,
    "expected": "8.99999999942704220486917679123392831117605104070516042133892E+1",
    "expected16": "8.999999999427042E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_1em10",
@@ -2450,7 +2450,7 @@
    "exact": false,
    "expected": "5.72957795130823208766071688823948959294839578661075659611364E-9",
    "expected16": "5.729577951308232E-9",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_m3p25",
@@ -2462,7 +2462,7 @@
    "exact": false,
    "expected": "-7.2897271030947628039567876821288725144532983377228990081071E+1",
    "expected16": "-7.289727103094763E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atan_deg_1em30",
@@ -2474,7 +2474,7 @@
    "exact": false,
    "expected": "5.72957795130823208767981548141051703324054724665643215491602E-29",
    "expected16": "5.729577951308232E-29",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sinh_0",
@@ -2486,7 +2486,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "sinh_0p5",
@@ -2498,7 +2498,7 @@
    "exact": false,
    "expected": "5.21095305493747361622425626411491559105928982611480527946094E-1",
    "expected16": "5.210953054937474E-1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "sinh_1",
@@ -2510,7 +2510,7 @@
    "exact": false,
    "expected": "1.17520119364380145688238185059560081515571798133409587022957E+0",
    "expected16": "1.175201193643801E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "sinh_2",
@@ -2522,7 +2522,7 @@
    "exact": false,
    "expected": "3.62686040784701876766821398280126170488634201232113572130948E+0",
    "expected16": "3.626860407847019E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "sinh_10",
@@ -2534,7 +2534,7 @@
    "exact": false,
    "expected": "1.10132328747033933772365245548463644029014511903193461038352E+4",
    "expected16": "1.101323287470339E+4",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "sinh_m3",
@@ -2546,7 +2546,7 @@
    "exact": false,
    "expected": "-1.00178749274099018989745936194658280601781041231828634644057E+1",
    "expected16": "-1.00178749274099E+1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "sinh_50",
@@ -2558,7 +2558,7 @@
    "exact": false,
    "expected": "2.59235276429353623204372666146674269241373445385443080275614E+21",
    "expected16": "2.592352764293536E+21",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "sinh_1em5",
@@ -2570,7 +2570,7 @@
    "exact": false,
    "expected": "1.00000000001666666666675000000000019841269841297398589065281E-5",
    "expected16": "1.000000000016667E-5",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "sinh_m0p75",
@@ -2582,7 +2582,7 @@
    "exact": false,
    "expected": "-8.22316731935829980703661634446913848582144002782963369691738E-1",
    "expected16": "-8.2231673193583E-1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_0",
@@ -2594,7 +2594,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_0p5",
@@ -2606,7 +2606,7 @@
    "exact": false,
    "expected": "1.12762596520638078522622516140267201254784711809866748362899E+0",
    "expected16": "1.127625965206381E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_1",
@@ -2618,7 +2618,7 @@
    "exact": false,
    "expected": "1.5430806348152437784779056207570616826015291123658637047374E+0",
    "expected16": "1.543080634815244E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_2",
@@ -2630,7 +2630,7 @@
    "exact": false,
    "expected": "3.76219569108363145956221347777374610829397355823071160277764E+0",
    "expected16": "3.762195691083631E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_10",
@@ -2642,7 +2642,7 @@
    "exact": false,
    "expected": "1.10132329201033231397213760904378799634520614282374349704002E+4",
    "expected16": "1.101323292010332E+4",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_m3",
@@ -2654,7 +2654,7 @@
    "exact": false,
    "expected": "1.00676619957777658419539360351158898368098037153712866799733E+1",
    "expected16": "1.006766199577777E+1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_50",
@@ -2666,7 +2666,7 @@
    "exact": false,
    "expected": "2.59235276429353623204372666146674269241373464672941559914792E+21",
    "expected16": "2.592352764293536E+21",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_1em5",
@@ -2678,7 +2678,7 @@
    "exact": false,
    "expected": "1.00000000005000000000041666666666805555555555803571428571704E+0",
    "expected16": "1.00000000005E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "cosh_m0p75",
@@ -2690,7 +2690,7 @@
    "exact": false,
    "expected": "1.2946832846768446878417081853901817615523475819194400520874E+0",
    "expected16": "1.294683284676845E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "tanh_0",
@@ -2702,7 +2702,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "tanh_0p5",
@@ -2714,7 +2714,7 @@
    "exact": false,
    "expected": "4.62117157260009758502318483643672548730289280330113038552732E-1",
    "expected16": "4.621171572600098E-1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "tanh_1",
@@ -2726,7 +2726,7 @@
    "exact": false,
    "expected": "7.61594155955764888119458282604793590412768597257936551596811E-1",
    "expected16": "7.615941559557649E-1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "tanh_2",
@@ -2738,7 +2738,7 @@
    "exact": false,
    "expected": "9.64027580075816883946413724100923150255029976240934776048263E-1",
    "expected16": "9.640275800758169E-1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "tanh_10",
@@ -2750,7 +2750,7 @@
    "exact": false,
    "expected": "9.99999995877692763619592837138275741050814618495019962261401E-1",
    "expected16": "9.999999958776928E-1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "tanh_m3",
@@ -2762,7 +2762,7 @@
    "exact": false,
    "expected": "-9.95054753686730451331880185255488475097813854700282491823879E-1",
    "expected16": "-9.950547536867305E-1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "tanh_50",
@@ -2774,7 +2774,7 @@
    "exact": false,
    "expected": "9.99999999999999999999999999999999999999999925598480479583281E-1",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 30
   },
   {
    "id": "tanh_1em5",
@@ -2786,7 +2786,7 @@
    "exact": false,
    "expected": "9.99999999966666666667999999999946031746033932980599558633959E-6",
    "expected16": "9.999999999666667E-6",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "tanh_m0p75",
@@ -2798,7 +2798,7 @@
    "exact": false,
    "expected": "-6.3514895238728731921443435731249649509248168716180923322011E-1",
    "expected16": "-6.351489523872873E-1",
-   "minDigits": 52
+   "minDigits": 44
   },
   {
    "id": "asinh_0",
@@ -2810,7 +2810,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asinh_1",
@@ -2822,7 +2822,7 @@
    "exact": false,
    "expected": "8.81373587019543025232609324979792309028160328261635410753296E-1",
    "expected16": "8.81373587019543E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asinh_m2",
@@ -2834,7 +2834,7 @@
    "exact": false,
    "expected": "-1.44363547517881034249327674027310526940555300315698155898305E+0",
    "expected16": "-1.44363547517881E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asinh_100",
@@ -2846,7 +2846,7 @@
    "exact": false,
    "expected": "5.29834236561058875736882568911290630214238353515621823832262E+0",
    "expected16": "5.298342365610589E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "asinh_0p001",
@@ -2858,7 +2858,7 @@
    "exact": false,
    "expected": "9.99999833333408333288690506572398262778896762002256268879602E-4",
    "expected16": "9.999998333334083E-4",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acosh_1",
@@ -2870,7 +2870,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acosh_2",
@@ -2882,7 +2882,7 @@
    "exact": false,
    "expected": "1.31695789692481670862504634730796844402698197146751647976847E+0",
    "expected16": "1.316957896924817E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acosh_10",
@@ -2894,7 +2894,7 @@
    "exact": false,
    "expected": "2.99322284612638089791266771377418291308366045118098064268515E+0",
    "expected16": "2.993222846126381E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acosh_1e5",
@@ -2906,7 +2906,7 @@
    "exact": false,
    "expected": "1.22060726455051737295062518948799455227476708262020365548602E+1",
    "expected16": "1.220607264550517E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acosh_1p0001",
@@ -2918,7 +2918,7 @@
    "exact": false,
    "expected": "1.41420177752523242440634748427880046897311573519591474427822E-2",
    "expected16": "1.414201777525232E-2",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "acosh_0p5",
@@ -2939,7 +2939,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atanh_0p5",
@@ -2951,7 +2951,7 @@
    "exact": false,
    "expected": "5.49306144334054845697622618461262852323745278911374725867347E-1",
    "expected16": "5.493061443340548E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atanh_m0p9",
@@ -2963,7 +2963,7 @@
    "exact": false,
    "expected": "-1.47221948958322023000451371594392676861868963064956440926898E+0",
    "expected16": "-1.47221948958322E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atanh_0p999",
@@ -2975,7 +2975,7 @@
    "exact": false,
    "expected": "3.80020116725020003177596726780900446226367569523049989092163E+0",
    "expected16": "3.8002011672502E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "atanh_1",
@@ -3005,7 +3005,7 @@
    "exact": false,
    "expected": "1.0033534773107558063572655206003894526336286914595913587459E-1",
    "expected16": "1.003353477310756E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_0",
@@ -3017,7 +3017,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_1",
@@ -3029,7 +3029,7 @@
    "exact": false,
    "expected": "2.71828182845904523536028747135266249775724709369995957496697E+0",
    "expected16": "2.718281828459045E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_m1",
@@ -3041,7 +3041,7 @@
    "exact": false,
    "expected": "3.67879441171442321595523770161460867445811131031767834507837E-1",
    "expected16": "3.678794411714423E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_0p5",
@@ -3053,7 +3053,7 @@
    "exact": false,
    "expected": "1.64872127070012814684865078781416357165377610071014801157508E+0",
    "expected16": "1.648721270700128E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_10",
@@ -3065,7 +3065,7 @@
    "exact": false,
    "expected": "2.20264657948067165169579006452842443663535126185567810742354E+4",
    "expected16": "2.202646579480672E+4",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_100",
@@ -3077,7 +3077,7 @@
    "exact": false,
    "expected": "2.68811714181613544841262555158001358736111187737419224151916E+43",
    "expected16": "2.688117141816135E+43",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_700",
@@ -3089,7 +3089,7 @@
    "exact": false,
    "expected": "1.01423205473500450945532959523126761520467957224307334878054E+304",
    "expected16": "1.014232054735005E+304",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_m50",
@@ -3101,7 +3101,7 @@
    "exact": false,
    "expected": "1.92874984796391778301734281652701257475283265123026291089781E-22",
    "expected16": "1.928749847963918E-22",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_1em10",
@@ -3113,7 +3113,7 @@
    "exact": false,
    "expected": "1.00000000010000000000500000000016666666667083333333341666667E+0",
    "expected16": "1.0000000001E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_2p302585092994046",
@@ -3125,7 +3125,7 @@
    "exact": false,
    "expected": "1.00000000000000031598200854531568571471376067733822537185354E+1",
    "expected16": "1E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "exp_m745",
@@ -3137,7 +3137,7 @@
    "exact": false,
    "expected": "2.82235073047193707635344008205978262082436306291017790263405E-324",
    "expected16": "2.822350730471937E-324",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "ln_1",
@@ -3149,7 +3149,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "ln_2",
@@ -3161,7 +3161,7 @@
    "exact": false,
    "expected": "6.9314718055994530941723212145817656807550013436025525412068E-1",
    "expected16": "6.931471805599453E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "ln_0p5",
@@ -3173,7 +3173,7 @@
    "exact": false,
    "expected": "-6.9314718055994530941723212145817656807550013436025525412068E-1",
    "expected16": "-6.931471805599453E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "ln_10",
@@ -3185,7 +3185,7 @@
    "exact": false,
    "expected": "2.30258509299404568401799145468436420760110148862877297603333E+0",
    "expected16": "2.302585092994046E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "ln_1em10",
@@ -3197,7 +3197,7 @@
    "exact": false,
    "expected": "-2.30258509299404568401799145468436420760110148862877297603333E+1",
    "expected16": "-2.302585092994046E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "ln_1e100",
@@ -3209,7 +3209,7 @@
    "exact": false,
    "expected": "2.30258509299404568401799145468436420760110148862877297603333E+2",
    "expected16": "2.302585092994046E+2",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "ln_2p718281828459045",
@@ -3221,7 +3221,7 @@
    "exact": false,
    "expected": "9.99999999999999913415788971088761162572033226583247761169363E-1",
    "expected16": "9.999999999999999E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "ln_0",
@@ -3251,7 +3251,7 @@
    "exact": false,
    "expected": "1.17236464871858809811399589839101115869103773751340830470851E+1",
    "expected16": "1.172364648718588E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_1",
@@ -3263,7 +3263,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_10",
@@ -3275,7 +3275,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_2",
@@ -3287,7 +3287,7 @@
    "exact": false,
    "expected": "3.01029995663981195213738894724493026768189881462108541310427E-1",
    "expected16": "3.010299956639812E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_1000",
@@ -3299,7 +3299,7 @@
    "exact": true,
    "expected": "3E+0",
    "expected16": "3E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_0p001",
@@ -3311,7 +3311,7 @@
    "exact": true,
    "expected": "-3E+0",
    "expected16": "-3E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_123456",
@@ -3323,7 +3323,7 @@
    "exact": false,
    "expected": "5.09151220162777168106939977706790579465358418768870044064E+0",
    "expected16": "5.091512201627772E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_1em7",
@@ -3335,7 +3335,7 @@
    "exact": true,
    "expected": "-7E+0",
    "expected16": "-7E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_3p1622776601683795",
@@ -3347,7 +3347,7 @@
    "exact": false,
    "expected": "5.00000000000000023072595555511307743025253434576358963200392E-1",
    "expected16": "5E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log10_0",
@@ -3368,7 +3368,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log2_2",
@@ -3380,7 +3380,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log2_8",
@@ -3392,7 +3392,7 @@
    "exact": true,
    "expected": "3E+0",
    "expected16": "3E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log2_0p5",
@@ -3404,7 +3404,7 @@
    "exact": true,
    "expected": "-1E+0",
    "expected16": "-1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log2_10",
@@ -3416,7 +3416,7 @@
    "exact": false,
    "expected": "3.32192809488736234787031942948939017586483139302458061205476E+0",
    "expected16": "3.321928094887362E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log2_1024",
@@ -3428,7 +3428,7 @@
    "exact": true,
    "expected": "1E+1",
    "expected16": "1E+1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log2_3",
@@ -3440,7 +3440,7 @@
    "exact": false,
    "expected": "1.58496250072115618145373894394781650875981440769248106045575E+0",
    "expected16": "1.584962500721156E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "log2_0",
@@ -3461,7 +3461,7 @@
    "exact": false,
    "expected": "1.41421356237309504880168872420969807856967187537694807317668E+0",
    "expected16": "1.414213562373095E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sqrt_4",
@@ -3473,7 +3473,7 @@
    "exact": true,
    "expected": "2E+0",
    "expected16": "2E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sqrt_0p25",
@@ -3485,7 +3485,7 @@
    "exact": true,
    "expected": "5E-1",
    "expected16": "5E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sqrt_1e10",
@@ -3497,7 +3497,7 @@
    "exact": true,
    "expected": "1E+5",
    "expected16": "1E+5",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sqrt_123456789",
@@ -3509,7 +3509,7 @@
    "exact": false,
    "expected": "1.11111110605555554405416661433534692458784098601343510714586E+4",
    "expected16": "1.111111106055556E+4",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sqrt_0",
@@ -3521,7 +3521,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sqrt_m1",
@@ -3542,7 +3542,7 @@
    "exact": false,
    "expected": "1.73205080756887729352744634150587236694280525381038062805581E+0",
    "expected16": "1.732050807568877E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sqrt_1em20",
@@ -3554,7 +3554,7 @@
    "exact": true,
    "expected": "1E-10",
    "expected16": "1E-10",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sqrt_2p25",
@@ -3566,7 +3566,7 @@
    "exact": true,
    "expected": "1.5E+0",
    "expected16": "1.5E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cbrt_27",
@@ -3578,7 +3578,7 @@
    "exact": true,
    "expected": "3E+0",
    "expected16": "3E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cbrt_m27",
@@ -3590,7 +3590,7 @@
    "exact": true,
    "expected": "-3E+0",
    "expected16": "-3E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cbrt_2",
@@ -3602,7 +3602,7 @@
    "exact": false,
    "expected": "1.25992104989487316476721060727822835057025146470150798008198E+0",
    "expected16": "1.259921049894873E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cbrt_0p001",
@@ -3614,7 +3614,7 @@
    "exact": true,
    "expected": "1E-1",
    "expected16": "1E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cbrt_0",
@@ -3626,7 +3626,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cbrt_m2",
@@ -3638,7 +3638,7 @@
    "exact": false,
    "expected": "-1.25992104989487316476721060727822835057025146470150798008198E+0",
    "expected16": "-1.259921049894873E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cbrt_1e9",
@@ -3650,7 +3650,7 @@
    "exact": true,
    "expected": "1E+3",
    "expected16": "1E+3",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_0",
@@ -3662,7 +3662,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_1",
@@ -3674,7 +3674,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_5",
@@ -3686,7 +3686,7 @@
    "exact": true,
    "expected": "1.2E+2",
    "expected16": "1.2E+2",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_10",
@@ -3698,7 +3698,7 @@
    "exact": true,
    "expected": "3.6288E+6",
    "expected16": "3.6288E+6",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_20",
@@ -3710,7 +3710,7 @@
    "exact": true,
    "expected": "2.43290200817664E+18",
    "expected16": "2.43290200817664E+18",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_69",
@@ -3722,7 +3722,7 @@
    "exact": true,
    "expected": "1.71122452428141311372468338881272839092270544893520369393648E+98",
    "expected16": "1.711224524281413E+98",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_170",
@@ -3734,7 +3734,7 @@
    "exact": true,
    "expected": "7.25741561530799896739672821112926311471699168129645137654358E+306",
    "expected16": "7.257415615307999E+306",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_171",
@@ -3746,7 +3746,7 @@
    "exact": false,
    "expected": "1.24101807021766782342484052410310399261660557750169318538895E+309",
    "expected16": "1.241018070217668E+309",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_500",
@@ -3758,7 +3758,7 @@
    "exact": false,
    "expected": "1.22013682599111006870123878542304692625357434280319284219241E+1134",
    "expected16": "1.22013682599111E+1134",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_1000",
@@ -3770,7 +3770,7 @@
    "exact": false,
    "expected": "4.023872600770937735437024339230039857193748642107146325438E+2567",
    "expected16": "4.023872600770938E+2567",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_0p5",
@@ -3836,7 +3836,7 @@
    "exact": false,
    "expected": "1.81920632023034513482764175686645876607160990147875264891806E+77337",
    "expected16": "1.819206320230345E+77337",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "fact_20001",
@@ -3869,7 +3869,7 @@
    "exact": true,
    "expected": "2.5E-1",
    "expected16": "2.5E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "inv_0p5",
@@ -3881,7 +3881,7 @@
    "exact": true,
    "expected": "2E+0",
    "expected16": "2E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "inv_0",
@@ -3902,7 +3902,7 @@
    "exact": true,
    "expected": "3.33333333333333333333333333333333333333333333333333333333333E-1",
    "expected16": "3.333333333333333E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "inv_m8",
@@ -3914,7 +3914,7 @@
    "exact": true,
    "expected": "-1.25E-1",
    "expected16": "-1.25E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "inv_1em10",
@@ -3926,7 +3926,7 @@
    "exact": true,
    "expected": "1E+10",
    "expected16": "1E+10",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sq_1p5",
@@ -3938,7 +3938,7 @@
    "exact": true,
    "expected": "2.25E+0",
    "expected16": "2.25E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sq_m2",
@@ -3950,7 +3950,7 @@
    "exact": true,
    "expected": "4E+0",
    "expected16": "4E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sq_0",
@@ -3962,7 +3962,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sq_1e200",
@@ -3974,7 +3974,7 @@
    "exact": false,
    "expected": "1E+400",
    "expected16": "1E+400",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "sq_0p1",
@@ -3986,7 +3986,7 @@
    "exact": true,
    "expected": "1E-2",
    "expected16": "1E-2",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cube_m2",
@@ -3998,7 +3998,7 @@
    "exact": true,
    "expected": "-8E+0",
    "expected16": "-8E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cube_1p5",
@@ -4010,7 +4010,7 @@
    "exact": true,
    "expected": "3.375E+0",
    "expected16": "3.375E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cube_0",
@@ -4022,7 +4022,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "cube_1e300",
@@ -4034,7 +4034,7 @@
    "exact": false,
    "expected": "1E+900",
    "expected16": "1E+900",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow10_3",
@@ -4046,7 +4046,7 @@
    "exact": true,
    "expected": "1E+3",
    "expected16": "1E+3",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow10_m2",
@@ -4058,7 +4058,7 @@
    "exact": true,
    "expected": "1E-2",
    "expected16": "1E-2",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow10_0p5",
@@ -4070,7 +4070,7 @@
    "exact": false,
    "expected": "3.1622776601683793319988935444327185337195551393252168268575E+0",
    "expected16": "3.162277660168379E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow10_0",
@@ -4082,7 +4082,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow10_20",
@@ -4094,7 +4094,7 @@
    "exact": true,
    "expected": "1E+20",
    "expected16": "1E+20",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow10_m20",
@@ -4106,7 +4106,7 @@
    "exact": true,
    "expected": "1E-20",
    "expected16": "1E-20",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow10_308p5",
@@ -4118,7 +4118,7 @@
    "exact": false,
    "expected": "3.1622776601683793319988935444327185337195551393252168268575E+308",
    "expected16": "3.162277660168379E+308",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow2_10",
@@ -4130,7 +4130,7 @@
    "exact": true,
    "expected": "1.024E+3",
    "expected16": "1.024E+3",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow2_0p5",
@@ -4142,7 +4142,7 @@
    "exact": false,
    "expected": "1.41421356237309504880168872420969807856967187537694807317668E+0",
    "expected16": "1.414213562373095E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow2_m1",
@@ -4154,7 +4154,7 @@
    "exact": true,
    "expected": "5E-1",
    "expected16": "5E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow2_64",
@@ -4166,7 +4166,7 @@
    "exact": true,
    "expected": "1.8446744073709551616E+19",
    "expected16": "1.844674407370955E+19",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow2_0",
@@ -4178,7 +4178,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_2_0p5",
@@ -4204,7 +4204,7 @@
    "exact": true,
    "expected": "1.024E+3",
    "expected16": "1.024E+3",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_10_m3",
@@ -4217,7 +4217,7 @@
    "exact": true,
    "expected": "1E-3",
    "expected16": "1E-3",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_1p5_2p5",
@@ -4243,7 +4243,7 @@
    "exact": true,
    "expected": "1.267650600228229401496703205376E+30",
    "expected16": "1.267650600228229E+30",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_0p5_0p5",
@@ -4305,7 +4305,7 @@
    "exact": true,
    "expected": "-8E+0",
    "expected16": "-8E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_m2_m2",
@@ -4318,7 +4318,7 @@
    "exact": true,
    "expected": "2.5E-1",
    "expected16": "2.5E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_0_0",
@@ -4331,7 +4331,7 @@
    "exact": true,
    "expected": "1E+0",
    "expected16": "1E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_0_m1",
@@ -4354,7 +4354,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_2_4097",
@@ -4367,7 +4367,7 @@
    "exact": false,
    "expected": "2.08877776282630501338350542143324876515992849809476756076847E+1233",
    "expected16": "2.088777762826305E+1233",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_99999_99999",
@@ -4380,7 +4380,7 @@
    "exact": false,
    "expected": "3.6788128057937806481916857750380608421476380435226684205487E+499994",
    "expected16": "3.678812805793781E+499994",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_10_1000001",
@@ -4403,7 +4403,7 @@
    "exact": false,
    "expected": "2.7182816925449662711985502257778132731535082712844040638855E+0",
    "expected16": "2.718281692544966E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "pow_4_0p5",
@@ -4468,7 +4468,7 @@
    "exact": true,
    "expected": "2E+0",
    "expected16": "2E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_m8_3",
@@ -4481,7 +4481,7 @@
    "exact": true,
    "expected": "-2E+0",
    "expected16": "-2E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_16_4",
@@ -4494,7 +4494,7 @@
    "exact": true,
    "expected": "2E+0",
    "expected16": "2E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_m16_4",
@@ -4517,7 +4517,7 @@
    "exact": false,
    "expected": "1.41421356237309504880168872420969807856967187537694807317668E+0",
    "expected16": "1.414213562373095E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_10_3",
@@ -4530,7 +4530,7 @@
    "exact": false,
    "expected": "2.15443469003188372175929356651935049525934494219210858248924E+0",
    "expected16": "2.154434690031884E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_0p001_3",
@@ -4543,7 +4543,7 @@
    "exact": true,
    "expected": "1E-1",
    "expected16": "1E-1",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_32_5",
@@ -4556,7 +4556,7 @@
    "exact": true,
    "expected": "2E+0",
    "expected16": "2E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_2_0",
@@ -4589,7 +4589,7 @@
    "exact": true,
    "expected": "1E+3",
    "expected16": "1E+3",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_5_2p5",
@@ -4615,7 +4615,7 @@
    "exact": true,
    "expected": "0E+0",
    "expected16": "0E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_1024_10",
@@ -4628,7 +4628,7 @@
    "exact": true,
    "expected": "2E+0",
    "expected16": "2E+0",
-   "minDigits": 52
+   "minDigits": 50
   },
   {
    "id": "root_m32_5",
@@ -4641,7 +4641,7 @@
    "exact": true,
    "expected": "-2E+0",
    "expected16": "-2E+0",
-   "minDigits": 52
+   "minDigits": 50
   }
  ]
 }

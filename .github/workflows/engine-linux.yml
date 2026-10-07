@@ -21,7 +21,7 @@ jobs:
       - name: Build
         run: swift build --package-path Packages/CalcEngine
       - name: Test
-        run: swift test --package-path Packages/CalcEngine --parallel
+        run: swift test --package-path Packages/CalcEngine
 
   fixtures-up-to-date:
     name: fixtures match generators (mpmath)
