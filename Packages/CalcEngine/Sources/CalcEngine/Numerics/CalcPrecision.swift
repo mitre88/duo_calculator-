@@ -49,6 +49,8 @@ public enum CalcPrecision {
     public static let maxExactPowerBits = 8_192
     /// Approx integer powers / roots up to this exponent use BigDecimal's direct BInt power; beyond, exp(log).
     public static let maxDirectPowerExponent = 64
+    /// From 10^30 on, atan / asinh / acosh use their asymptotic forms (corrections below 10^−60).
+    public static let asymptoticArgumentExponent = 30
 
     /// Rounding context for the working precision (`Rounding` is not `Sendable`, so it is built on demand).
     public static var workingRounding: Rounding { Rounding(.toNearestOrEven, working) }

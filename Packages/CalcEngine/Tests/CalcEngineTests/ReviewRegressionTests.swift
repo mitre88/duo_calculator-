@@ -72,6 +72,26 @@ extension CalcEngineTests {
             #expect(clock.now - start < .seconds(3), "pathological inputs took \(clock.now - start)")
         }
 
+        @Test func logsAndInverseFunctionsOfExtremeMagnitudesAreCheap() throws {
+            let clock = ContinuousClock()
+            let start = clock.now
+            #expect(Numeric.agree(try MathKernel.logarithm(.ln, CalcValue(approx: BigDecimal(1, -999_999))), "-2.30258279040895268997230743669290952323689388752728434726035E+6", digits: 55))
+            #expect(Numeric.agree(try MathKernel.logarithm(.ln, CalcValue(approx: BigDecimal(15, 799_999))), "1.84206847986034465537877514176060683043001776289344184332086E+6", digits: 55))
+            #expect(Numeric.agree(try MathKernel.logarithm(.log10, CalcValue(approx: BigDecimal(1, 500_000))), "5E+5", digits: 55))
+            let e40 = CalcValue(approx: BigDecimal(1, 40))
+            #expect(Numeric.agree(try MathKernel.hyperbolic(.asinh, e40), "9.27965509003217726701368903088327448721195596795111742954538E+1", digits: 55))
+            #expect(Numeric.agree(try MathKernel.hyperbolic(.asinh, e40.negated), "-9.27965509003217726701368903088327448721195596795111742954538E+1", digits: 55))
+            #expect(Numeric.agree(try MathKernel.hyperbolic(.acosh, e40), "9.27965509003217726701368903088327448721195596795111742954538E+1", digits: 55))
+            let e25 = CalcValue(approx: BigDecimal(1, 25))
+            #expect(Numeric.agree(try MathKernel.inverseTrig(.atan, e25, angle: .radians), "1.57079632679489661923132159163975144209858469968755291048747", digits: 55))
+            #expect(Numeric.agree(try MathKernel.inverseTrig(.atan, e25.negated, angle: .degrees), "-8.9999999999999999999999994270422048691767912320184518589483E+1", digits: 55))
+            // Beyond Double's range the library's sqrt-based paths used to iterate for minutes.
+            let e300k = CalcValue(approx: BigDecimal(1, 300_000))
+            _ = try MathKernel.hyperbolic(.asinh, e300k)
+            _ = try MathKernel.inverseTrig(.atan, e300k, angle: .radians)
+            #expect(clock.now - start < .seconds(3), "extreme-magnitude logs/inverses took \(clock.now - start)")
+        }
+
         @Test func programmerEntryRespectsTheWordSize() {
             var engine = ProgrammerEngine()
             engine.send(.setWidth(.eight))

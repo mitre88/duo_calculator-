@@ -171,7 +171,7 @@ public enum MathKernel {
         if x == BigDecimal.one || y.isZero { return BigDecimal.one }
         let yExponent = y.isZero ? 0 : (y.precision + y.exponent - 1)
         let rounding = guardRounding(17 + max(0, yExponent + 1))
-        let t = y.multiply(BigDecimal.log(x, rounding), rounding)
+        let t = y.multiply(naturalLog(x, rounding), rounding)
         if t.isZero { return BigDecimal.one }
         let estimate = t.asDouble() / log(10.0)
         if estimate > overflowLimit { throw CalcError.overflow }
@@ -263,12 +263,27 @@ public enum MathKernel {
             if fn == .log10, let k = exactLog(xf, base: 10) { return CalcValue(k) }
             if fn == .log2, let k = exactLog(xf, base: 2) { return CalcValue(k) }
         }
-        let xm = x.approx
+        let g = guardRounding()
+        let ln = naturalLog(x.approx, g)
         switch fn {
-        case .ln: return try settle(BigDecimal.log(xm, working))
-        case .log10: return try settle(BigDecimal.log10(xm, working))
-        default: return try settle(BigDecimal.log2(xm, working))
+        case .ln: return try settle(ln.round(working))
+        case .log10: return try settle(ln.divide(BigDecimal.log(BigDecimal(10), g), g).round(working))
+        default: return try settle(ln.divide(BigDecimal.log(BigDecimal(2), g), g).round(working))
         }
+    }
+
+    /// `ln x` for `x > 0` of any magnitude: `ln(m·10^e) = ln m + e·ln 10` with `m ∈ [1, 10)`, so the cost never
+    /// depends on the exponent (BigDecimal's own `log` walks powers of 2 and 3 for `x < 10`, which is
+    /// O(|e|) for `1e-999999`).
+    static func naturalLog(_ x: BigDecimal, _ rounding: Rounding) -> BigDecimal {
+        precondition(x.signum > 0)
+        let e = x.precision + x.exponent - 1
+        let mantissa = BigDecimal(x.significandBitPattern, -(x.precision - 1))   // 1 ≤ m < 10
+        var result = mantissa == BigDecimal.one ? BigDecimal.zero : BigDecimal.log(mantissa, rounding)
+        if e != 0 {
+            result = result.add(BigDecimal(e).multiply(BigDecimal.log(BigDecimal(10), rounding), rounding), rounding)
+        }
+        return result
     }
 
     /// `k` such that `base^k == f` (k may be negative), or `nil`.
@@ -399,7 +414,15 @@ public enum MathKernel {
         switch fn {
         case .asin: r = BigDecimal.asin(x.approx, g)
         case .acos: r = BigDecimal.acos(x.approx, g)
-        default: r = BigDecimal.atan(x.approx, g)
+        default:
+            if let exponent = x.decimalExponent, exponent > CalcPrecision.asymptoticArgumentExponent {
+                // atan x = ±(π/2 − 1/|x| + 1/(3|x|³) − …); the cubic term is below 10^−63 from |x| ≥ 10^21.
+                let xm = x.approx
+                let magnitude = BigDecimal.pi(g).divide(BigDecimal(2), g).subtract(BigDecimal.one.divide(xm.abs, g), g)
+                r = xm.isNegative ? -magnitude : magnitude
+            } else {
+                r = BigDecimal.atan(x.approx, g)
+            }
         }
         if angle == .degrees {
             r = r.multiply(BigDecimal(180), g).divide(BigDecimal.pi(g), g)
@@ -427,6 +450,12 @@ public enum MathKernel {
             return CalcValue(approx: xm.isNegative ? -BigDecimal.one : BigDecimal.one)
         }
         let g = guardRounding()
+        if fn == .asinh || fn == .acosh, let exponent = x.decimalExponent, exponent > CalcPrecision.asymptoticArgumentExponent {
+            // asinh x = ±(ln 2|x| + 1/(4x²) − …), acosh x = ln 2x − 1/(4x²) − …: the correction is below
+            // 10^−60 from |x| ≥ 10^30, and ln of any magnitude is cheap through `naturalLog`.
+            let magnitude = naturalLog(xm.abs.multiply(BigDecimal(2), g), g)
+            return try settle(((fn == .asinh && xm.isNegative) ? -magnitude : magnitude).round(working))
+        }
         if fn == .sinh || fn == .cosh || fn == .tanh, xm.abs >= BigDecimal(CalcPrecision.hyperbolicSeriesLimit) {
             // BigDecimal's sinh/cosh are Taylor series whose term count grows with |x| (sinh(2·10^6) would
             // never finish); its exp splits integral and fractional parts and is fast for any argument.
