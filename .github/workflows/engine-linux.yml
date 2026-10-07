@@ -22,9 +22,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: Packages/CalcEngine/.build
-          # Only committed manifests: Package.resolved is generated inside the container as root and the
-          # host-side hashFiles of the post step cannot read it.
-          key: spm-${{ runner.os }}-${{ hashFiles('Packages/**/Package.swift') }}
+          # Explicit, committed manifests only: a `**` glob would also match the root-owned checkouts under
+          # .build, which the host-side hashFiles of the post step cannot read.
+          key: spm-${{ runner.os }}-${{ hashFiles('Packages/CalcEngine/Package.swift', 'Packages/Vendor/BigDecimal/Package.swift', 'Packages/Vendor/BigInt/Package.swift') }}
           restore-keys: spm-${{ runner.os }}-
       - name: Build
         run: swift build --package-path Packages/CalcEngine
