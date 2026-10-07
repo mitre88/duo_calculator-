@@ -39,3 +39,39 @@
 2. Instruments → *Allocations*: teclear `20000!`, `99999^99999`, cambiar de modo 20 veces; el gráfico
    vuelve a la línea base.
 3. Product → Archive → *App Thinning Size Report* (iPhone Duo): tamaño instalado y descargado.
+
+## Tests automáticos de rendimiento, memoria y robustez
+
+Viven en `Packages/CalcEngine/Tests/CalcEngineTests/PerformanceTests.swift` y corren en cada push, en el CI de
+Linux, **dos veces**: en debug con el resto de la suite y en **release** (`swift test -c release --filter
+'PerformanceTests|PerformanceGuardTests'`). Cada test imprime una línea `[perf]` o `[mem]`; el *job summary* de
+GitHub Actions las recoge como informe. En la Mac: `swift test -c release --package-path Packages/CalcEngine` o
+`swift run -c release calc --bench` para la misma tabla sin la suite.
+
+| Test | Qué mide | Presupuesto (release) |
+|---|---|---|
+| `keyPressLatency` | `send` + `snapshot` por tecla en un guion de 42 teclas realistas (funciones, `%`, memoria, `=` repetido, error) | p50 < 2 ms · p95 < 16 ms |
+| `evaluatorThroughput` | evaluación completa por familia: aritmética, racional exacta, trig en grados y radianes, hiperbólicas, potencias y raíces | 0.3–12 ms p50 según familia |
+| `formatterThroughput` | formateo a 16 dígitos con agrupación es‑MX | < 40 µs por valor |
+| `memoryStaysBoundedOverALongSession` | RSS antes y después de 20 000 teclas aleatorias (tras 2 000 de calentamiento); tamaño del estado persistido; picos de tokens y resultados | crecimiento < 24 MiB · estado < 64 KB · tokens ≤ 512 · resultados ≤ 50 |
+| `randomSessionsNeverCrashOrStall` | 5 semillas × 10 000 eventos de todo el alfabeto de teclas (incluye dominios inválidos, paréntesis, cursor, memoria) | ningún crash · ningún evento > 5 s |
+| `parserHandlesMaximumComplexityAndRejectsBeyond` | 511 tokens y 60 paréntesis anidados se evalúan; 513 tokens y 80 niveles devuelven `tooComplex` | sin crash |
+| `PerformanceGuardTests` | `99999^99999`, `20000!`, `sin(1e30)`, `100.25!`, `exp(2e6)`, `2^4097`, `1.0000001^1e7` | < 3 s cada uno |
+
+Los presupuestos están pensados para un build release en un iPhone. En debug dentro del contenedor de CI son
+un orden de magnitud más lentos, así que **sin** `CALC_PERF_STRICT=1` cada presupuesto se multiplica por 25: los
+números estrictos son la meta de producto; los relajados solo cazan regresiones algorítmicas. Para medir en la Mac
+con los presupuestos reales: `CALC_PERF_STRICT=1 swift test -c release --package-path Packages/CalcEngine`.
+
+La medición de memoria lee el RSS del proceso (`/proc/self/statm` en Linux, `task_info` en Darwin); es una
+cota superior (el *allocator* no siempre devuelve páginas), por eso el umbral es generoso y lo que importa es la
+tendencia entre ejecuciones.
+
+### En la app (Xcode)
+
+`App/DuoCalculatorTests/PerformanceTests.swift` usa `measure(metrics:)` con `XCTClockMetric`, `XCTCPUMetric` y
+`XCTMemoryMetric`: resolución del layout para las 9 poses (×100), estabilidad del `LayoutPlan` (resolver dos
+veces da un plan igual, así SwiftUI no re‑dispone en frames sin cambio), aritmética de la rejilla de teclas y
+formateo. La primera ejecución fija la línea base por dispositivo; después, una regresión mayor a la tolerancia
+falla el test. La fluidez real a 120 Hz (morph, aurora, hápticos) se verifica con Instruments según la sección
+anterior.

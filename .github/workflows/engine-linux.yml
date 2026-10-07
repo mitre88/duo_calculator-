@@ -22,6 +22,19 @@ jobs:
         run: swift build --package-path Packages/CalcEngine
       - name: Test
         run: swift test --package-path Packages/CalcEngine
+      - name: Performance & memory report (release build)
+        run: |
+          swift test -c release --package-path Packages/CalcEngine \
+            --filter 'PerformanceTests|PerformanceGuardTests' 2>&1 | tee perf.log
+      - name: Publish report to the job summary
+        if: always()
+        run: |
+          {
+            echo '### Engine performance & memory (release, Linux container)'
+            echo '```'
+            grep -E '^\[(perf|mem)\]' perf.log || echo 'no report lines found'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
   fixtures-up-to-date:
     name: fixtures match generators (mpmath)
