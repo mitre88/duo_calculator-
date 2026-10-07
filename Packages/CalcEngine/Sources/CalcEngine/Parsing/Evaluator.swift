@@ -44,6 +44,11 @@ public struct Evaluator: Sendable {
         }
     }
 
+    /// The right operand of `op` as it is actually applied (what `=` repeats): `200 + 10%` → `20`.
+    public func resolvedOperand(_ op: BinaryOperator, lhs: CalcValue, rhs: Expr) throws -> CalcValue {
+        try rightOperand(op, lhs: lhs, rhs: rhs)
+    }
+
     /// iOS percent semantics: `a ± b%` → `a ± a·b/100`; `a ×÷^ b%` → `a op (b/100)`.
     private func rightOperand(_ op: BinaryOperator, lhs a: CalcValue, rhs: Expr) throws -> CalcValue {
         if case .postfix(.percent, let inner) = rhs {

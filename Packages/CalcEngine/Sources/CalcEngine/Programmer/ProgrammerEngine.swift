@@ -80,6 +80,7 @@ public struct ProgrammerEngine: Sendable, Codable, Hashable {
             let maxDigits = maxEntryDigits
             guard text.count < maxDigits else { return }
             text.append(radix.validDigits[d])
+            guard fitsWidth(text) else { return }   // 8-bit "300" is rejected instead of wrapping to 44
             if let parsed = ProgrammerValue.parse(text, radix: radix, width: width, isSigned: isSigned) {
                 entry = text
                 value = parsed
@@ -197,9 +198,27 @@ public struct ProgrammerEngine: Sendable, Codable, Hashable {
             case .shiftRight: return a.shiftedRight(by: Int(truncatingIfNeeded: b.unsignedValue))
             }
         } catch {
-            isError = true
+            enterError()
             return a
         }
+    }
+
+    /// Error state: the chain is abandoned (no stale pending operator survives), radix/width/sign stay.
+    private mutating func enterError() {
+        isError = true
+        accumulator = nil
+        pendingOperator = nil
+        entry = nil
+        justEvaluated = false
+        hasOperandSinceOperator = false
+    }
+
+    /// The typed magnitude must fit the current word size.
+    private func fitsWidth(_ text: String) -> Bool {
+        var body = text
+        if body.hasPrefix("-") { body.removeFirst() }
+        guard let magnitude = UInt64(body, radix: radix.rawValue) else { return false }
+        return magnitude <= width.mask
     }
 
     private func applyUnary(_ op: ProgrammerUnary, _ v: ProgrammerValue) -> ProgrammerValue {

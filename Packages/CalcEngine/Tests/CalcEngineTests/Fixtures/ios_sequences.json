@@ -893,6 +893,134 @@
     "8"
    ],
    "primary": "1,234,567,890,123,456"
+  },
+  {
+   "id": "percent_repeat_equals",
+   "keys": [
+    "2",
+    "0",
+    "0",
+    "add",
+    "1",
+    "0",
+    "pct",
+    "eq",
+    "eq"
+   ],
+   "primary": "240",
+   "expression": "220 + 20 ="
+  },
+  {
+   "id": "percent_subtract_repeat_equals",
+   "keys": [
+    "2",
+    "0",
+    "0",
+    "sub",
+    "1",
+    "0",
+    "pct",
+    "eq",
+    "eq"
+   ],
+   "primary": "160"
+  },
+  {
+   "id": "percent_multiply_repeat_equals",
+   "keys": [
+    "5",
+    "0",
+    "mul",
+    "1",
+    "0",
+    "pct",
+    "eq",
+    "eq"
+   ],
+   "primary": "0.5"
+  },
+  {
+   "id": "negate_constant",
+   "keys": [
+    "pi",
+    "neg"
+   ],
+   "primary": "-3.141592653589793"
+  },
+  {
+   "id": "negate_function_result",
+   "keys": [
+    "3",
+    "0",
+    "sin",
+    "neg"
+   ],
+   "primary": "-0.5"
+  },
+  {
+   "id": "negate_parenthesised",
+   "keys": [
+    "lp",
+    "2",
+    "add",
+    "3",
+    "rp",
+    "neg"
+   ],
+   "primary": "-5"
+  },
+  {
+   "id": "negate_square",
+   "keys": [
+    "5",
+    "sq",
+    "neg"
+   ],
+   "primary": "-25"
+  },
+  {
+   "id": "negate_constant_memory",
+   "keys": [
+    "pi",
+    "neg",
+    "mplus",
+    "ac",
+    "mr"
+   ],
+   "primary": "-3.141592653589793"
+  },
+  {
+   "id": "negate_then_equals",
+   "keys": [
+    "pi",
+    "neg",
+    "eq"
+   ],
+   "primary": "-3.141592653589793"
+  },
+  {
+   "id": "insert_operator_before_operator",
+   "keys": [
+    "1",
+    "mul",
+    "3",
+    "left",
+    "left",
+    "add",
+    "eq"
+   ],
+   "primary": "4",
+   "expression": "1 + 3 ="
+  },
+  {
+   "id": "approx_zero_factorial",
+   "keys": [
+    "e",
+    "ln",
+    "ln",
+    "fact"
+   ],
+   "primary": "1"
   }
  ]
 }

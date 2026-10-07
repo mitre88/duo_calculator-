@@ -21,7 +21,8 @@ public enum MathKernel {
 
     /// Rounds to working precision and rejects NaN/∞/overflow.
     static func settle(_ d: BigDecimal) throws -> CalcValue {
-        try checkOverflow(CalcValue(approx: d))
+        if d.isZero { return .zero }   // exact zero: `0!`, `x^0`, integer tests all see a real zero
+        return try checkOverflow(CalcValue(approx: d))
     }
 
     // MARK: - Overflow
@@ -112,6 +113,7 @@ public enum MathKernel {
             if y.isNegative { throw CalcError.divisionByZero }
             return .zero
         }
+        if y.isZero { return .one }
         if let yf = y.exactFraction, yf.isInteger {
             guard let n = yf.numerator.asInt() else { return try hugeIntegerPower(x, exponent: yf.numerator) }
             if let xf = x.exactFraction, abs(n) <= CalcPrecision.maxIntegerPowerExponent {
@@ -190,12 +192,16 @@ public enum MathKernel {
             if let xf = x.exactFraction, k <= 64, let r = exactRoot(xf, k) {
                 return CalcValue(exact: r)
             }
+            if let exponent = x.decimalExponent, abs(exponent) > CalcPrecision.maxDoubleSeedExponent {
+                // BigDecimal.root seeds Newton with a Double, which under/overflows beyond ~1e±308.
+                return try settle(expOfLog(x.approx, BigDecimal.one.divide(BigDecimal(k), guardRounding())))
+            }
             return try settle(BigDecimal.root(x.approx, BigDecimal(k), working))
         }
         if x.isNegative { throw CalcError.domain }
         if x.isZero { return .zero }
         let g = guardRounding()
-        return try settle(BigDecimal.pow(x.approx, BigDecimal.one.divide(n.approx, g), working))
+        return try settle(expOfLog(x.approx, BigDecimal.one.divide(n.approx, g)))
     }
 
     // MARK: - Factorial
@@ -299,6 +305,7 @@ public enum MathKernel {
 
     static func trig(_ fn: UnaryFunction, _ x: CalcValue, angle: AngleMode) throws -> CalcValue {
         let radians: BigDecimal
+        var guardDigits = CalcPrecision.transcendentalGuardDigits
         switch angle {
         case .degrees:
             let reduced: CalcValue
@@ -323,9 +330,14 @@ public enum MathKernel {
             radians = reduced.approx(g).multiply(BigDecimal.pi(g), g).divide(BigDecimal(180), g)
         case .radians:
             if x.isZero { return fn == .cos ? .one : .zero }
-            radians = x.approx
+            // Reducing modulo 2π costs one digit per integer digit of |x|: carry them as guard digits
+            // (π is then computed to that precision) and refuse arguments beyond 10^300.
+            let exponent = max(0, x.decimalExponent ?? 0)
+            if exponent > CalcPrecision.maxTrigArgumentExponent { throw CalcError.domain }
+            guardDigits += exponent
+            radians = x.approx(CalcPrecision.rounding(extra: exponent))
         }
-        let g = guardRounding()
+        let g = guardRounding(guardDigits)
         switch fn {
         case .sin:
             return try zeroSnap(BigDecimal.sin(radians, g).round(working), argument: radians)

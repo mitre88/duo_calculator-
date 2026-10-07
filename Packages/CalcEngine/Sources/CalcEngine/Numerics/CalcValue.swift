@@ -101,7 +101,7 @@ public struct CalcValue: Sendable, Hashable, Comparable, CustomStringConvertible
     public var asInt: Int? {
         switch storage {
         case .exact(let f): f.isInteger ? f.numerator.asInt() : nil
-        case .approx(let d): (d.isFinite && BigDecimal.isIntValue(d)) ? d.asInt() : nil
+        case .approx(let d): d.isZero ? 0 : ((d.isFinite && BigDecimal.isIntValue(d)) ? d.asInt() : nil)
         }
     }
 

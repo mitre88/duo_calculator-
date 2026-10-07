@@ -281,7 +281,14 @@ public struct CalculatorEngine: Sendable {
             }
             state.document.tokens[state.document.cursor - 1] = .binary(op)
         } else if let before = state.document.tokenBeforeCursor, before.endsOperand {
-            state.document.insert(.binary(op))
+            if let after = state.document.tokenAfterCursor, case .binary = after,
+               !state.document.isPrefixMinus(at: state.document.cursor) {
+                // Cursor between an operand and an operator (`1 | × 3`): the new operator replaces it.
+                state.document.tokens[state.document.cursor] = .binary(op)
+                state.document.cursor += 1
+            } else {
+                state.document.insert(.binary(op))
+            }
         } else {
             // cursor at the start or after "(": only a sign makes sense
             guard op == .subtract else { return }
@@ -290,8 +297,16 @@ public struct CalculatorEngine: Sendable {
             return
         }
         switch Result(catching: { try previewValue() }) {
-        case .success: state.phase = .operatorPending
-        case .failure(let error): state.phase = .error((error as? CalcError) ?? .syntax)
+        case .success:
+            state.phase = .operatorPending
+        case .failure(let error):
+            // Mid-expression edits may pass through states that do not parse yet; keep the document
+            // and let `=` report the error instead of wiping the user's work.
+            if state.document.cursor < state.document.tokens.count {
+                state.phase = .editing
+            } else {
+                state.phase = .error((error as? CalcError) ?? .syntax)
+            }
         }
     }
 
@@ -338,7 +353,8 @@ public struct CalculatorEngine: Sendable {
                 let parsed = try PrattParser.parseWithFocus(document.tokens, focusEnd: document.tokens.count, options: .commit)
                 result = try evaluator.evaluate(parsed.expression)
                 if let last = parsed.lastBinary {
-                    let operand = try evaluator.evaluate(last.rhs)
+                    let left = try evaluator.evaluate(last.lhs)
+                    let operand = try evaluator.resolvedOperand(last.op, lhs: left, rhs: last.rhs)
                     state.repeatOperation = RepeatOperation(op: last.op, operand: operand)
                 } else {
                     state.repeatOperation = nil

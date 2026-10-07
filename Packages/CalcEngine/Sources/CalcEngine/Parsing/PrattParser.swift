@@ -44,6 +44,7 @@ public struct PrattParser {
 
     public struct LastBinary: Sendable, Hashable {
         public var op: BinaryOperator
+        public var lhs: Expr
         public var rhs: Expr
         public var operatorIndex: Int
     }
@@ -68,9 +69,9 @@ public struct PrattParser {
     private var focus: Expr?
     private var lastBinary: LastBinary?
 
-    private mutating func noteLastBinary(_ op: BinaryOperator, rhs: Expr, operatorIndex: Int) {
+    private mutating func noteLastBinary(_ op: BinaryOperator, lhs: Expr, rhs: Expr, operatorIndex: Int) {
         if let lastBinary, lastBinary.operatorIndex >= operatorIndex { return }
-        lastBinary = LastBinary(op: op, rhs: rhs, operatorIndex: operatorIndex)
+        lastBinary = LastBinary(op: op, lhs: lhs, rhs: rhs, operatorIndex: operatorIndex)
     }
 
     private init(tokens: [Token], options: Options, focusEnd: Int?) {
@@ -140,7 +141,7 @@ public struct PrattParser {
                     case .duplicateLeftOperand:
                         let left = lhs
                         lhs = .binary(op, left, left)
-                        noteLastBinary(op, rhs: left, operatorIndex: operatorIndex)
+                        noteLastBinary(op, lhs: left, rhs: left, operatorIndex: operatorIndex)
                     }
                 } else {
                     let hadCandidate = focusCandidate != nil
@@ -149,7 +150,7 @@ public struct PrattParser {
                     let left = lhs
                     lhs = .binary(op, left, rhs)
                     noteBinary(op, lhs: left, rhs: rhs, rhsWasFocus: rhsWasFocus)
-                    noteLastBinary(op, rhs: rhs, operatorIndex: operatorIndex)
+                    noteLastBinary(op, lhs: left, rhs: rhs, operatorIndex: operatorIndex)
                 }
 
             case .number, .constant, .function, .namedBinary, .openParen:
@@ -182,7 +183,12 @@ public struct PrattParser {
             return node
 
         case .binary(.subtract):
-            return .negate(try parse(minBindingPower: OperatorTable.prefixMinus))
+            let inner = try parse(minBindingPower: OperatorTable.prefixMinus)
+            let node = Expr.negate(inner)
+            // `π ±`, `sin(30) ±`, `(2+3) ±` insert a prefix minus: the operand under the cursor is the
+            // negated node, not the inner one (otherwise the display would show +π for −π).
+            if let focusEnd, position == focusEnd, focus == nil, focusCandidate != nil { focusCandidate = node }
+            return node
 
         case .binary(.add):
             return try parse(minBindingPower: OperatorTable.prefixMinus)

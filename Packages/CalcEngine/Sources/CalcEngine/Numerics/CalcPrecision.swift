@@ -36,6 +36,10 @@ public enum CalcPrecision {
     public static let maxExactBits = 1_024
     /// Maximum number of digits accepted while typing a number.
     public static let maxEntryDigits = 16
+    /// Radian arguments above 10^300 are refused: reducing them modulo 2π would need more than 360 digits of π.
+    public static let maxTrigArgumentExponent = 300
+    /// Beyond 10^±300 BigDecimal's Newton seeds (`Double`) under/overflow; use exp(log) instead.
+    public static let maxDoubleSeedExponent = 300
 
     /// Rounding context for the working precision (`Rounding` is not `Sendable`, so it is built on demand).
     public static var workingRounding: Rounding { Rounding(.toNearestOrEven, working) }
