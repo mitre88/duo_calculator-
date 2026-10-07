@@ -53,6 +53,25 @@ extension CalcEngineTests {
             #expect(clock.now - start < .seconds(5), "large hyperbolic arguments took \(clock.now - start)")
         }
 
+        @Test func hugeExponentsNeverAlignOrExpandExactly() throws {
+            let clock = ContinuousClock()
+            let start = clock.now
+            let big = CalcValue(approx: BigDecimal(1, 999_999))            // 1e999999, just under the overflow limit
+            #expect(try MathKernel.add(big, .one) == big)
+            #expect(try MathKernel.subtract(.one, big) == big.negated)
+            #expect(try MathKernel.add(big, .zero) == big)
+            // 10^k mod 360 is 280 for every k ≥ 3, so sin(1e999999°) = sin(280°).
+            #expect(Numeric.agree(try MathKernel.trig(.sin, big, angle: .degrees), "-0.98480775301220805936674302458952301367064325171984241879002575", digits: 55))
+            // An exact 10^300 raised to 3000 would be a 3-million-bit integer; it goes through exp(log) instead.
+            let tenTo300 = try #require(CalcValue(literal: "1e300"))
+            #expect(tenTo300.isExact)
+            let powered = try MathKernel.power(tenTo300, CalcValue(3000))
+            #expect(!powered.isExact && Numeric.agree(powered, "1E+900000", digits: 55))
+            #expect(throws: CalcError.self) { try MathKernel.power(tenTo300, CalcValue(4000)) }   // overflow
+            #expect(Numeric.agree(try MathKernel.root(CalcValue(approx: BigDecimal(1, 1000)), CalcValue(200)), "1E+5", digits: 55))
+            #expect(clock.now - start < .seconds(3), "pathological inputs took \(clock.now - start)")
+        }
+
         @Test func programmerEntryRespectsTheWordSize() {
             var engine = ProgrammerEngine()
             engine.send(.setWidth(.eight))

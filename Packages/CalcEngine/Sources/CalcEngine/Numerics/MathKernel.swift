@@ -70,7 +70,16 @@ public enum MathKernel {
         if let x = a.exactFraction, let y = b.exactFraction {
             return CalcValue(exact: subtracting ? x - y : x + y)
         }
+        if b.isZero { return try checkOverflow(a) }
+        if a.isZero { return try checkOverflow(subtracting ? b.negated : b) }
         let x = a.approx, y = b.approx
+        // Operands whose magnitudes differ by more than the working precision do not interact at all:
+        // skip BigDecimal's exponent alignment (a 10^999999-digit integer for `1e999999 + 1`) and keep
+        // the dominant operand.
+        if let ex = a.decimalExponent, let ey = b.decimalExponent,
+           abs(ex - ey) > CalcPrecision.working + CalcPrecision.transcendentalGuardDigits {
+            return try checkOverflow(ex > ey ? CalcValue(approx: x) : CalcValue(approx: subtracting ? -y : y))
+        }
         let r = subtracting ? x.subtract(y, working) : x.add(y, working)
         return try checkOverflow(cancellationSnap(r, x, y))
     }
@@ -116,15 +125,16 @@ public enum MathKernel {
         if y.isZero { return .one }
         if let yf = y.exactFraction, yf.isInteger {
             guard let n = yf.numerator.asInt() else { return try hugeIntegerPower(x, exponent: yf.numerator) }
-            if let xf = x.exactFraction, abs(n) <= CalcPrecision.maxIntegerPowerExponent {
+            if let xf = x.exactFraction, abs(n) <= CalcPrecision.maxIntegerPowerExponent,
+               (xf.numerator.bitWidth + xf.denominator.bitWidth) * abs(n) <= CalcPrecision.maxExactPowerBits {
                 return CalcValue(exact: fractionPower(xf, n))
             }
             let xm = x.approx
             let estimate = Double(n) * log10Estimate(xm.abs)
             if estimate > overflowLimit { throw CalcError.overflow }
             if estimate < -overflowLimit { return .zero }
-            if abs(n) <= CalcPrecision.maxIntegerPowerExponent {
-                return try settle(xm.pow(n, working))
+            if abs(n) <= CalcPrecision.maxDirectPowerExponent {
+                return try settle(xm.pow(n, working))   // exact BInt power of the mantissa, then rounded
             }
             let magnitude = try expOfLog(xm.abs, BigDecimal(n))
             let negative = xm.isNegative && (n & 1 == 1)
@@ -192,8 +202,9 @@ public enum MathKernel {
             if let xf = x.exactFraction, k <= 64, let r = exactRoot(xf, k) {
                 return CalcValue(exact: r)
             }
-            if let exponent = x.decimalExponent, abs(exponent) > CalcPrecision.maxDoubleSeedExponent {
-                // BigDecimal.root seeds Newton with a Double, which under/overflows beyond ~1e±308.
+            if k > CalcPrecision.maxDirectPowerExponent || abs(x.decimalExponent ?? 0) > CalcPrecision.maxDoubleSeedExponent {
+                // BigDecimal.root seeds Newton with a Double (under/overflows beyond ~1e±308) and raises to
+                // the (k−1)-th power on every iteration; exp(log) is accurate and cheap for any k.
                 return try settle(expOfLog(x.approx, BigDecimal.one.divide(BigDecimal(k), guardRounding())))
             }
             return try settle(BigDecimal.root(x.approx, BigDecimal(k), working))
@@ -324,7 +335,7 @@ public enum MathKernel {
                 }
                 reduced = CalcValue(exact: r)
             } else {
-                reduced = CalcValue(approx: x.approx.quotientAndRemainder(BigDecimal(360)).remainder)
+                reduced = CalcValue(approx: reduceDegrees(x.approx))
             }
             let g = guardRounding()
             radians = reduced.approx(g).multiply(BigDecimal.pi(g), g).divide(BigDecimal(180), g)
@@ -350,6 +361,23 @@ public enum MathKernel {
             let s = BigDecimal.sin(radians, g)
             return try zeroSnap(s.divide(c.approx, g).round(working), argument: radians)
         }
+    }
+
+    /// `d mod 360` for an approx angle without aligning exponents. `m·10^e` with `e > 0` is an integer, so the
+    /// remainder is `(m mod 360)·(10^e mod 360) mod 360` (10^e mod 360 is 280 for every e ≥ 3); smaller
+    /// exponents keep BigDecimal's own remainder. Sign is preserved (sin(−θ) = −sin θ).
+    static func reduceDegrees(_ d: BigDecimal) -> BigDecimal {
+        guard d.exponent > 0 else { return d.quotientAndRemainder(BigDecimal(360)).remainder }
+        let mantissa = d.significandBitPattern
+        let base = (mantissa.abs % BInt(360)).asInt() ?? 0
+        var power = 1, square = 10 % 360, k = d.exponent
+        while k > 0 {
+            if k & 1 == 1 { power = power * square % 360 }
+            square = square * square % 360
+            k >>= 1
+        }
+        let r = base * power % 360
+        return BigDecimal(mantissa.isNegative ? -r : r)
     }
 
     static func inverseTrig(_ fn: UnaryFunction, _ x: CalcValue, angle: AngleMode) throws -> CalcValue {

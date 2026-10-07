@@ -44,6 +44,11 @@ public enum CalcPrecision {
     public static let tanhSaturationArgument = 70
     /// From |x| ≥ 20 the hyperbolic functions are evaluated through exp instead of BigDecimal's Taylor series.
     public static let hyperbolicSeriesLimit = 20
+    /// Exact integer powers are computed only while `(bits of numerator + denominator) × |n|` stays below this;
+    /// anything larger would be demoted to the approx lane anyway (1 024 bits) after a very expensive BInt power.
+    public static let maxExactPowerBits = 8_192
+    /// Approx integer powers / roots up to this exponent use BigDecimal's direct BInt power; beyond, exp(log).
+    public static let maxDirectPowerExponent = 64
 
     /// Rounding context for the working precision (`Rounding` is not `Sendable`, so it is built on demand).
     public static var workingRounding: Rounding { Rounding(.toNearestOrEven, working) }

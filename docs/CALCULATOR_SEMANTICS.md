@@ -83,3 +83,18 @@ Al pulsar `%` la pantalla muestra el operando convertido (`200 + 10 %` → `20`)
 
 Enteros de 8/16/32/64 bits con o sin signo, bases 2/8/10/16, evaluación **de izquierda a derecha**,
 desbordamiento envolvente, división entera con signo, desplazamiento aritmético para valores con signo.
+
+## Límites de evaluación (robustez)
+
+Reglas que acotan el costo de cualquier tecla, descubiertas con el *fuzzing* de 50 000 eventos:
+
+| Situación | Política |
+|---|---|
+| `sinh`, `cosh`, `tanh` con `|x| ≥ 20` | se evalúan vía `exp` (las series de Taylor de BigDecimal crecen con `|x|` y `sinh(2·10⁶)` no terminaría); `tanh` devuelve ±1 desde `|x| ≥ 70` (1 − tanh 70 ≈ 3·10⁻⁶¹) |
+| `sin`, `cos`, `tan` en radianes con `|x| > 10³⁰⁰` | `Error` (dominio): reducir módulo 2π exigiría más de 360 dígitos de π. Hasta ahí se añade un dígito de guarda por cada dígito entero de `|x|` |
+| `sin`, `cos`, `tan` en grados con `|x|` enorme | reducción módulo 360 por aritmética modular sobre mantisa y exponente (`10ᵉ mod 360 = 280` para `e ≥ 3`), sin alinear exponentes |
+| `a ± b` con magnitudes separadas por más de 90 órdenes | el operando pequeño no influye a 60 dígitos: se devuelve el dominante sin alinear exponentes (`1e999999 + 1`) |
+| potencia entera exacta `(p/q)ⁿ` | solo si `(bits(p) + bits(q))·|n| ≤ 8 192`; si no, carril approx (el resultado se degradaría a approx de todas formas al superar 1 024 bits) |
+| potencia o raíz entera approx con `|n| > 64` | `exp(n·ln x)` con dígitos de guarda en lugar de la potencia directa de la mantisa o de Newton |
+| raíces de `|x|` fuera de `10^±300` | `exp(ln x / n)`: la semilla `Double` de Newton se desborda |
+| entrada en modo programador | un dígito que haría exceder el ancho de palabra se ignora (8 bits: "300" no existe) |

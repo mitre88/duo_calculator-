@@ -1,6 +1,6 @@
 # Vendored BigDecimal 3.0.2 (mgriebling/BigDecimal, MIT)
 
-Verbatim copy of https://github.com/mgriebling/BigDecimal at tag 3.0.2 with **two** changes:
+Verbatim copy of https://github.com/mgriebling/BigDecimal at tag 3.0.2 with **four** changes:
 
 * `BigDecimal.swift`: `init(_ value: Foundation.Decimal)` and `asDecimal()` keep the original
   field-level bridging under `#if canImport(Darwin)` and use the exact decimal **string** otherwise,
@@ -14,6 +14,8 @@ Verbatim copy of https://github.com/mgriebling/BigDecimal at tag 3.0.2 with **tw
   (`sinh(50)` agreed with the true value to only 36 digits at 94 requested digits).
   Reproduced independently in Python by rounding the denominators to 34 digits.
 
+* `DecimalMath/DecimalMath.swift`: a stray `print(result)` inside `atan` (upstream debugging leftover) is
+  removed; it wrote every arctangent to stdout.
 * `Package.swift`: depends on the sibling `../BigInt` by path, pins the two remote dependencies to exact
   versions, and drops the `BigDecimalTests` target (its sources are not vendored).
 

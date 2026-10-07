@@ -776,7 +776,6 @@ extension BigDecimal {
         x = x.divide(sqrt(one + x.multiply(x, mc2), mc2), mc2)
 
         let result = asin(x, mc2)
-        print(result)
         return result.round(mc)
     }
     

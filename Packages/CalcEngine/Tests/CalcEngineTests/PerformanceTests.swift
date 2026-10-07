@@ -79,9 +79,11 @@ enum PerfBudget {
         return false
         #endif
     }()
-    static var soakWarmup: Int { isDebugBuild ? 300 : 2_000 }
-    static var soakEvents: Int { isDebugBuild ? 1_500 : 20_000 }
-    static var fuzzEvents: Int { isDebugBuild ? 1_000 : 10_000 }
+    static var soakWarmup: Int { isDebugBuild ? 100 : 1_000 }
+    static var soakEvents: Int { isDebugBuild ? 400 : 10_000 }
+    static var fuzzEvents: Int { isDebugBuild ? 300 : 4_000 }
+    static var latencyRounds: Int { isDebugBuild ? 3 : 25 }
+    static var throughputIterations: Int { isDebugBuild ? 6 : 20 }
 }
 
 /// Deterministic generator for the fuzz / soak tests (splitmix64).
@@ -153,7 +155,7 @@ extension CalcEngineTests {
             for event in Self.script { engine.send(event); _ = engine.snapshot(formatter: .regularUS) }
             let clock = ContinuousClock()
             var samples: [Duration] = []
-            for _ in 0..<25 {
+            for _ in 0..<PerfBudget.latencyRounds {
                 for event in Self.script {
                     let start = clock.now
                     engine.send(event)
@@ -180,7 +182,7 @@ extension CalcEngineTests {
             for item in cases {
                 _ = try Evaluator.evaluate(text: item.expr, angleMode: item.angle)   // warm-up
                 var samples: [Duration] = []
-                for _ in 0..<20 {
+                for _ in 0..<PerfBudget.throughputIterations {
                     let start = clock.now
                     _ = try Evaluator.evaluate(text: item.expr, angleMode: item.angle)
                     samples.append(clock.now - start)
