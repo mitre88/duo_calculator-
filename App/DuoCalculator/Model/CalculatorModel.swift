@@ -109,6 +109,13 @@ final class CalculatorModel {
         }
     }
 
+    /// `send` with the haptic of a physical key, for gestures that stand in for one (swipe ⌫, hardware keys).
+    func send(_ event: CalculatorEvent, haptic: HapticKind) {
+        lastHaptic = haptic
+        hapticTick += 1
+        send(event)
+    }
+
     private func apply(_ result: DisplaySnapshot, after event: CalculatorEvent) {
         let wasError = snapshot.isError
         snapshot = result
@@ -150,9 +157,7 @@ final class CalculatorModel {
 
     func handleKeyPress(_ press: KeyPress) -> KeyPress.Result {
         guard let event = KeyboardMapping.event(for: press) else { return .ignored }
-        lastHaptic = .light
-        hapticTick += 1
-        send(event)
+        send(event, haptic: .light)
         return .handled
     }
 }

@@ -64,44 +64,50 @@ struct ProgrammerPanel: View {
 
     private func header(engine: ProgrammerEngine) -> some View {
         @Bindable var model = model
-        return HStack(spacing: 12) {
-            Menu {
-                Picker(selection: $model.mode) {
-                    ForEach(CalculatorModel.Mode.allCases) { mode in
-                        Label { Text(mode.titleKey, bundle: .main) } icon: { Image(systemName: mode.symbolName) }.tag(mode)
-                    }
-                } label: { EmptyView() }
-                .pickerStyle(.inline)
-            } label: {
-                Label { Text(model.mode.titleKey, bundle: .main) } icon: { Image(systemName: model.mode.symbolName) }
-            }
-            .buttonStyle(.glass)
+        return VStack(spacing: 10) {
+            HStack(spacing: 12) {
+                Menu {
+                    Picker(selection: $model.mode) {
+                        ForEach(CalculatorModel.Mode.allCases) { mode in
+                            Label { Text(mode.titleKey, bundle: .main) } icon: { Image(systemName: mode.symbolName) }.tag(mode)
+                        }
+                    } label: { EmptyView() }
+                    .pickerStyle(.inline)
+                } label: {
+                    Label { Text(model.mode.titleKey, bundle: .main) } icon: { Image(systemName: model.mode.symbolName) }
+                }
+                .buttonStyle(.glass)
 
-            Picker("", selection: Binding(get: { engine.radix }, set: { model.programmer.send(.setRadix($0)) })) {
-                ForEach(Radix.allCases) { radix in Text(verbatim: radix.label).tag(radix) }
-            }
-            .pickerStyle(.segmented)
+                Spacer(minLength: 0)
 
-            Picker("", selection: Binding(get: { engine.width }, set: { model.programmer.send(.setWidth($0)) })) {
-                ForEach(BitWidth.allCases) { width in Text(verbatim: "\(width.rawValue)").tag(width) }
-            }
-            .pickerStyle(.segmented)
-            .frame(maxWidth: 220)
+                Toggle(isOn: Binding(get: { engine.isSigned }, set: { _ in model.programmer.send(.toggleSigned) })) {
+                    Text("programmer.signed", bundle: .main)
+                }
+                .toggleStyle(.button)
+                .buttonStyle(.glass)
 
-            Toggle(isOn: Binding(get: { engine.isSigned }, set: { _ in model.programmer.send(.toggleSigned) })) {
-                Text("programmer.signed", bundle: .main)
+                Button {
+                    let value = engine.value.calcValue
+                    model.mode = .scientific
+                    model.send(.recall(value))
+                } label: {
+                    Label { Text("programmer.sendToCalculator", bundle: .main) } icon: { Image(systemName: "function") }
+                }
+                .buttonStyle(.glass)
             }
-            .toggleStyle(.button)
-            .buttonStyle(.glass)
 
-            Button {
-                let value = engine.value.calcValue
-                model.mode = .scientific
-                model.send(.recall(value))
-            } label: {
-                Label { Text("programmer.sendToCalculator", bundle: .main) } icon: { Image(systemName: "function") }
+            HStack(spacing: 12) {
+                Picker("", selection: Binding(get: { engine.radix }, set: { model.programmer.send(.setRadix($0)) })) {
+                    ForEach(Radix.allCases) { radix in Text(verbatim: radix.label).tag(radix) }
+                }
+                .pickerStyle(.segmented)
+
+                Picker("", selection: Binding(get: { engine.width }, set: { model.programmer.send(.setWidth($0)) })) {
+                    ForEach(BitWidth.allCases) { width in Text(verbatim: "\(width.rawValue)").tag(width) }
+                }
+                .pickerStyle(.segmented)
+                .frame(maxWidth: 240)
             }
-            .buttonStyle(.glass)
         }
         .font(.subheadline)
     }

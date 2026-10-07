@@ -68,7 +68,7 @@ struct DisplayView: View {
             DragGesture(minimumDistance: 24)
                 .onEnded { value in
                     if abs(value.translation.width) > abs(value.translation.height) {
-                        model.send(.backspace)
+                        model.send(.backspace, haptic: .light)
                     }
                 }
         )
@@ -82,8 +82,11 @@ struct DisplayView: View {
             .foregroundStyle(snapshot.isError ? Palette.error : Color.primary)
             .lineLimit(1)
             .minimumScaleFactor(0.3)
+            .allowsTightening(true)
             .frame(maxWidth: .infinity, alignment: .trailing)
             .contentTransition(.numericText(value: snapshot.primaryValue?.doubleValue ?? 0))
+            .resultFeedback(trigger: model.resultTick, isError: snapshot.isError, reduceMotion: reduceMotion)
+            .privacySensitive()
             .accessibilityLabel(Text(LocalizedStringKey(snapshot.isError ? "display.error" : "display.result"), bundle: .main))
             .accessibilityValue(Text(verbatim: snapshot.isError ? SpokenNumber.errorDescription(snapshot.errorReason) : SpokenNumber.spoken(snapshot.primary)))
             .accessibilityAddTraits(.updatesFrequently)

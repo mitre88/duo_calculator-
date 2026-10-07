@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import CalcEngine
 
 /// Root of the UI. Measures the window, resolves the layout plan (size classes + reserved regions),
@@ -66,6 +67,9 @@ struct CalculatorRootView: View {
         }
         .onChange(of: settings.usesGrouping, initial: true) { _, grouping in
             model.usesGrouping = grouping
+        }
+        .onChange(of: settings.keepScreenAwake, initial: true) { _, awake in
+            UIApplication.shared.isIdleTimerDisabled = awake
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()

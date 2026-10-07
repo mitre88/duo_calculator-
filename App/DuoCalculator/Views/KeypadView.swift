@@ -28,7 +28,8 @@ struct KeypadView: View {
                     namespace: namespace,
                     onPress: { model.press(definition, second: snapshot.isSecondActive) })
                 .keyPlacement(placement)
-                .transition(reduceMotion ? .opacity : .scale(scale: 0.86).combined(with: .opacity))
+                .transition(Motion.keyTransition(row: placement.row, column: placement.column, columns: spec.columns,
+                                                 gutterAfterColumn: spec.gutterAfterColumn, reduceMotion: reduceMotion))
             }
         }
         .accessibilityElement(children: .contain)

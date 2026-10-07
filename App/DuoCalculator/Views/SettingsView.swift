@@ -17,14 +17,10 @@ struct SettingsView: View {
                         }
                     } label: { Text("settings.appearance", bundle: .main) }
                     Toggle(isOn: $settings.oledTrueBlack) { Text("settings.trueBlack", bundle: .main) }
-                    Picker(selection: $settings.accent) {
-                        ForEach(AppSettings.Accent.allCases) { accent in
-                            HStack {
-                                Circle().fill(accent.color).frame(width: 14, height: 14)
-                                Text(accent.titleKey, bundle: .main)
-                            }.tag(accent)
-                        }
-                    } label: { Text("settings.accent", bundle: .main) }
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("settings.accent", bundle: .main)
+                        AccentSwatchRow(selection: $settings.accent)
+                    }
                     Toggle(isOn: $settings.auroraEnabled) { Text("settings.aurora", bundle: .main) }
                 } header: { Text("settings.section.appearance", bundle: .main) }
 
@@ -59,5 +55,44 @@ struct SettingsView: View {
             }
         }
         .presentationDetents([.medium, .large])
+    }
+}
+
+/// Accent swatches: a row of colored discs, the selected one ringed and checked. Faster to scan than a menu.
+struct AccentSwatchRow: View {
+    @Binding var selection: AppSettings.Accent
+
+    var body: some View {
+        HStack(spacing: 16) {
+            ForEach(AppSettings.Accent.allCases) { accent in
+                let selected = accent == selection
+                Button {
+                    withAnimation(Motion.keyPress) { selection = accent }
+                } label: {
+                    ZStack {
+                        Circle().fill(accent.color)
+                        if selected {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundStyle(.white)
+                                .transition(.scale.combined(with: .opacity))
+                        }
+                    }
+                    .frame(width: 32, height: 32)
+                    .overlay {
+                        Circle()
+                            .strokeBorder(accent.color.opacity(selected ? 0.55 : 0), lineWidth: 2)
+                            .padding(-4)
+                    }
+                    .contentShape(Circle().inset(by: -6))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(accent.titleKey, bundle: .main))
+                .accessibilityAddTraits(selected ? [.isSelected] : [])
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.vertical, 2)
+        .sensoryFeedback(.selection, trigger: selection)
     }
 }

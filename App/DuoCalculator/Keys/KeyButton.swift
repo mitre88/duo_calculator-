@@ -21,6 +21,7 @@ struct KeyButton: View {
                 .contentShape(resolvedShape)
         }
         .buttonStyle(KeyPressStyle())
+        .hoverEffect(.lift)
         .keyGlass(category: definition.category, isActive: isActive, shape: resolvedShape, accent: accent)
         .glassEffectID(definition.id.identifier, in: namespace)
         .glassEffectTransition(.materialize)

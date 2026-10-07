@@ -14,7 +14,7 @@ entre las dos pantallas y un motor matemático exacto.
 Packages/CalcEngine/   motor matemático (SwiftPM, sin UI, se prueba en Linux y en la Mac)
 App/                   app SwiftUI (iOS 27.1) generada con XcodeGen
 Tools/                 generadores de fixtures (mpmath + modelo de referencia en Python)
-docs/                  semántica normativa, arquitectura, rendimiento, checklist por pose
+docs/                  semántica normativa, arquitectura, rendimiento, diseño, checklist por pose
 ```
 
 ### Motor (`CalcEngine`)
@@ -67,6 +67,7 @@ python3 -I Tools/reference_model.py && python3 -I Tools/gen_fixtures.py
 * `docs/CALCULATOR_SEMANTICS.md` — reglas normativas (precedencias, `%`, `=`, dominios, redondeo).
 * `docs/ARCHITECTURE.md` — módulos y flujos (tecla, plegado).
 * `docs/PERFORMANCE.md` — fluidez, memoria y peso: decisiones y cómo medir.
+* `docs/DESIGN.md` — sistema visual: tokens, tipografía, vidrio por familia, coreografía del plegado, hápticos.
 * `docs/DUO_POSE_CHECKLIST.md` — verificación manual por pose.
 
 ## Licencia

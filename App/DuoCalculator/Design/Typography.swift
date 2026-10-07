@@ -23,7 +23,9 @@ enum Typography {
     }
 
     static func functionKey(keyHeight: CGFloat) -> Font {
-        .system(size: min(21, max(13, keyHeight * 0.30)), weight: .medium, design: .rounded)
+        // Small faces (tabletop, Book pose) go one weight up so they stay crisp on glass.
+        let size = min(21, max(13, keyHeight * 0.30))
+        return .system(size: size, weight: size < 17 ? .semibold : .medium, design: .rounded)
     }
 
     static func indicator() -> Font {
