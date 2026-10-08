@@ -8,6 +8,9 @@ enum LayoutResolver {
     static let stackedMinimumHeight: CGFloat = 720
     static let compactHeightThreshold: CGFloat = 500
     static let minimumDisplayHeight: CGFloat = 112
+    /// Programmer / converter panels stack a header, a display, a bit grid and a 5-row keypad: below this height
+    /// (iPhone Pro Max in landscape) they cannot fit, so the mode menu is hidden like in compact widths.
+    static let panelMinimumHeight: CGFloat = 620
 
     static func resolve(_ input: LayoutInput) -> LayoutPlan {
         let content = input.contentRect
@@ -41,9 +44,12 @@ enum LayoutResolver {
         let compactHeight = input.sizeClass.vertical == .compact || content.height < compactHeightThreshold
         if input.isAccessibilitySize { return compactHeight ? .basicLandscape : .basic }
         if compactWidth {
-            if compactHeight { return input.prefersScientificInCompactLandscape ? .scientificCompact : .basicLandscape }
+            if compactHeight { return shortLandscapeMode(input) }
             return .basic
         }
+        // Plus / Pro Max phones report a regular width in landscape, yet the pane is as short as any phone's:
+        // the full scientific chrome would leave no room for the result line.
+        if compactHeight { return shortLandscapeMode(input) }
         if let division = input.activeHorizontalDivision,
            division.frame.midY > content.minY + minimumDisplayHeight,
            division.frame.midY < content.maxY - 200 {
@@ -57,6 +63,21 @@ enum LayoutResolver {
             return content.height >= stackedMinimumHeight ? .scientificStacked : .basic
         }
         return .scientific
+    }
+
+    /// Compact scientific needs its display stack (with a legible result) above five rows of compact keys;
+    /// shorter panes (6.1"/6.3" phones in landscape) get the side-by-side basic layout instead.
+    static var scientificCompactMinimumHeight: CGFloat {
+        DisplayMetrics.minimumHeight(topInset: DisplayMetrics.minimumTopInset, compact: true)
+            + KeypadMetrics.keypadHeight(keyHeight: KeypadMetrics.minimumCompactKeyHeight,
+                                         rows: KeyGridSpec.scientific.rows, spacing: KeypadMetrics.compactSpacing)
+            + KeypadMetrics.compactMargin
+    }
+
+    static func shortLandscapeMode(_ input: LayoutInput) -> LayoutMode {
+        guard input.prefersScientificInCompactLandscape,
+              input.contentRect.height >= scientificCompactMinimumHeight else { return .basicLandscape }
+        return .scientificCompact
     }
 
     // MARK: Display
@@ -74,9 +95,10 @@ enum LayoutResolver {
     /// Display height for the full-width modes: the preferred share of the pane, never less than what the display
     /// stack needs, and never so much that the keypad drops below `minimumKeySide`.
     static func displayHeight(preferred: CGFloat, topInset: CGFloat, compact: Bool, content: CGRect,
-                              margin: CGFloat, rows: Int, spacing: CGFloat) -> CGFloat {
+                              margin: CGFloat, rows: Int, spacing: CGFloat,
+                              minimumKeyHeight: CGFloat = KeypadMetrics.minimumKeySide) -> CGFloat {
         let required = DisplayMetrics.minimumHeight(topInset: topInset, compact: compact)
-        let minimumKeypad = KeypadMetrics.keypadHeight(keyHeight: KeypadMetrics.minimumKeySide, rows: rows, spacing: spacing)
+        let minimumKeypad = KeypadMetrics.keypadHeight(keyHeight: minimumKeyHeight, rows: rows, spacing: spacing)
         let ceiling = content.height - margin - minimumKeypad
         return max(minimumDisplayHeight, min(max(preferred, required), ceiling))
     }
@@ -150,14 +172,15 @@ enum LayoutResolver {
             keyWidth = KeypadMetrics.keyWidth(available: content.width, columns: spec.columns, spacing: spacing, margin: margin, gutter: gutter)
         }
         let compact = mode == .scientificCompact
+        let minimumKeyHeight = KeypadMetrics.minimumKeyHeight(for: mode)
         let topInset = displayTopInset(input, area: content, compact: compact)
         let displayHeight = Self.displayHeight(preferred: max(compact ? 90 : minimumDisplayHeight + 40, content.height * (compact ? 0.26 : 0.30)),
                                           topInset: topInset, compact: compact, content: content,
-                                          margin: margin, rows: spec.rows, spacing: spacing)
+                                          margin: margin, rows: spec.rows, spacing: spacing, minimumKeyHeight: minimumKeyHeight)
         let keypadAreaHeight = content.height - displayHeight - margin
         var keyHeight = KeypadMetrics.keyHeight(available: keypadAreaHeight, rows: spec.rows, spacing: spacing)
         keyHeight = min(keyHeight, keyWidth * 1.45)
-        keyHeight = max(keyHeight, KeypadMetrics.minimumKeySide)
+        keyHeight = max(keyHeight, minimumKeyHeight)
         let keypadHeight = KeypadMetrics.keypadHeight(keyHeight: keyHeight, rows: spec.rows, spacing: spacing)
         let keypadWidth = keyWidth * CGFloat(spec.columns) + spacing * CGFloat(spec.columns - 1) + gutter
         let keypadFrame = CGRect(x: content.midX - keypadWidth / 2,
@@ -170,7 +193,7 @@ enum LayoutResolver {
                           keySize: CGSize(width: keyWidth, height: keyHeight),
                           displayProfile: mode == .scientificCompact ? .compact : .regular,
                           isCompactWidth: mode == .scientificCompact, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          panelsAvailable: mode == .scientific, displayTopInset: topInset)
+                          panelsAvailable: mode == .scientific && content.height >= panelMinimumHeight, displayTopInset: topInset)
     }
 
     /// Book pose: the 5 | 5 spec with the channel exactly over the fold's expanded frame. Each half is sized

@@ -3,6 +3,12 @@ import Foundation
 /// Key-size model:  side = min((W − (n−1)·gap − 2·margin) / n, (H − (rows−1)·gap) / rows)
 enum KeypadMetrics {
     static let minimumKeySide: CGFloat = 44
+    /// Short landscape panes (`.scientificCompact`) trade key height for a legible result line; keys stay ≥ 44 pt wide.
+    static let minimumCompactKeyHeight: CGFloat = 36
+
+    static func minimumKeyHeight(for mode: LayoutMode) -> CGFloat {
+        mode == .scientificCompact ? minimumCompactKeyHeight : minimumKeySide
+    }
     static let defaultSpacing: CGFloat = 12
     static let compactSpacing: CGFloat = 8
     static let defaultMargin: CGFloat = 16

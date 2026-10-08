@@ -57,6 +57,16 @@ struct LayoutResolverTests {
                                                     regions: [ReservedRegionInfo(kind: .occlusion, frame: CGRect(x: 520, y: 0, width: 106, height: 54),
                                                                                  margins: EdgeInsets(), isActive: true)])
 
+    /// iPhone 17 Pro Max in landscape (956×440 pt, Dynamic Island insets on both sides): regular width, compact height.
+    static let proMaxLandscape = LayoutInput(size: CGSize(width: 956, height: 440),
+                                             safeArea: EdgeInsets(top: 0, leading: 62, bottom: 21, trailing: 62),
+                                             sizeClass: SizeClassPair(horizontal: .regular, vertical: .compact))
+
+    /// iPhone 17 Pro in landscape (874×402 pt): compact width and a pane too short for the scientific grid.
+    static let phoneLandscape = LayoutInput(size: CGSize(width: 874, height: 402),
+                                            safeArea: EdgeInsets(top: 0, leading: 62, bottom: 21, trailing: 62),
+                                            sizeClass: .compactCompact)
+
     static func fold(_ frame: CGRect, active: Bool) -> ReservedRegionInfo {
         ReservedRegionInfo(kind: .division, frame: frame, margins: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), isActive: active)
     }
@@ -79,6 +89,10 @@ struct LayoutResolverTests {
         #expect(LayoutResolver.resolve(Self.splitHalf).mode == .basic)
         #expect(LayoutResolver.resolve(Self.splitTwoThirds).mode == .basic)
         #expect(LayoutResolver.resolve(Self.ipad).mode == .scientific)
+        // Plus / Pro Max phones report a regular width in landscape, but the pane is as short as any phone's.
+        #expect(LayoutResolver.resolve(Self.proMaxLandscape).mode == .scientificCompact)
+        // Below that, even 36 pt keys leave no room for a legible result: the side-by-side basic layout takes over.
+        #expect(LayoutResolver.resolve(Self.phoneLandscape).mode == .basicLandscape)
         var accessibility = Self.innerPortrait
         accessibility.isAccessibilitySize = true
         #expect(LayoutResolver.resolve(accessibility).mode == .basic)
@@ -86,7 +100,7 @@ struct LayoutResolverTests {
 
     static var allPoses: [LayoutInput] {
         [outerPortrait, outerLandscape, innerPortrait, innerLandscape, tabletop, book, splitHalf, splitTwoThirds, ipad, stacked,
-         innerBookLandscape, innerPortraitStatusBar]
+         innerBookLandscape, innerPortraitStatusBar, proMaxLandscape, phoneLandscape]
     }
 
     @Test func invariants() {
@@ -97,7 +111,7 @@ struct LayoutResolverTests {
         let plan = LayoutResolver.resolve(input)
         let content = input.contentRect
         #expect(plan.keySize.width >= KeypadMetrics.minimumKeySide - 0.5, "key width \(plan.keySize.width) in \(plan.mode)")
-        #expect(plan.keySize.height >= KeypadMetrics.minimumKeySide - 0.5, "key height \(plan.keySize.height) in \(plan.mode)")
+        #expect(plan.keySize.height >= KeypadMetrics.minimumKeyHeight(for: plan.mode) - 0.5, "key height \(plan.keySize.height) in \(plan.mode)")
         #expect(content.insetBy(dx: -0.5, dy: -0.5).contains(plan.keypadFrame), "keypad \(plan.keypadFrame) escapes \(content) in \(plan.mode)")
         #expect(content.insetBy(dx: -0.5, dy: -0.5).contains(plan.displayFrame), "display escapes content in \(plan.mode)")
         #expect(plan.displayFrame.height >= LayoutResolver.minimumDisplayHeight - 0.5 || plan.mode == .basicLandscape)
@@ -148,7 +162,7 @@ struct LayoutResolverTests {
             #expect(plan.displayFrame.maxY <= plan.keypadFrame.minY + 0.5, "display runs into the keypad in \(plan.mode)")
         }
         // Only a pane already squeezed to minimum-size keys may shave the result line.
-        let keysAtMinimum = plan.keySize.height <= KeypadMetrics.minimumKeySide + 0.5
+        let keysAtMinimum = plan.keySize.height <= KeypadMetrics.minimumKeyHeight(for: plan.mode) + 0.5
         #expect(plan.primaryLineHeight >= DisplayMetrics.minimumPrimaryLineHeight(compact: compact) - 0.5 || keysAtMinimum,
                 "result line \(plan.primaryLineHeight) pt too short in \(plan.mode)")
         let modeBar = CGRect(x: plan.displayFrame.minX, y: plan.displayFrame.minY + plan.displayTopInset,
@@ -202,6 +216,20 @@ struct LayoutResolverTests {
         #expect(block.width < plan.keySize.width)
         #expect(block.width >= 44 && block.height >= 44)
         #expect(plan.panelsAvailable)
+    }
+
+    @Test func panelsNeedTheInnerDisplayHeight() {
+        // A ~419 pt Pro Max landscape pane cannot hold the panels; the result line must still read at full size.
+        let proMax = LayoutResolver.resolve(Self.proMaxLandscape)
+        #expect(!proMax.panelsAvailable)
+        #expect(proMax.primaryLineHeight >= DisplayMetrics.minimumPrimaryLineHeight(compact: proMax.isCompactWidth) - 0.5,
+                "result line \(proMax.primaryLineHeight) pt in \(proMax.mode)")
+        // The flat inner display keeps them in both orientations (landscape as the 27.1 simulator reports it).
+        #expect(LayoutResolver.resolve(Self.innerPortrait).panelsAvailable)
+        let innerLandscapeFlat = LayoutInput(size: CGSize(width: 951, height: 669),
+                                             safeArea: EdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 84),
+                                             sizeClass: .regularRegular)
+        #expect(LayoutResolver.resolve(innerLandscapeFlat).panelsAvailable)
     }
 
     @Test func compactProfilesFollowWidth() {
