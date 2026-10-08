@@ -46,7 +46,7 @@ struct ProgrammerPanel: View {
     var body: some View {
         @Bindable var model = model
         let engine = model.programmer
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             header(engine: engine)
             display(engine: engine)
             BitGridView(value: engine.value) { index in
@@ -56,9 +56,9 @@ struct ProgrammerPanel: View {
             keypad(engine: engine)
         }
         .padding(.horizontal, 20)
-        .padding(.top, max(8, (plan.avoidRects.map { $0.maxY - plan.contentRect.minY }.max() ?? 0) + 12))
+        .padding(.top, plan.displayTopInset)   // same clearance as the scientific mode bar: only occlusions over the top strip count
         .padding(.bottom, 16)
-        .frame(width: plan.contentRect.width, height: plan.contentRect.height)
+        .frame(width: plan.contentRect.width, height: plan.contentRect.height, alignment: .top)
         .offset(x: plan.contentRect.minX, y: plan.contentRect.minY)
     }
 
@@ -113,7 +113,7 @@ struct ProgrammerPanel: View {
     }
 
     private func display(engine: ProgrammerEngine) -> some View {
-        VStack(alignment: .trailing, spacing: 6) {
+        VStack(alignment: .trailing, spacing: 4) {
             Text(verbatim: engine.primaryText)
                 .font(.system(size: 56, weight: .light, design: .monospaced))
                 .lineLimit(1)
@@ -131,7 +131,7 @@ struct ProgrammerPanel: View {
                         .frame(width: 44, alignment: .leading)
                     Spacer()
                     Text(verbatim: conversion.text)
-                        .font(.system(.body, design: .monospaced))
+                        .font(.system(.callout, design: .monospaced))
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .foregroundStyle(.secondary)
@@ -143,27 +143,44 @@ struct ProgrammerPanel: View {
                     .foregroundStyle(.tertiary)
             }
         }
-        .padding(16)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
         .background(GlassShapes.panel.fill(Color.primary.opacity(scheme == .dark ? 0.06 : 0.04)))
         .animation(Motion.digits, value: engine.primaryText)
     }
 
+    private static let keyRowSpacing: CGFloat = 6
+    private static let keyHeightRange: ClosedRange<CGFloat> = 44...64
+
     private func keypad(engine: ProgrammerEngine) -> some View {
         let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 8)
-        return GlassEffectContainer(spacing: 10) {
-            LazyVGrid(columns: columns, spacing: 8) {
+        let rowCount = CGFloat(rows.count)
+        let gaps = (rowCount - 1) * Self.keyRowSpacing
+        return GeometryReader { proxy in
+            // Rows share whatever height the header, display and bit grid leave, within 44…64 pt.
+            let fitted = (proxy.size.height - gaps) / rowCount
+            let keyHeight = min(Self.keyHeightRange.upperBound, max(Self.keyHeightRange.lowerBound, fitted))
+            keyGrid(engine: engine, columns: columns, keyHeight: keyHeight)
+        }
+        .frame(minHeight: rowCount * Self.keyHeightRange.lowerBound + gaps)
+    }
+
+    private func keyGrid(engine: ProgrammerEngine, columns: [GridItem], keyHeight: CGFloat) -> some View {
+        GlassEffectContainer(spacing: 10) {
+            LazyVGrid(columns: columns, spacing: Self.keyRowSpacing) {
                 ForEach(rows.flatMap { $0 }) { key in
                     let enabled = isEnabled(key, radix: engine.radix)
+                    let active = isActive(key, engine: engine)
                     Button {
                         press(key)
                     } label: {
                         Text(verbatim: key.label)
-                            .font(key.category == .digit ? Typography.digitKey(keyHeight: 56) : Typography.functionKey(keyHeight: 56))
-                            .frame(maxWidth: .infinity, minHeight: 52, maxHeight: .infinity)
-                            .foregroundStyle(key.category == .binaryOperator || key.category == .equals ? Color.white : Color.primary)
+                            .font(key.category == .digit ? Typography.digitKey(keyHeight: keyHeight) : Typography.functionKey(keyHeight: keyHeight))
+                            .frame(maxWidth: .infinity, minHeight: keyHeight, maxHeight: keyHeight)
+                            .foregroundStyle(labelColor(key, active: active))
                     }
                     .buttonStyle(KeyPressStyle())
-                    .keyGlass(category: key.category, isActive: isActive(key, engine: engine),
+                    .keyGlass(category: key.category, isActive: active,
                               shape: AnyShape(RoundedRectangle(cornerRadius: 18, style: .continuous)),
                               accent: settings.accent.color)
                     .disabled(!enabled)
@@ -172,7 +189,6 @@ struct ProgrammerPanel: View {
                 }
             }
         }
-        .frame(maxHeight: .infinity)
     }
 
     private func isEnabled(_ key: Key, radix: Radix) -> Bool {
@@ -181,8 +197,15 @@ struct ProgrammerPanel: View {
     }
 
     private func isActive(_ key: Key, engine: ProgrammerEngine) -> Bool {
-        if case .op(let op) = key.kind { return engine.pendingOperator == op && !engine.hasEntry }
+        if case .op(let op) = key.kind { return engine.pendingOperator == op && engine.isAwaitingOperand }
         return false
+    }
+
+    /// Same rule as `KeyFaceView`: the active key is a light pill, so its label must turn dark (or accent).
+    private func labelColor(_ key: Key, active: Bool) -> Color {
+        let isOperator = key.category == .binaryOperator || key.category == .equals
+        if active { return isOperator ? settings.accent.color : .black }
+        return isOperator ? .white : .primary
     }
 
     private func press(_ key: Key) {

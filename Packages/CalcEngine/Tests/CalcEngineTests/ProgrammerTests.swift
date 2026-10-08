@@ -66,6 +66,14 @@ extension CalcEngineTests {
             #expect(run([.digit(8), .binary(.add), .binary(.subtract), .digit(3), .equals]).primaryText == "5")
         }
 
+        @Test func awaitingOperandDrivesOperatorHighlight() {
+            #expect(!run([.digit(6)]).isAwaitingOperand)
+            #expect(run([.digit(6), .binary(.and)]).isAwaitingOperand)
+            #expect(!run([.digit(6), .binary(.and), .digit(3)]).isAwaitingOperand)
+            #expect(!run([.digit(6), .binary(.and), .digit(3), .equals]).isAwaitingOperand) // "=" ends the operation
+            #expect(!run([.digit(6), .binary(.and), .unary(.not)]).isAwaitingOperand)       // a unary result is an operand
+        }
+
         @Test func bitToggleAndCharacter() {
             var engine = run([])
             engine.send(.toggleBit(6))

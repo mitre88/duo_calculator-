@@ -76,7 +76,7 @@ struct UnitConverterPanel: View {
             table
         }
         .padding(.horizontal, 20)
-        .padding(.top, max(8, (plan.avoidRects.map { $0.maxY - plan.contentRect.minY }.max() ?? 0) + 12))
+        .padding(.top, plan.displayTopInset)   // same clearance as the scientific mode bar: only occlusions over the top strip count
         .padding(.bottom, 16)
         .frame(width: plan.contentRect.width, height: plan.contentRect.height, alignment: .top)
         .offset(x: plan.contentRect.minX, y: plan.contentRect.minY)
@@ -179,5 +179,10 @@ struct UnitConverterPanel: View {
 }
 
 extension UnitCategory {
-    var titleKey: LocalizedStringKey { LocalizedStringKey("unit.category.\(rawValue)") }
+    var titleKey: LocalizedStringKey {
+        // Build the key as a String first: an interpolated literal would be coerced through
+        // LocalizedStringKey's interpolation into the format key "unit.category.%@" (missing in the catalog).
+        let key = "unit.category.\(rawValue)"
+        return LocalizedStringKey(key)
+    }
 }

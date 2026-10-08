@@ -61,6 +61,9 @@ public struct ProgrammerEngine: Sendable, Codable, Hashable {
 
     public var hasEntry: Bool { entry != nil }
 
+    /// An operator is waiting for its second operand (drives the operator-key highlight); false once `=` ran.
+    public var isAwaitingOperand: Bool { pendingOperator != nil && !hasOperandSinceOperator && !justEvaluated }
+
     public mutating func send(_ event: ProgrammerEvent) {
         if isError {
             switch event {
