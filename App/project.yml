@@ -38,7 +38,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mitre88.duocalculator
         # The product keeps the target name (DuoCalculator.app) so XcodeGen's generated TEST_HOST for the
-        # unit-test bundle resolves; the Home Screen shows CFBundleDisplayName ("Duo Calculator").
+        # unit-test bundle resolves; the Home Screen shows CFBundleDisplayName ("Dúo Calculator").
         PRODUCT_MODULE_NAME: DuoCalculator
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
@@ -55,7 +55,7 @@ targets:
     info:
       path: DuoCalculator/Info.plist
       properties:
-        CFBundleDisplayName: Duo Calculator
+        CFBundleDisplayName: "Dúo Calculator"
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSApplicationCategoryType: public.app-category.utilities
