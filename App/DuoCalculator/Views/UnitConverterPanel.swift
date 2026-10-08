@@ -26,6 +26,12 @@ struct UnitConverterPanel: View {
                         .multilineTextAlignment(.trailing)
                         .focused($inputFocused)
                         .accessibilityLabel(Text("converter.inputValue", bundle: .main))
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Spacer()
+                                Button { inputFocused = false } label: { Text("converter.done", bundle: .main) }
+                            }
+                        }
                 }
                 Button {
                     withAnimation(Motion.panel) { model.converter.swap() }

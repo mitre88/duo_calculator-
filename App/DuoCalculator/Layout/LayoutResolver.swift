@@ -11,6 +11,8 @@ enum LayoutResolver {
     /// Programmer / converter panels stack a header, a display, a bit grid and a 5-row keypad: below this height
     /// (iPhone Pro Max in landscape) they cannot fit, so the mode menu is hidden like in compact widths.
     static let panelMinimumHeight: CGFloat = 620
+    /// …and the width of the 64-bit grid (~600 pt with the panel padding).
+    static let panelMinimumWidth: CGFloat = 600
 
     static func resolve(_ input: LayoutInput) -> LayoutPlan {
         let content = input.contentRect
@@ -193,7 +195,8 @@ enum LayoutResolver {
                           keySize: CGSize(width: keyWidth, height: keyHeight),
                           displayProfile: mode == .scientificCompact ? .compact : .regular,
                           isCompactWidth: mode == .scientificCompact, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          panelsAvailable: mode == .scientific && content.height >= panelMinimumHeight, displayTopInset: topInset)
+                          panelsAvailable: mode == .scientific && content.height >= panelMinimumHeight && content.width >= panelMinimumWidth,
+                          displayTopInset: topInset)
     }
 
     /// Book pose: the 5 | 5 spec with the channel exactly over the fold's expanded frame. Each half is sized
@@ -269,7 +272,8 @@ enum LayoutResolver {
                           keySpacing: spacing, centerGutter: 0, keyShape: .roundedRectangle,
                           keySize: CGSize(width: keyWidthBasic, height: keyHeight), displayProfile: .regular,
                           isCompactWidth: false, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          secondaryKeySize: CGSize(width: keyWidthBlock, height: keyHeight), displayTopInset: topInset)
+                          secondaryKeySize: CGSize(width: keyWidthBlock, height: keyHeight), panelsAvailable: false,
+                          displayTopInset: topInset)
     }
 
     private static func tabletopPlan(_ input: LayoutInput, content: CGRect) -> LayoutPlan {

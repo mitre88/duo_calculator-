@@ -2,6 +2,23 @@
   "sourceLanguage": "es-MX",
   "version": "1.0",
   "strings": {
+    "converter.done": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      }
+    },
     "converter.from": {
       "extractionState": "manual",
       "localizations": {
@@ -1477,6 +1494,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "scientific keypad"
+          }
+        }
+      }
+    },
+    "keypad.scientificBook": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "teclado científico, dividido alrededor del pliegue"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "scientific keypad, split around the fold"
           }
         }
       }

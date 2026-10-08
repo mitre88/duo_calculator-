@@ -215,7 +215,8 @@ struct LayoutResolverTests {
         let block = plan.secondaryKeySize!
         #expect(block.width < plan.keySize.width)
         #expect(block.width >= 44 && block.height >= 44)
-        #expect(plan.panelsAvailable)
+        // A 500 pt pane cannot hold the programmer's 64-bit grid (~600 pt).
+        #expect(!plan.panelsAvailable)
     }
 
     @Test func panelsNeedTheInnerDisplayHeight() {
@@ -230,6 +231,12 @@ struct LayoutResolverTests {
                                              safeArea: EdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 84),
                                              sizeClass: .regularRegular)
         #expect(LayoutResolver.resolve(innerLandscapeFlat).panelsAvailable)
+        // Wide enough for the scientific grid (≥ 560 pt) but not for the 64-bit grid.
+        let narrowSplit = LayoutInput(size: CGSize(width: 580, height: 890),
+                                      safeArea: EdgeInsets(top: 54, leading: 0, bottom: 34, trailing: 0),
+                                      sizeClass: .regularRegular)
+        #expect(LayoutResolver.resolve(narrowSplit).mode == .scientific)
+        #expect(!LayoutResolver.resolve(narrowSplit).panelsAvailable)
     }
 
     @Test func compactProfilesFollowWidth() {

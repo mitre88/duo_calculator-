@@ -25,6 +25,9 @@ struct CalculatorRootView: View {
             calculatorLayer(safeArea: safeProxy.safeAreaInsets)
                 .ignoresSafeArea()
         }
+        // The converter's keyboard must not shrink the pane: below the panel height the layout would drop the
+        // panel together with its focused field, hiding the keyboard again in a loop.
+        .ignoresSafeArea(.keyboard)
         .observesHinge()
         .sensoryFeedback(trigger: model.hapticTick) { _, _ in
             settings.hapticsEnabled ? Haptics.feedback(for: model.lastHaptic) : nil

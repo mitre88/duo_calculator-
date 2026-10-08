@@ -16,7 +16,7 @@ struct ResultFeedbackModifier: ViewModifier {
                 view
                     .scaleEffect(state.scale, anchor: .trailing)
                     .offset(x: state.offset)
-            } keyframes: { _ in
+            } keyframes: { @Sendable _ in
                 KeyframeTrack(\.scale) {
                     SpringKeyframe(pulse, duration: 0.12, spring: .snappy)
                     SpringKeyframe(1.0, duration: 0.32, spring: .bouncy(duration: 0.32, extraBounce: 0.1))
@@ -32,7 +32,7 @@ struct ResultFeedbackModifier: ViewModifier {
     }
 }
 
-struct FeedbackState {
+nonisolated struct FeedbackState: Sendable {
     var scale: CGFloat = 1
     var offset: CGFloat = 0
 }
