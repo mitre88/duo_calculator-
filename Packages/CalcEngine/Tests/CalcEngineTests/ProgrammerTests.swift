@@ -74,6 +74,47 @@ extension CalcEngineTests {
             #expect(!run([.digit(6), .binary(.and), .unary(.not)]).isAwaitingOperand)       // a unary result is an operand
         }
 
+        @Test func shiftCountOfTwoToTheSixtyThreeDoesNotTrap() {
+            // Bit 63 set makes the shift count Int.min after truncation; negating it used to trap (SIGTRAP).
+            for op in [ProgrammerOperator.shiftLeft, .shiftRight] {
+                let engine = run([.digit(1), .binary(op), .digit(0), .toggleBit(63), .equals])
+                #expect(!engine.isError)
+                #expect(engine.primaryText == "0")
+            }
+        }
+
+        /// Seeded random key presses across every radix, width and sign mode must never trap.
+        @Test func randomKeyPressesNeverTrap() {
+            struct SplitMix64: RandomNumberGenerator {
+                var state: UInt64
+                mutating func next() -> UInt64 {
+                    state &+= 0x9E37_79B9_7F4A_7C15
+                    var z = state
+                    z = (z ^ (z >> 30)) &* 0xBF58_476D_1CE4_E5B9
+                    z = (z ^ (z >> 27)) &* 0x94D0_49BB_1331_11EB
+                    return z ^ (z >> 31)
+                }
+            }
+            for seed in UInt64(1)...24 {
+                var rng = SplitMix64(state: seed)
+                var engine = ProgrammerEngine()
+                for _ in 0..<4_000 {
+                    let event: ProgrammerEvent
+                    switch Int.random(in: 0..<10, using: &rng) {
+                    case 0...3: event = .digit(Int.random(in: 0...15, using: &rng))
+                    case 4: event = .binary(ProgrammerOperator.allCases.randomElement(using: &rng)!)
+                    case 5: event = .unary(ProgrammerUnary.allCases.randomElement(using: &rng)!)
+                    case 6: event = .toggleBit(Int.random(in: 0...63, using: &rng))
+                    case 7: event = [.equals, .backspace, .clear, .allClear].randomElement(using: &rng)!
+                    case 8: event = .setRadix(Radix.allCases.randomElement(using: &rng)!)
+                    default: event = Bool.random(using: &rng) ? .setWidth(BitWidth.allCases.randomElement(using: &rng)!) : .toggleSigned
+                    }
+                    engine.send(event)
+                }
+                #expect(!engine.primaryText.isEmpty)
+            }
+        }
+
         @Test func bitToggleAndCharacter() {
             var engine = run([])
             engine.send(.toggleBit(6))

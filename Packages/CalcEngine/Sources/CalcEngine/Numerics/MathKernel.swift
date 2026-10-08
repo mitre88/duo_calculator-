@@ -124,7 +124,8 @@ public enum MathKernel {
         }
         if y.isZero { return .one }
         if let yf = y.exactFraction, yf.isInteger {
-            guard let n = yf.numerator.asInt() else { return try hugeIntegerPower(x, exponent: yf.numerator) }
+            // Int.min has no Int magnitude (abs would trap): treat it like any exponent beyond Int.
+            guard let n = yf.numerator.asInt(), n != .min else { return try hugeIntegerPower(x, exponent: yf.numerator) }
             if let xf = x.exactFraction, abs(n) <= CalcPrecision.maxIntegerPowerExponent,
                (xf.numerator.bitWidth + xf.denominator.bitWidth) * abs(n) <= CalcPrecision.maxExactPowerBits {
                 return CalcValue(exact: fractionPower(xf, n))
@@ -144,7 +145,7 @@ public enum MathKernel {
         if x.isNegative { throw CalcError.domain }
         if let xf = x.exactFraction, let yf = y.exactFraction,
            let q = yf.denominator.asInt(), q <= 64,
-           let p = yf.numerator.asInt(), abs(p) <= CalcPrecision.maxIntegerPowerExponent,
+           let p = yf.numerator.asInt(), p != .min, abs(p) <= CalcPrecision.maxIntegerPowerExponent,
            let r = exactRoot(xf, q) {
             return CalcValue(exact: fractionPower(r, p))
         }

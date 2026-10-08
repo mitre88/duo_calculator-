@@ -32,6 +32,11 @@ public enum CalcPrecision {
     public static let maxIntegerPowerExponent = 4_096
     /// Decimal exponent above which a result is reported as overflow.
     public static let overflowDecimalExponent = 1_000_000
+    /// Literals with a larger written exponent skip the exact lane: building 10^e as a fraction takes seconds to
+    /// minutes for pasted text such as `1e999999`. They are read straight into the approx lane instead.
+    public static let maxExactLiteralExponent = 4_096
+    /// Literals whose written exponent exceeds this are refused (far beyond overflow / underflow either way).
+    public static let maxLiteralExponent = 2 * overflowDecimalExponent
     /// Exact fractions whose numerator + denominator exceed this many bits are demoted to the approx lane.
     public static let maxExactBits = 1_024
     /// Maximum number of digits accepted while typing a number.

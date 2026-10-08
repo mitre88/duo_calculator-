@@ -20,6 +20,33 @@ extension CalcEngineTests {
             #expect(try Evaluator.evaluate(text: "ln(ln(e))!") == .one)
         }
 
+        @Test func exponentOfExactlyMinusTwoToTheSixtyThreeDoesNotTrap() throws {
+            // −2^63 fits Int as Int.min, but its magnitude does not: abs(n) used to trap (SIGTRAP).
+            let minInt = CalcValue(Int.min)
+            #expect(try MathKernel.power(CalcValue(10), minInt) == .zero)
+            #expect(try MathKernel.power(.one, minInt) == .one)
+            #expect(throws: CalcError.self) { try MathKernel.power(Numeric.value("0.5"), minInt) }
+            // Non-integer exponent whose numerator is Int.min.
+            let fraction = CalcValue(exact: BFraction(BInt(Int.min), BInt(3)))
+            #expect(try MathKernel.power(CalcValue(8), fraction) == .zero)
+        }
+
+        @Test func hugeLiteralExponentsAreReadInstantly() throws {
+            // Pasting "1e999999" used to build 10^999999 as an exact fraction (> 6 s in debug, minutes for 1e9e18).
+            let clock = ContinuousClock()
+            let elapsed = try clock.measure {
+                let big = try #require(CalcValue(literal: "1e999999"))
+                #expect(!big.isExact)
+                let small = try #require(CalcValue(literal: "-2.5e-999999"))
+                #expect(!small.isExact && small.isNegative)
+                #expect(CalcValue(literal: "1e9223372036854775807") == nil)
+                #expect(CalcValue(literal: "1e99999999999999999999") == nil)
+            }
+            #expect(elapsed < .seconds(1))
+            // Ordinary exponents keep the exact lane.
+            #expect(try #require(CalcValue(literal: "2e3")).isExact)
+        }
+
         @Test func rootsBeyondDoubleRangeStayFinite() throws {
             let tiny = try #require(CalcValue(literal: "1e-400"))
             #expect(!tiny.isExact)

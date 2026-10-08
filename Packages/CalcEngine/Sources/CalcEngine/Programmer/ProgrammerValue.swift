@@ -126,13 +126,14 @@ public struct ProgrammerValue: Sendable, Hashable, Codable {
     public func nor(_ other: ProgrammerValue) -> ProgrammerValue { ~(self | other) }
 
     public func shiftedLeft(by n: Int) -> ProgrammerValue {
-        guard n > 0 else { return n == 0 ? self : shiftedRight(by: -n) }
+        // Int.min has no positive counterpart: any count beyond 63 already empties the word.
+        guard n > 0 else { return n == 0 ? self : shiftedRight(by: n == .min ? .max : -n) }
         return with(bits: n >= 64 ? 0 : bits << UInt64(n))
     }
 
     /// Logical shift for unsigned values, arithmetic (sign-propagating) for signed ones.
     public func shiftedRight(by n: Int) -> ProgrammerValue {
-        guard n > 0 else { return n == 0 ? self : shiftedLeft(by: -n) }
+        guard n > 0 else { return n == 0 ? self : shiftedLeft(by: n == .min ? .max : -n) }
         if isSigned {
             let shifted = n >= 64 ? (signedValue < 0 ? -1 : 0) : signedValue >> Int64(n)
             return with(bits: UInt64(bitPattern: shifted))

@@ -49,7 +49,18 @@ public struct CalcValue: Sendable, Hashable, Comparable, CustomStringConvertible
         if text.hasPrefix(".") { text = "0" + text }
         if text.hasPrefix("-.") { text = "-0" + text.dropFirst() }
         if text.hasSuffix(".") { text.removeLast() }
-        guard !text.isEmpty, let fraction = BFraction(text) else { return nil }
+        guard !text.isEmpty else { return nil }
+        if let marker = text.firstIndex(where: { $0 == "e" || $0 == "E" }) {
+            guard let exponent = Int(text[text.index(after: marker)...]),
+                  exponent.magnitude <= UInt(CalcPrecision.maxLiteralExponent) else { return nil }
+            if exponent.magnitude > UInt(CalcPrecision.maxExactLiteralExponent) {
+                let value = BigDecimal(text)
+                guard value.isFinite else { return nil }
+                self.init(approx: value)
+                return
+            }
+        }
+        guard let fraction = BFraction(text) else { return nil }
         self.init(exact: fraction)
     }
 
