@@ -733,12 +733,23 @@ extension BigDecimal {
     /// *self* as a Double
     ///
     /// - Returns: *self* encoded as a Double, possibly *Infinity* or NaN
-    public func asDouble() -> Double { Double(self.asString())! }
+    public func asDouble() -> Double {
+        // Duo Calculator patch: Double(String) returns nil beyond 16 384 characters (e.g. 5040!), which the
+        // original force unwrap turned into a crash. Clamp out-of-range magnitudes and parse at most 40 digits.
+        if self.isNaN { return .nan }
+        if self.isInfinite { return self.isNegative ? -.infinity : .infinity }
+        if self.digits.isZero { return self.isNegative ? -0.0 : 0.0 }
+        let magnitude10 = self.precision + self.exponent - 1
+        if magnitude10 > 400 { return self.isNegative ? -.infinity : .infinity }
+        if magnitude10 < -400 { return self.isNegative ? -0.0 : 0.0 }
+        let source = self.precision > 40 ? self.round(Rounding(.toNearestOrEven, 40)) : self
+        return Double(source.asString()) ?? (self.isNegative ? -.infinity : .infinity)
+    }
     
     /// *self* as a Float
     ///
     /// - Returns: *self* encoded as a Float, possibly *Infinity* or NaN
-    public func asFloat() -> Float { Float(self.asString())! }
+    public func asFloat() -> Float { Float(self.asDouble()) }
 
     /// *self* as a Decimal (the Swift Foundation type)
     ///

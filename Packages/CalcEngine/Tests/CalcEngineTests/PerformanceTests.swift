@@ -267,7 +267,9 @@ extension CalcEngineTests {
                     let snapshot = engine.snapshot(formatter: formatter)
                     snapshots += 1
                     #expect(!snapshot.primary.isEmpty)
-                    _ = engine.currentValue()
+                    // UI parity: the display reads doubleValue on every render (5040! used to trap here).
+                    _ = snapshot.primaryValue?.doubleValue
+                    _ = engine.currentValue()?.doubleValue
                 }
                 let elapsed = clock.now - start
                 if elapsed > slowest.duration { slowest = (String(describing: event), elapsed) }

@@ -47,6 +47,16 @@ extension CalcEngineTests {
             #expect(try #require(CalcValue(literal: "2e3")).isExact)
         }
 
+        @Test func doubleValueOfHugeAndTinyMagnitudesDoesNotTrap() throws {
+            // The display reads doubleValue on every render. BigDecimal.asDouble() parsed the whole digit string,
+            // and Double(String) returns nil beyond 16 384 characters, which was force-unwrapped (SIGTRAP).
+            let big = try MathKernel.factorial(MathKernel.factorial(CalcValue(7)))   // 5040!, 16 474 digits
+            #expect(big.doubleValue == .infinity)
+            let tiny = try #require(CalcValue(literal: "1e-9999"))
+            #expect(try MathKernel.inverseTrig(.atan, tiny, angle: .radians).doubleValue == 0)
+            #expect(try MathKernel.factorial(CalcValue(20)).doubleValue == 2_432_902_008_176_640_000)
+        }
+
         @Test func rootsBeyondDoubleRangeStayFinite() throws {
             let tiny = try #require(CalcValue(literal: "1e-400"))
             #expect(!tiny.isExact)
