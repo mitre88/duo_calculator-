@@ -59,6 +59,28 @@ enum LayoutResolver {
         return .scientific
     }
 
+    // MARK: Display
+
+    /// Top inset that drops the mode bar below any active occlusion (status bar corner, camera) over the
+    /// top strip of `area`, the horizontal extent of the display.
+    static func displayTopInset(_ input: LayoutInput, area: CGRect, compact: Bool) -> CGFloat {
+        let band = CGRect(x: area.minX, y: area.minY, width: area.width,
+                          height: DisplayMetrics.minimumTopInset + DisplayMetrics.modeBarHeight(compact: compact))
+        let lowest = input.activeOcclusions.map(\.expandedFrame).filter { $0.intersects(band) }.map { $0.maxY - area.minY }.max()
+        guard let lowest else { return DisplayMetrics.minimumTopInset }
+        return max(DisplayMetrics.minimumTopInset, lowest + DisplayMetrics.obstacleClearance)
+    }
+
+    /// Display height for the full-width modes: the preferred share of the pane, never less than what the display
+    /// stack needs, and never so much that the keypad drops below `minimumKeySide`.
+    static func displayHeight(preferred: CGFloat, topInset: CGFloat, compact: Bool, content: CGRect,
+                              margin: CGFloat, rows: Int, spacing: CGFloat) -> CGFloat {
+        let required = DisplayMetrics.minimumHeight(topInset: topInset, compact: compact)
+        let minimumKeypad = KeypadMetrics.keypadHeight(keyHeight: KeypadMetrics.minimumKeySide, rows: rows, spacing: spacing)
+        let ceiling = content.height - margin - minimumKeypad
+        return max(minimumDisplayHeight, min(max(preferred, required), ceiling))
+    }
+
     // MARK: Plans
 
     private static func basicPlan(_ input: LayoutInput, content: CGRect) -> LayoutPlan {
@@ -69,7 +91,10 @@ enum LayoutResolver {
         keyWidth = min(keyWidth, 96)
         var keyHeight = keyWidth
         var shape = KeyShapeStyle.circle
-        let maxKeypadHeight = content.height - minimumDisplayHeight - margin
+        let topInset = displayTopInset(input, area: content, compact: true)
+        let displayMinimum = Self.displayHeight(preferred: 0, topInset: topInset, compact: true, content: content,
+                                           margin: margin, rows: spec.rows, spacing: spacing)
+        let maxKeypadHeight = content.height - displayMinimum - margin
         if KeypadMetrics.keypadHeight(keyHeight: keyHeight, rows: spec.rows, spacing: spacing) > maxKeypadHeight {
             keyHeight = max(KeypadMetrics.minimumKeySide, KeypadMetrics.keyHeight(available: maxKeypadHeight, rows: spec.rows, spacing: spacing))
             shape = .roundedRectangle
@@ -86,7 +111,7 @@ enum LayoutResolver {
                           keySpacing: spacing, centerGutter: 0, keyShape: shape,
                           keySize: CGSize(width: keyWidth, height: keyHeight), displayProfile: .compact,
                           isCompactWidth: true, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          panelsAvailable: false)
+                          panelsAvailable: false, displayTopInset: topInset)
     }
 
     private static func basicLandscapePlan(_ input: LayoutInput, content: CGRect) -> LayoutPlan {
@@ -104,12 +129,13 @@ enum LayoutResolver {
                                  y: content.midY - keypadHeight / 2,
                                  width: keypadWidth, height: keypadHeight)
         let displayFrame = CGRect(x: content.minX, y: content.minY, width: keypadFrame.minX - content.minX, height: content.height)
+        let topInset = displayTopInset(input, area: displayFrame, compact: true)
         return LayoutPlan(mode: .basicLandscape, contentRect: content, displayFrame: displayFrame, keypadFrame: keypadFrame,
                           keypadSpec: spec, secondaryKeypadFrame: nil, secondaryKeypadSpec: nil,
                           keySpacing: spacing, centerGutter: 0, keyShape: .roundedRectangle,
                           keySize: CGSize(width: keyWidth, height: keyHeight), displayProfile: .compact,
                           isCompactWidth: true, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          panelsAvailable: false)
+                          panelsAvailable: false, displayTopInset: topInset)
     }
 
     private static func scientificPlan(_ input: LayoutInput, content: CGRect, mode: LayoutMode) -> LayoutPlan {
@@ -123,7 +149,11 @@ enum LayoutResolver {
             margin = KeypadMetrics.compactMargin
             keyWidth = KeypadMetrics.keyWidth(available: content.width, columns: spec.columns, spacing: spacing, margin: margin, gutter: gutter)
         }
-        let displayHeight = max(mode == .scientificCompact ? 90 : minimumDisplayHeight + 40, content.height * (mode == .scientificCompact ? 0.26 : 0.30))
+        let compact = mode == .scientificCompact
+        let topInset = displayTopInset(input, area: content, compact: compact)
+        let displayHeight = Self.displayHeight(preferred: max(compact ? 90 : minimumDisplayHeight + 40, content.height * (compact ? 0.26 : 0.30)),
+                                          topInset: topInset, compact: compact, content: content,
+                                          margin: margin, rows: spec.rows, spacing: spacing)
         let keypadAreaHeight = content.height - displayHeight - margin
         var keyHeight = KeypadMetrics.keyHeight(available: keypadAreaHeight, rows: spec.rows, spacing: spacing)
         keyHeight = min(keyHeight, keyWidth * 1.45)
@@ -140,7 +170,7 @@ enum LayoutResolver {
                           keySize: CGSize(width: keyWidth, height: keyHeight),
                           displayProfile: mode == .scientificCompact ? .compact : .regular,
                           isCompactWidth: mode == .scientificCompact, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          panelsAvailable: mode == .scientific)
+                          panelsAvailable: mode == .scientific, displayTopInset: topInset)
     }
 
     /// Book pose: the 5 | 5 spec with the channel exactly over the fold's expanded frame. Each half is sized
@@ -167,7 +197,10 @@ enum LayoutResolver {
         }
         // The channel (spacing + gutter) is derived after the spacing fallback, so it matches the fold exactly.
         let gutter = max(0, foldRect.width - spacing)
-        let displayHeight = max(minimumDisplayHeight + 40, content.height * 0.30)
+        let topInset = displayTopInset(input, area: content, compact: false)
+        let displayHeight = Self.displayHeight(preferred: max(minimumDisplayHeight + 40, content.height * 0.30),
+                                          topInset: topInset, compact: false, content: content,
+                                          margin: margin, rows: spec.rows, spacing: spacing)
         let keypadAreaHeight = content.height - displayHeight - margin
         var keyHeight = KeypadMetrics.keyHeight(available: keypadAreaHeight, rows: spec.rows, spacing: spacing)
         keyHeight = max(min(keyHeight, keyWidth * 1.45), KeypadMetrics.minimumKeySide)
@@ -184,7 +217,7 @@ enum LayoutResolver {
                           keySpacing: spacing, centerGutter: gutter, keyShape: .roundedRectangle,
                           keySize: CGSize(width: keyWidth, height: keyHeight), displayProfile: .regular,
                           isCompactWidth: false, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          panelsAvailable: false)
+                          panelsAvailable: false, displayTopInset: topInset)
     }
 
     private static func stackedPlan(_ input: LayoutInput, content: CGRect) -> LayoutPlan {
@@ -194,8 +227,11 @@ enum LayoutResolver {
         let block = KeyGridSpec.functionBlock
         let keyWidthBasic = KeypadMetrics.keyWidth(available: content.width, columns: basic.columns, spacing: spacing, margin: margin)
         let keyWidthBlock = KeypadMetrics.keyWidth(available: content.width, columns: block.columns, spacing: spacing, margin: margin)
-        let displayHeight = max(minimumDisplayHeight, content.height * 0.22)
         let totalRows = basic.rows + block.rows
+        let topInset = displayTopInset(input, area: content, compact: false)
+        let displayHeight = Self.displayHeight(preferred: max(minimumDisplayHeight, content.height * 0.22),
+                                          topInset: topInset, compact: false, content: content,
+                                          margin: margin + spacing, rows: totalRows, spacing: spacing)
         let available = content.height - displayHeight - margin - spacing
         let keyHeight = max(KeypadMetrics.minimumKeySide, min(keyWidthBasic, KeypadMetrics.keyHeight(available: available, rows: totalRows, spacing: spacing)))
         let basicHeight = KeypadMetrics.keypadHeight(keyHeight: keyHeight, rows: basic.rows, spacing: spacing)
@@ -210,7 +246,7 @@ enum LayoutResolver {
                           keySpacing: spacing, centerGutter: 0, keyShape: .roundedRectangle,
                           keySize: CGSize(width: keyWidthBasic, height: keyHeight), displayProfile: .regular,
                           isCompactWidth: false, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          secondaryKeySize: CGSize(width: keyWidthBlock, height: keyHeight))
+                          secondaryKeySize: CGSize(width: keyWidthBlock, height: keyHeight), displayTopInset: topInset)
     }
 
     private static func tabletopPlan(_ input: LayoutInput, content: CGRect) -> LayoutPlan {
@@ -229,11 +265,12 @@ enum LayoutResolver {
         let keypadFrame = CGRect(x: lowerHalf.midX - keypadWidth / 2,
                                  y: min(lowerHalf.minY + margin, lowerHalf.maxY - margin - keypadHeight),
                                  width: keypadWidth, height: keypadHeight)
+        let topInset = displayTopInset(input, area: upperHalf, compact: false)
         return LayoutPlan(mode: .tabletop, contentRect: content, displayFrame: upperHalf, keypadFrame: keypadFrame,
                           keypadSpec: spec, secondaryKeypadFrame: nil, secondaryKeypadSpec: nil,
                           keySpacing: spacing, centerGutter: 0, keyShape: .roundedRectangle,
                           keySize: CGSize(width: keyWidth, height: keyHeight), displayProfile: .regular,
                           isCompactWidth: false, avoidRects: input.activeOcclusions.map(\.expandedFrame),
-                          panelsAvailable: false)
+                          panelsAvailable: false, displayTopInset: topInset)
     }
 }

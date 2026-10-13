@@ -1,8 +1,10 @@
 import Testing
 import SwiftUI
+import CalcEngine
 @testable import DuoCalculator
 
 /// Synthetic iPhone Duo poses (points @3x: outer 466×678, inner 626×890).
+@MainActor
 struct LayoutResolverTests {
     static let outerPortrait = LayoutInput(size: CGSize(width: 466, height: 678),
                                            safeArea: EdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 84),
@@ -39,6 +41,22 @@ struct LayoutResolverTests {
                                      safeArea: EdgeInsets(top: 54, leading: 0, bottom: 34, trailing: 0),
                                      sizeClass: .regularRegular)
 
+    /// Inner display, landscape, as the iOS 27.1 simulator reports it: the status bar lives in a trailing column
+    /// (safe-area trailing inset + an occlusion in the top-right corner) and the fold is active.
+    static let innerBookLandscape = LayoutInput(size: CGSize(width: 951, height: 669),
+                                                safeArea: EdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 84),
+                                                sizeClass: .regularRegular,
+                                                regions: [ReservedRegionInfo(kind: .division, frame: CGRect(x: 455.5, y: 0, width: 40, height: 669),
+                                                                             margins: EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20), isActive: true),
+                                                          ReservedRegionInfo(kind: .occlusion, frame: CGRect(x: 867, y: 0, width: 84, height: 120),
+                                                                             margins: EdgeInsets(), isActive: true)])
+    /// Flat inner portrait with a status-bar strip reported as an occlusion over the top of the content.
+    static let innerPortraitStatusBar = LayoutInput(size: CGSize(width: 626, height: 890),
+                                                    safeArea: EdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 0),
+                                                    sizeClass: .regularRegular,
+                                                    regions: [ReservedRegionInfo(kind: .occlusion, frame: CGRect(x: 520, y: 0, width: 106, height: 54),
+                                                                                 margins: EdgeInsets(), isActive: true)])
+
     static func fold(_ frame: CGRect, active: Bool) -> ReservedRegionInfo {
         ReservedRegionInfo(kind: .division, frame: frame, margins: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), isActive: active)
     }
@@ -67,7 +85,8 @@ struct LayoutResolverTests {
     }
 
     static var allPoses: [LayoutInput] {
-        [outerPortrait, outerLandscape, innerPortrait, innerLandscape, tabletop, book, splitHalf, splitTwoThirds, ipad, stacked]
+        [outerPortrait, outerLandscape, innerPortrait, innerLandscape, tabletop, book, splitHalf, splitTwoThirds, ipad, stacked,
+         innerBookLandscape, innerPortraitStatusBar]
     }
 
     @Test func invariants() {
@@ -115,6 +134,45 @@ struct LayoutResolverTests {
             }
         }
         if plan.isCompactWidth { #expect(!plan.panelsAvailable) }
+        checkDisplay(plan)
+    }
+
+    /// The display holds its whole stack (mode bar, expression, preview, result, pills) without touching the keypad,
+    /// and its mode bar sits below every active occlusion (status bar, camera).
+    func checkDisplay(_ plan: LayoutPlan) {
+        let compact = plan.isCompactWidth
+        if let block = plan.secondaryKeypadFrame {
+            #expect(plan.displayFrame.maxY <= block.minY + 0.5, "display runs into the function block in \(plan.mode)")
+        }
+        if plan.mode != .basicLandscape {
+            #expect(plan.displayFrame.maxY <= plan.keypadFrame.minY + 0.5, "display runs into the keypad in \(plan.mode)")
+        }
+        // Only a pane already squeezed to minimum-size keys may shave the result line.
+        let keysAtMinimum = plan.keySize.height <= KeypadMetrics.minimumKeySide + 0.5
+        #expect(plan.primaryLineHeight >= DisplayMetrics.minimumPrimaryLineHeight(compact: compact) - 0.5 || keysAtMinimum,
+                "result line \(plan.primaryLineHeight) pt too short in \(plan.mode)")
+        let modeBar = CGRect(x: plan.displayFrame.minX, y: plan.displayFrame.minY + plan.displayTopInset,
+                             width: plan.displayFrame.width, height: DisplayMetrics.modeBarHeight(compact: compact))
+        for obstacle in plan.avoidRects {
+            #expect(!modeBar.intersects(obstacle), "mode bar \(modeBar) under \(obstacle) in \(plan.mode)")
+        }
+    }
+
+    @Test func innerDisplayFitsTheWholeResult() {
+        let plan = LayoutResolver.resolve(Self.innerBookLandscape)
+        #expect(plan.mode == .book)
+        // The status-bar column is outside the content, so the display and keypad stop before it.
+        #expect(plan.displayFrame.maxX <= 867 + 0.5 && plan.keypadFrame.maxX <= 867 + 0.5)
+        #expect(plan.displayFrame.height >= DisplayMetrics.minimumHeight(topInset: plan.displayTopInset, compact: false) - 0.5)
+        #expect(DisplayMetrics.primaryFontSize(lineHeight: plan.primaryLineHeight, compact: false) >= 50)
+    }
+
+    @Test func modeBarDropsBelowAStatusBarOcclusion() {
+        let plan = LayoutResolver.resolve(Self.innerPortraitStatusBar)
+        #expect(plan.displayTopInset >= 54 + DisplayMetrics.obstacleClearance - 0.5)
+        #expect(plan.primaryLineHeight >= DisplayMetrics.minimumPrimaryLineHeight(compact: false) - 0.5)
+        // Without obstacles the inset stays minimal.
+        #expect(LayoutResolver.resolve(Self.ipad).displayTopInset == DisplayMetrics.minimumTopInset)
     }
 
     @Test func tabletopSplitsAroundTheFold() {

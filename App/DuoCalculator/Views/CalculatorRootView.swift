@@ -19,37 +19,12 @@ struct CalculatorRootView: View {
     @FocusState private var keyboardFocused: Bool
 
     var body: some View {
-        GeometryReader { proxy in
-            let input = LayoutInput(
-                size: proxy.size,
-                safeArea: proxy.safeAreaInsets,
-                sizeClass: SizeClassPair(horizontal: horizontalSizeClass == .regular ? .regular : .compact,
-                                         vertical: verticalSizeClass == .compact ? .compact : .regular),
-                regions: proxy.duoReservedRegions(),
-                isAccessibilitySize: dynamicTypeSize.isAccessibilitySize,
-                prefersScientificInCompactLandscape: settings.scientificInFoldedLandscape)
-            let plan = LayoutResolver.resolve(input)
-
-            ZStack(alignment: .topLeading) {
-                AuroraBackground(scheme: colorScheme,
-                                 trueBlack: settings.oledTrueBlack,
-                                 enabled: settings.auroraEnabled,
-                                 reduceMotion: reduceMotion,
-                                 accent: settings.accent.color,
-                                 interactionTick: model.hapticTick)
-                FoldAwareContainer(plan: plan, showSettings: $showSettings)
-            }
-            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .topLeading)
-            // Only a *mode* change animates (the fold morph); raw resize frames follow instantly, no jitter.
-            .animation(Motion.layout(reduceMotion: reduceMotion), value: plan.mode)
-            .onChange(of: plan.displayProfile, initial: true) { _, profile in
-                model.displayProfile = profile
-            }
-            .onChange(of: plan, initial: true) { _, newPlan in
-                deviceContext.plan = newPlan
-            }
+        // The outer reader respects the safe area only to read its insets; the inner one spans the whole
+        // window, so the background bleeds edge to edge and the plan works in window coordinates.
+        GeometryReader { safeProxy in
+            calculatorLayer(safeArea: safeProxy.safeAreaInsets)
+                .ignoresSafeArea()
         }
-        .ignoresSafeArea()
         .observesHinge()
         .sensoryFeedback(trigger: model.hapticTick) { _, _ in
             settings.hapticsEnabled ? Haptics.feedback(for: model.lastHaptic) : nil
@@ -77,5 +52,38 @@ struct CalculatorRootView: View {
                 .environment(model)
         }
         .statusBarHidden(false)
+    }
+
+    private func calculatorLayer(safeArea: EdgeInsets) -> some View {
+        GeometryReader { proxy in
+            let input = LayoutInput(
+                size: proxy.size,
+                safeArea: safeArea,
+                sizeClass: SizeClassPair(horizontal: horizontalSizeClass == .regular ? .regular : .compact,
+                                         vertical: verticalSizeClass == .compact ? .compact : .regular),
+                regions: proxy.duoReservedRegions(),
+                isAccessibilitySize: dynamicTypeSize.isAccessibilitySize,
+                prefersScientificInCompactLandscape: settings.scientificInFoldedLandscape)
+            let plan = LayoutResolver.resolve(input)
+
+            ZStack(alignment: .topLeading) {
+                AuroraBackground(scheme: colorScheme,
+                                 trueBlack: settings.oledTrueBlack,
+                                 enabled: settings.auroraEnabled,
+                                 reduceMotion: reduceMotion,
+                                 accent: settings.accent.color,
+                                 interactionTick: model.hapticTick)
+                FoldAwareContainer(plan: plan, showSettings: $showSettings)
+            }
+            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .topLeading)
+            // Only a *mode* change animates (the fold morph); raw resize frames follow instantly, no jitter.
+            .animation(Motion.layout(reduceMotion: reduceMotion), value: plan.mode)
+            .onChange(of: plan.displayProfile, initial: true) { _, profile in
+                model.displayProfile = profile
+            }
+            .onChange(of: plan, initial: true) { _, newPlan in
+                deviceContext.plan = newPlan
+            }
+        }
     }
 }

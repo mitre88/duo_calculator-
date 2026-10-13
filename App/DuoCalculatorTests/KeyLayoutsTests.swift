@@ -1,6 +1,7 @@
 import Testing
 @testable import DuoCalculator
 
+@MainActor
 struct KeyLayoutsTests {
     @Test func gridsAreConsistent() {
         for spec in [KeyGridSpec.basic, .scientific, .scientificBook, .functionBlock] { check(spec) }

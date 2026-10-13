@@ -16,17 +16,12 @@ struct DisplayView: View {
 
     private var compact: Bool { plan.isCompactWidth }
 
-    /// Keep the text below the inner camera (an active occlusion that overlaps the display).
-    private var topInset: CGFloat {
-        let overlapping = plan.avoidRects.filter { $0.intersects(plan.displayFrame) }
-        guard let lowest = overlapping.map({ $0.maxY - plan.displayFrame.minY }).max() else { return 8 }
-        return max(8, lowest + 12)
-    }
-
     var body: some View {
-        VStack(alignment: .trailing, spacing: compact ? 4 : 8) {
+        VStack(alignment: .trailing, spacing: DisplayMetrics.stackSpacing(compact: compact)) {
+            // Heights below follow `DisplayMetrics`, the budget `LayoutResolver` sized this display with.
             ModeBar(snapshot: snapshot, plan: plan, showSettings: $showSettings)
-                .padding(.top, topInset)
+                .frame(height: DisplayMetrics.modeBarHeight(compact: compact))
+                .padding(.top, plan.displayTopInset)
             Spacer(minLength: 0)
             ExpressionLineView(segments: snapshot.expression, showsCursor: !snapshot.showsResult && !snapshot.isError, compact: compact) { index in
                 model.send(.cursorTo(index))
@@ -38,13 +33,15 @@ struct DisplayView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .contentTransition(.numericText())
+                    .frame(height: DisplayMetrics.previewHeight(compact: compact))
                     .transition(.opacity)
                     .accessibilityLabel(Text("display.preview", bundle: .main))
                     .accessibilityValue(Text(verbatim: SpokenNumber.spoken(preview)))
             }
             primaryLine
             IndicatorRow(snapshot: snapshot)
-                .padding(.bottom, 6)
+                .frame(height: DisplayMetrics.indicatorHeight)
+                .padding(.bottom, DisplayMetrics.bottomPadding)
         }
         .padding(.horizontal, compact ? 18 : 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
@@ -67,7 +64,7 @@ struct DisplayView: View {
     }
 
     private var primaryLine: some View {
-        let size = Typography.primarySize(displayHeight: plan.displayFrame.height, compact: compact)
+        let size = DisplayMetrics.primaryFontSize(lineHeight: plan.primaryLineHeight, compact: compact)
         return Text(verbatim: snapshot.primary)
             .font(Typography.primary(size: size))
             .monospacedDigit()
@@ -75,7 +72,7 @@ struct DisplayView: View {
             .lineLimit(1)
             .minimumScaleFactor(0.3)
             .allowsTightening(true)
-            .frame(maxWidth: .infinity, alignment: .trailing)
+            .frame(maxWidth: .infinity, maxHeight: max(DisplayMetrics.minimumPrimaryLineHeight(compact: compact), plan.primaryLineHeight), alignment: .bottomTrailing)
             .contentTransition(.numericText(value: snapshot.primaryValue?.doubleValue ?? 0))
             .resultFeedback(trigger: model.resultTick, isError: snapshot.isError, reduceMotion: reduceMotion)
             .privacySensitive()
@@ -122,7 +119,7 @@ struct ExpressionLineView: View {
         }
         .font(Typography.expression(compact: compact))
         .foregroundStyle(.secondary)
-        .frame(height: compact ? 28 : 34)
+        .frame(height: DisplayMetrics.expressionHeight(compact: compact))
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text("display.expression", bundle: .main))
         .accessibilityValue(Text(verbatim: SpokenNumber.spoken(segments.map(\.text).joined())))

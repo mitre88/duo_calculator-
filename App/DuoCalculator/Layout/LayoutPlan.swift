@@ -29,6 +29,13 @@ struct LayoutPlan: Equatable {
     var secondaryKeySize: CGSize? = nil
     /// Programmer / converter panels need the flat inner display: false in compact widths and around an active fold.
     var panelsAvailable: Bool = true
+    /// Space above the mode bar inside `displayFrame` that keeps it clear of the status bar and cameras.
+    var displayTopInset: CGFloat = DisplayMetrics.minimumTopInset
+
+    /// Height left for the main result line once the display chrome (mode bar, expression, preview, pills) is laid out.
+    var primaryLineHeight: CGFloat {
+        max(0, displayFrame.height - displayTopInset - DisplayMetrics.chromeHeight(compact: isCompactWidth))
+    }
 
     static let placeholder = LayoutPlan(
         mode: .basic,
