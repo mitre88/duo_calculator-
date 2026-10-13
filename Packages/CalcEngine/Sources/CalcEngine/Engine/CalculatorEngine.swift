@@ -499,9 +499,10 @@ public struct CalculatorEngine: Sendable {
         }
     }
 
-    /// `MR` and recalled values replace the number being typed (`2 MR` is `MR`, not `2·MR`).
+    /// `MR` and recalled values replace the number being typed (`2 MR` is `MR`, not `2·MR`), also after the cursor
+    /// moved or a paste, where digits would still extend that number.
     private mutating func removeTypedNumberBeforeCursor() {
-        if state.phase == .entering, let literal = state.document.tokenBeforeCursor?.numberLiteral, !literal.isComputed {
+        if canExtendLiteralBeforeCursor {
             state.document.removeBeforeCursor()
         }
     }

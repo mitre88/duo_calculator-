@@ -107,6 +107,26 @@ extension CalcEngineTests {
             #expect(engine.state.lastResult == CalcValue(10))
         }
 
+        /// After moving the cursor (or pasting) the typed number is still "being typed": recall replaces it, never multiplies.
+        @Test func recallReplacesTheNumberAfterMovingTheCursor() {
+            var engine = Self.engine()
+            Self.send([.digit(2), .binary(.add), .digit(3), .cursorLeft, .cursorRight, .recall(CalcValue(5)), .equals], to: &engine)
+            #expect(engine.state.lastResult == CalcValue(7))
+        }
+
+        @Test func recallReplacesAPastedNumber() {
+            var engine = Self.engine()
+            Self.send([.insertText("12+34"), .recall(CalcValue(5)), .equals], to: &engine)
+            #expect(engine.state.lastResult == CalcValue(17))
+        }
+
+        @Test func memoryRecallReplacesTheNumberAfterMovingTheCursor() {
+            var engine = Self.engine()
+            Self.send([.digit(5), .memory(.add), .allClear, .digit(2), .binary(.add), .digit(3), .cursorLeft, .cursorRight,
+                       .memory(.recall), .equals], to: &engine)
+            #expect(engine.state.lastResult == CalcValue(7))
+        }
+
         @Test func recallAfterAnOperatorIsTheNextOperand() {
             var engine = Self.engine()
             Self.send([.digit(2), .binary(.add), .recall(CalcValue(5)), .equals], to: &engine)
