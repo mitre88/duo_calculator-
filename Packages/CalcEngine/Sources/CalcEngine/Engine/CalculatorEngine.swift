@@ -7,10 +7,13 @@ import Foundation
 public struct CalculatorEngine: Sendable {
     public var state: CalculatorState
     public var random: any RandomSource
+    public var clock: any DateSource
 
-    public init(state: CalculatorState = CalculatorState(), random: any RandomSource = SystemRandomSource()) {
+    public init(state: CalculatorState = CalculatorState(), random: any RandomSource = SystemRandomSource(),
+                clock: any DateSource = SystemDateSource()) {
         self.state = state
         self.random = random
+        self.clock = clock
     }
 
     // MARK: - Convenience
@@ -49,6 +52,9 @@ public struct CalculatorEngine: Sendable {
             case .memory(.clear):
                 state.memory = .zero
                 return
+            case .clearHistory, .deleteHistoryEntry:
+                editHistory(event)
+                return
             default:
                 return
             }
@@ -67,7 +73,10 @@ public struct CalculatorEngine: Sendable {
         case .random:
             let value = random.nextUnitValue()
             insertOperand(.number(NumberLiteral(value: value, digits: 16)))
-        case .recall(let value): insertOperand(.number(NumberLiteral(value: value)))
+        case .recall(let value):
+            removeTypedNumberBeforeCursor()
+            insertOperand(.number(NumberLiteral(value: value)))
+        case .clearHistory, .deleteHistoryEntry: editHistory(event)
         case .openParen: openParen()
         case .closeParen: closeParen()
         case .equals: equals()
@@ -385,10 +394,7 @@ public struct CalculatorEngine: Sendable {
 
     private mutating func finish(result: CalcValue, committed: [Token]) {
         state.lastResult = result
-        state.results.append(result)
-        if state.results.count > CalculatorState.maxStoredResults {
-            state.results.removeFirst(state.results.count - CalculatorState.maxStoredResults)
-        }
+        record(committed, result: result)
         state.committedTokens = committed
         state.document = ExpressionDocument(tokens: [.number(NumberLiteral(value: result))])
         state.phase = .resultShown
@@ -488,10 +494,37 @@ public struct CalculatorEngine: Sendable {
             if let value = currentValue(), let difference = try? MathKernel.subtract(state.memory, value) { state.memory = difference }
             if state.phase == .entering { state.phase = .operandComputed }
         case .recall:
-            if state.phase == .entering, let literal = state.document.tokenBeforeCursor?.numberLiteral, !literal.isComputed {
-                state.document.removeBeforeCursor()
-            }
+            removeTypedNumberBeforeCursor()
             insertOperand(.number(NumberLiteral(value: state.memory)))
+        }
+    }
+
+    /// `MR` and recalled values replace the number being typed (`2 MR` is `MR`, not `2·MR`).
+    private mutating func removeTypedNumberBeforeCursor() {
+        if state.phase == .entering, let literal = state.document.tokenBeforeCursor?.numberLiteral, !literal.isComputed {
+            state.document.removeBeforeCursor()
+        }
+    }
+
+    // MARK: - History
+
+    /// Every `=` that computed something lands in the history; `5 =` only echoes a number.
+    private mutating func record(_ committed: [Token], result: CalcValue) {
+        if committed.count == 1, case .number = committed[0] { return }
+        var entry = HistoryEntry(tokens: committed, result: result, date: clock.now())
+        entry.fitToStorageBudget()
+        state.history.append(entry)
+        if state.history.count > CalculatorState.maxHistoryEntries {
+            state.history.removeFirst(state.history.count - CalculatorState.maxHistoryEntries)
+        }
+    }
+
+    /// History edits never touch the expression, so they work in every phase, errors included.
+    private mutating func editHistory(_ event: CalculatorEvent) {
+        switch event {
+        case .clearHistory: state.history.removeAll()
+        case .deleteHistoryEntry(let id): state.history.removeAll { $0.id == id }
+        default: break
         }
     }
 

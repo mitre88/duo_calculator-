@@ -231,7 +231,7 @@ extension CalcEngineTests {
                 engine.send(FuzzEvents.event(&rng))
                 _ = engine.snapshot(formatter: formatter)
                 peakTokens = max(peakTokens, engine.document.tokens.count)
-                peakResults = max(peakResults, engine.state.results.count)
+                peakResults = max(peakResults, engine.state.history.count)
             }
             let after = ProcessMemory.residentBytes()
             let payload = try JSONEncoder().encode(engine.state).count
@@ -243,7 +243,7 @@ extension CalcEngineTests {
                 Report.line("[mem] resident size unavailable on this platform; state=\(payload) B; peak tokens=\(peakTokens) results=\(peakResults)")
             }
             #expect(peakTokens <= OperatorTable.maxTokens)
-            #expect(peakResults <= CalculatorState.maxStoredResults)
+            #expect(peakResults <= CalculatorState.maxHistoryEntries)
             #expect(payload < 64 * 1024, "persisted state is \(payload) bytes")
         }
 

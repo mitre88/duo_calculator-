@@ -42,8 +42,12 @@ public enum CalculatorEvent: Sendable, Hashable, Codable {
     case cursorToEnd
     /// Move the cursor to a token boundary (0…tokens.count).
     case cursorTo(Int)
-    /// Insert a value as an operand (unit converter, future history).
+    /// Insert a value as an operand (unit converter, History); like `MR`, it replaces the number being typed.
     case recall(CalcValue)
+    /// Remove every History entry (the display is untouched).
+    case clearHistory
+    /// Remove one History entry.
+    case deleteHistoryEntry(UUID)
     /// Paste: the text is tokenized with the text grammar and inserted at the cursor.
     case insertText(String)
 }

@@ -36,12 +36,26 @@ public struct CalculatorState: Sendable, Codable, Hashable {
     public var angleMode: AngleMode = .degrees
     public var isSecondActive = false
     public var lastResult: CalcValue?
-    /// Most recent results (newest last, capped) — the future history panel only needs UI.
-    public var results: [CalcValue] = []
+    /// Committed calculations for the History panel (newest last, capped).
+    public var history: [HistoryEntry] = []
 
-    public static let maxStoredResults = 50
+    public static let maxHistoryEntries = 50
 
     public init() {}
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        phase = try container.decode(Phase.self, forKey: .phase)
+        document = try container.decode(ExpressionDocument.self, forKey: .document)
+        committedTokens = try container.decode([Token].self, forKey: .committedTokens)
+        repeatOperation = try container.decodeIfPresent(RepeatOperation.self, forKey: .repeatOperation)
+        memory = try container.decode(CalcValue.self, forKey: .memory)
+        angleMode = try container.decode(AngleMode.self, forKey: .angleMode)
+        isSecondActive = try container.decode(Bool.self, forKey: .isSecondActive)
+        lastResult = try container.decodeIfPresent(CalcValue.self, forKey: .lastResult)
+        // States saved before the History panel have no `history` (their old `results` key is ignored).
+        history = try container.decodeIfPresent([HistoryEntry].self, forKey: .history) ?? []
+    }
 
     public var isError: Bool {
         if case .error = phase { return true }
