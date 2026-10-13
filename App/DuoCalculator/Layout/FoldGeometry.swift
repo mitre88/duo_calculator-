@@ -7,12 +7,24 @@ import SwiftUI
 //   GeometryProxy.reservedRegions(kind: .division | .occlusion, options: [.includeInactive])
 //        → regions with `frame`, `margins`, `isActive`
 //   View.onHingeChange { old, new in … }  → `new.hinge` (DeviceHinge?) with `.angle` and `.status`
+//
+// The app runs from iOS 26: earlier systems (and iPhone apps on a Mac) have no fold, so they get no
+// regions and no hinge, and the layout falls back to size classes alone.
 // ─────────────────────────────────────────────────────────────────────────────────────────────
+
+enum FoldSupport {
+    /// The fold APIs exist (iOS 27.1+) and this is not an iPhone app running on a Mac.
+    static var isAvailable: Bool {
+        guard #available(iOS 27.1, *) else { return false }
+        return !ProcessInfo.processInfo.isiOSAppOnMac
+    }
+}
 
 extension GeometryProxy {
     /// Fold and camera regions in this proxy's coordinate space (inactive ones included, so the
     /// layout can keep an even column count whenever a fold *exists*).
     func duoReservedRegions() -> [ReservedRegionInfo] {
+        guard FoldSupport.isAvailable, #available(iOS 27.1, *) else { return [] }
         var result: [ReservedRegionInfo] = []
         for region in reservedRegions(kind: .division, options: [.includeInactive]) {
             result.append(ReservedRegionInfo(kind: .division, frame: region.frame, margins: region.margins, isActive: region.isActive))
@@ -24,6 +36,7 @@ extension GeometryProxy {
     }
 }
 
+@available(iOS 27.1, *)
 extension HingeState {
     init(deviceHinge hinge: DeviceHinge?) {
         guard let hinge else {
@@ -42,6 +55,7 @@ extension HingeState {
     }
 }
 
+@available(iOS 27.1, *)
 struct HingeObserver: ViewModifier {
     @Environment(DeviceContext.self) private var deviceContext
 
@@ -53,6 +67,13 @@ struct HingeObserver: ViewModifier {
 }
 
 extension View {
-    /// Feeds `DeviceContext.hinge` from the system hinge sensor.
-    func observesHinge() -> some View { modifier(HingeObserver()) }
+    /// Feeds `DeviceContext.hinge` from the system hinge sensor where there is one.
+    @ViewBuilder
+    func observesHinge() -> some View {
+        if FoldSupport.isAvailable, #available(iOS 27.1, *) {
+            modifier(HingeObserver())
+        } else {
+            self
+        }
+    }
 }
