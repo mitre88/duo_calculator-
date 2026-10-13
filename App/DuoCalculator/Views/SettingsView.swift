@@ -58,6 +58,9 @@ struct SettingsView: View {
                     LabeledContent {
                         Text(verbatim: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—")
                     } label: { Text("settings.version", bundle: .main) }
+                    Link(destination: URL(string: "https://github.com/mitre88/duo_calculator-/blob/main/PRIVACY.md")!) {
+                        Text("settings.privacy", bundle: .main)
+                    }
                     Link(destination: URL(string: "https://github.com/mitre88/duo_calculator-")!) {
                         Text("settings.source", bundle: .main)
                     }

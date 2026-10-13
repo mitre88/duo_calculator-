@@ -50,7 +50,9 @@ final class CalculatorModel {
     @ObservationIgnored private let worker: CalculatorWorker
     @ObservationIgnored private var restored = false
     @ObservationIgnored private var saveTask: Task<Void, Never>?
-    @ObservationIgnored private var inFlight = 0
+    /// Observed: the unit converter waits for the worker before it touches BigDecimal on the main actor
+    /// (the engine's caches belong to the worker, see `CalculatorWorker`).
+    private var inFlight = 0
 
     var isBusy: Bool { inFlight > 0 }
 
@@ -187,6 +189,8 @@ final class CalculatorModel {
 
     func handleKeyPress(_ press: KeyPress) -> KeyPress.Result {
         guard let event = KeyboardMapping.event(for: press) else { return .ignored }
+        // A held key repeats digits, ⌫ and the cursor like a text field; a held = or operator would flood History.
+        if press.phase == .repeat, !KeyboardMapping.repeats(event) { return .handled }
         send(event, haptic: .light)
         return .handled
     }
@@ -234,6 +238,13 @@ enum HapticKind: Hashable {
 
 /// Hardware keyboard → events.
 enum KeyboardMapping {
+    static func repeats(_ event: CalculatorEvent) -> Bool {
+        switch event {
+        case .digit, .backspace, .cursorLeft, .cursorRight: true
+        default: false
+        }
+    }
+
     static func event(for press: KeyPress) -> CalculatorEvent? {
         if press.modifiers.contains(.command) {
             switch press.characters {

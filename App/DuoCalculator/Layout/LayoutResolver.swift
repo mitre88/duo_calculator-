@@ -164,8 +164,12 @@ enum LayoutResolver {
             return nil
         }
         let crossesFold = input.regions.contains { $0.kind == .division && $0.isActive && $0.expandedFrame.intersects(frame) }
-        return crossesFold || frame.width < 240 ? nil : frame
+        // Too small for a header and a few rows (a low Laptop fold): the sheet takes over.
+        let tooSmall = frame.width < historyMinimumSize.width || frame.height < historyMinimumSize.height
+        return crossesFold || tooSmall ? nil : frame
     }
+
+    static let historyMinimumSize = CGSize(width: 240, height: 220)
 
     // MARK: Display
 

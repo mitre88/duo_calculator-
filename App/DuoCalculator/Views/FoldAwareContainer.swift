@@ -35,15 +35,19 @@ struct FoldAwareContainer: View {
             }
             // On the inner display History opens beside the fold (see `LayoutResolver.historyFrame`).
             if sheet == .history, effectiveMode == .scientific, let frame = plan.historyFrame {
-                HistoryPanel { sheet = nil }
+                HistoryPanel(topInset: plan.displayTopInset) { sheet = nil }
                     .frame(width: frame.width, height: frame.height)
                     .offset(x: frame.minX, y: frame.minY)
-                    .transition(.opacity.combined(with: .scale(scale: 0.97)))
+                    .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.97)))
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .animation(Motion.layout(reduceMotion: reduceMotion), value: effectiveMode)
-        .animation(Motion.panel, value: sheet == .history)
+        .animation(reduceMotion ? .easeInOut(duration: 0.15) : Motion.panel, value: sheet == .history)
+        // Switching to the programmer or converter closes History instead of hiding it behind the panel.
+        .onChange(of: effectiveMode) { _, mode in
+            if mode != .scientific, sheet == .history { sheet = nil }
+        }
     }
 
     private var calculator: some View {

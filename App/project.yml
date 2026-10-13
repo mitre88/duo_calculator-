@@ -64,8 +64,7 @@ targets:
         UILaunchScreen:
           UIColorName: LaunchBackground
         # The inner display of iPhone Duo ignores supported orientations; declare all of them anyway
-        # so the app resizes freely (and never set UIRequiresFullScreen = YES: Split View must work).
-        UIRequiresFullScreen: false
+        # so the app resizes freely. UIRequiresFullScreen stays unset (deprecated in iOS 26; Split View must work).
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationPortraitUpsideDown

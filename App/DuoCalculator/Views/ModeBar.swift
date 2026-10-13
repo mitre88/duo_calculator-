@@ -3,8 +3,9 @@ import CalcEngine
 
 /// Toolbar above the display: mode, History, cursor keys, backspace, settings. On the inner display the mode menu
 /// switches scientific / programmer / converter in place; compact layouts (phones, the folded Duo) offer Basic /
-/// Scientific where the other arrangement fits and open the converter as a sheet. Narrow displays drop the cursor
-/// keys, then the menu title, then fold History and Settings into a menu.
+/// Scientific where the other arrangement fits and open the converter as a sheet. Narrow displays fold History and
+/// Settings into a menu first, then drop the menu title, and drop the cursor keys (the only button route to
+/// mid-expression editing) last.
 /// Uses its own small glass container (siblings of the keypad container, never nested).
 struct ModeBar: View {
     let snapshot: DisplaySnapshot
@@ -17,8 +18,8 @@ struct ModeBar: View {
     var body: some View {
         ViewThatFits(in: .horizontal) {
             bar(titled: true, cursorKeys: true, collapsed: false)
-            bar(titled: true, cursorKeys: false, collapsed: false)
-            bar(titled: false, cursorKeys: false, collapsed: false)
+            bar(titled: true, cursorKeys: true, collapsed: true)
+            bar(titled: false, cursorKeys: true, collapsed: true)
             bar(titled: false, cursorKeys: false, collapsed: true)
         }
         .controlSize(plan.isCompactWidth ? .small : .regular)
@@ -70,6 +71,7 @@ struct ModeBar: View {
             }
             .buttonStyle(.glass)
             .accessibilityLabel(Text("modebar.mode", bundle: .main))
+            .accessibilityValue(Text(model.mode.titleKey, bundle: .main))
             .accessibilityIdentifier("modebar.mode")
         } else if plan.isCompactWidth {
             Menu {
@@ -91,6 +93,7 @@ struct ModeBar: View {
             }
             .buttonStyle(.glass)
             .accessibilityLabel(Text("modebar.mode", bundle: .main))
+            .accessibilityValue(Text(plan.mode.isScientific ? "mode.scientific" : "mode.basic", bundle: .main))
             .accessibilityIdentifier("modebar.mode")
         }
     }

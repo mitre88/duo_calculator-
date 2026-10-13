@@ -24,16 +24,30 @@ struct CalculatorRootView: View {
     @State private var sheet: RootSheet?
     @FocusState private var keyboardFocused: Bool
 
-    /// Hardware keys drive the calculator only while it is on screen (not the programmer/converter panels or a sheet).
-    private var keysReachCalculator: Bool {
-        sheet == nil && (!deviceContext.plan.panelsAvailable || model.mode == .scientific)
+    /// On the inner display History is a panel beside the calculator (see `LayoutResolver.historyFrame`).
+    private func historyIsPanel(_ plan: LayoutPlan) -> Bool {
+        plan.historyFrame != nil && (!plan.panelsAvailable || model.mode == .scientific)
     }
 
-    /// History opens as a panel where the plan has a place for it; everything else is a sheet.
-    private var presentedSheet: Binding<RootSheet?> {
-        Binding(
-            get: { sheet == .history && deviceContext.plan.historyFrame != nil ? nil : sheet },
-            set: { sheet = $0 })
+    /// Hardware keys drive the calculator while it is on screen: not under a sheet, nor behind the programmer or
+    /// converter panels. The History panel leaves the calculator beside it live.
+    private var keysReachCalculator: Bool {
+        let plan = deviceContext.plan
+        let calculatorVisible = !plan.panelsAvailable || model.mode == .scientific
+        let modal = sheet != nil && !(sheet == .history && historyIsPanel(plan))
+        return calculatorVisible && !modal
+    }
+
+    /// Everything but the History panel is a sheet. While History is a panel the binding reads nil, and SwiftUI's
+    /// nil write-back when it dismisses a sheet for that reason is ignored, so unfolding hands the sheet to the panel.
+    private func presentedSheet(for plan: LayoutPlan) -> Binding<RootSheet?> {
+        let panel = historyIsPanel(plan)
+        return Binding(
+            get: { sheet == .history && panel ? nil : sheet },
+            set: { newValue in
+                if newValue == nil, sheet == .history, panel { return }
+                sheet = newValue
+            })
     }
 
     var body: some View {
@@ -56,8 +70,19 @@ struct CalculatorRootView: View {
         .focusable()
         .focused($keyboardFocused)
         .focusEffectDisabled()
-        .onKeyPress { press in keysReachCalculator ? model.handleKeyPress(press) : .ignored }
-        .onAppear { keyboardFocused = true }
+        .onKeyPress { press in
+            if press.key == .escape, sheet == .history {
+                sheet = nil
+                return .handled
+            }
+            return keysReachCalculator ? model.handleKeyPress(press) : .ignored
+        }
+        .onAppear {
+            keyboardFocused = true
+            #if DEBUG
+            ScreenshotHooks.apply(to: model) { sheet = $0 }
+            #endif
+        }
         .onChange(of: sheet) { _, presented in
             if presented == nil { keyboardFocused = true }
         }
@@ -70,22 +95,23 @@ struct CalculatorRootView: View {
         .onChange(of: settings.keepScreenAwake, initial: true) { _, awake in
             UIApplication.shared.isIdleTimerDisabled = awake
         }
-        .sheet(item: presentedSheet) { item in
-            Group {
-                switch item {
-                case .settings:
-                    SettingsView()
-                case .history:
-                    HistorySheet()
-                case .converter:
-                    UnitConverterPanel(plan: deviceContext.plan, presentation: .sheet)
-                        .presentationDetents([.large])
-                }
-            }
-            .environment(settings)
-            .environment(model)
-        }
         .statusBarHidden(false)
+    }
+
+    private func sheetContent(_ item: RootSheet, plan: LayoutPlan) -> some View {
+        Group {
+            switch item {
+            case .settings:
+                SettingsView()
+            case .history:
+                HistorySheet()
+            case .converter:
+                UnitConverterPanel(plan: plan, presentation: .sheet)
+                    .presentationDetents([.large])
+            }
+        }
+        .environment(settings)
+        .environment(model)
     }
 
     private func calculatorLayer(safeArea: EdgeInsets) -> some View {
@@ -118,6 +144,10 @@ struct CalculatorRootView: View {
             }
             .onChange(of: plan, initial: true) { _, newPlan in
                 deviceContext.plan = newPlan
+            }
+            // Attached where the plan is fresh, so a fold hands History between sheet and panel in the same pass.
+            .sheet(item: presentedSheet(for: plan)) { item in
+                sheetContent(item, plan: plan)
             }
         }
     }

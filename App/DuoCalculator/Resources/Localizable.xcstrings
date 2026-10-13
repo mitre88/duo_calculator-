@@ -53,6 +53,23 @@
         }
       }
     },
+    "converter.fromUnit": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "unidad de origen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "source unit"
+          }
+        }
+      }
+    },
     "converter.inputValue": {
       "extractionState": "manual",
       "localizations": {
@@ -134,6 +151,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "TO"
+          }
+        }
+      }
+    },
+    "converter.toUnit": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "unidad de destino"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "target unit"
           }
         }
       }
@@ -1810,13 +1844,13 @@
         "es-MX": {
           "stringUnit": {
             "state": "translated",
-            "value": "más"
+            "value": "más opciones"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "more"
+            "value": "more options"
           }
         }
       }
@@ -2116,13 +2150,13 @@
         "es-MX": {
           "stringUnit": {
             "state": "translated",
-            "value": "Se guarda solo en este iPhone: tus últimos 50 cálculos."
+            "value": "Se guarda en este iPhone (y en sus respaldos): tus últimos 50 cálculos."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Stored only on this iPhone: your last 50 calculations."
+            "value": "Kept on this iPhone (and in its backups): your last 50 calculations."
           }
         }
       }
@@ -2157,6 +2191,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Precision (compute / display)"
+          }
+        }
+      }
+    },
+    "settings.privacy": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Política de privacidad"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy Policy"
           }
         }
       }

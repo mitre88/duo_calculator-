@@ -13,17 +13,18 @@ struct HistorySheet: View {
                 .navigationTitle(Text("history.title", bundle: .main))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
+                    // Not the cancellation slot: Esc must close the sheet, never start clearing it.
+                    ToolbarItem(placement: .topBarLeading) {
                         Button(role: .destructive) { confirmClear = true } label: { Text("history.clear", bundle: .main) }
                             .disabled(model.history.isEmpty)
                             .accessibilityIdentifier("history.clear")
+                            .clearHistoryConfirmation(isPresented: $confirmClear)
                     }
                     ToolbarItem(placement: .confirmationAction) {
                         Button { dismiss() } label: { Text("history.done", bundle: .main) }
                             .accessibilityIdentifier("history.done")
                     }
                 }
-                .clearHistoryConfirmation(isPresented: $confirmClear)
         }
         .presentationDetents([.medium, .large])
     }
@@ -31,6 +32,8 @@ struct HistorySheet: View {
 
 /// History as a panel inside the inner display, at the frame `LayoutResolver.historyFrame` keeps clear of the fold.
 struct HistoryPanel: View {
+    /// The plan's clearance below the status bar and cameras over the panel's top edge.
+    let topInset: CGFloat
     let close: () -> Void
 
     @Environment(CalculatorModel.self) private var model
@@ -47,13 +50,14 @@ struct HistoryPanel: View {
                 GlassEffectContainer(spacing: 8) {
                     HStack(spacing: 8) {
                         Button(role: .destructive) { confirmClear = true } label: {
-                            Image(systemName: "trash").frame(minWidth: 28, minHeight: 28)
+                            Image(systemName: "trash").frame(minWidth: 32, minHeight: 32)
                         }
                         .disabled(model.history.isEmpty)
                         .accessibilityLabel(Text("history.clear", bundle: .main))
                         .accessibilityIdentifier("history.clear")
+                        .clearHistoryConfirmation(isPresented: $confirmClear)
                         Button(action: close) {
-                            Image(systemName: "xmark").frame(minWidth: 28, minHeight: 28)
+                            Image(systemName: "xmark").frame(minWidth: 32, minHeight: 32)
                         }
                         .accessibilityLabel(Text("history.done", bundle: .main))
                         .accessibilityIdentifier("history.done")
@@ -63,7 +67,7 @@ struct HistoryPanel: View {
                 }
             }
             .padding(.horizontal, 18)
-            .padding(.top, 16)
+            .padding(.top, max(16, topInset))
             .padding(.bottom, 6)
             HistoryList(onSelect: close)
         }
@@ -71,7 +75,10 @@ struct HistoryPanel: View {
         .clipShape(GlassShapes.panel)
         .overlay(GlassShapes.panel.strokeBorder(Color.primary.opacity(scheme == .dark ? 0.12 : 0.08)))
         .padding(12)
-        .clearHistoryConfirmation(isPresented: $confirmClear)
+        // VoiceOver stays inside the panel; the escape gesture closes it.
+        .accessibilityElement(children: .contain)
+        .accessibilityAddTraits(.isModal)
+        .accessibilityAction(.escape, close)
     }
 }
 
@@ -114,30 +121,44 @@ struct HistoryList: View {
 struct HistoryRowView: View {
     let row: HistoryRow
 
+    /// Today shows the time; older entries add the day.
+    private var dateText: Text {
+        Calendar.current.isDateInToday(row.date)
+            ? Text(row.date, format: .dateTime.hour().minute())
+            : Text(row.date, format: .dateTime.day().month(.abbreviated).hour().minute())
+    }
+
     var body: some View {
         VStack(alignment: .trailing, spacing: 4) {
             Text(verbatim: (row.expression ?? "…") + " =")
-                .font(Typography.expression(compact: true))
+                .font(.callout)
                 .foregroundStyle(.secondary)
-                .lineLimit(2)
-                .minimumScaleFactor(0.7)
+                .lineLimit(3)
                 .multilineTextAlignment(.trailing)
             Text(verbatim: row.result)
-                .font(Typography.primary(size: 30))
+                .font(.system(.title, design: .rounded, weight: .light))
                 .monospacedDigit()
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-            Text(row.date, format: .dateTime.hour().minute())
-                .font(Typography.indicator())
-                .foregroundStyle(.tertiary)
+                .lineLimit(2)
+                .minimumScaleFactor(0.7)
+            dateText
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .trailing)
         .padding(.vertical, 6)
         .contentShape(Rectangle())
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(verbatim: SpokenNumber.spoken((row.expression ?? "") + " = " + row.result)))
+        .accessibilityLabel(Text(verbatim: spokenLabel))
+        .accessibilityValue(dateText)
         .accessibilityHint(Text("history.reuse.hint", bundle: .main))
         .accessibilityAddTraits(.isButton)
+    }
+
+    /// Expression and result are spoken separately, so each keeps its own number reading.
+    private var spokenLabel: String {
+        let result = SpokenNumber.spoken(row.result)
+        guard let expression = row.expression else { return result }
+        return SpokenNumber.spoken(expression) + ", = " + result
     }
 }
 
@@ -154,6 +175,7 @@ private struct ClearHistoryConfirmation: ViewModifier {
     func body(content: Content) -> some View {
         content.confirmationDialog(Text("history.clear.confirm", bundle: .main), isPresented: $isPresented, titleVisibility: .visible) {
             Button(role: .destructive) { model.clearHistory() } label: { Text("history.clear", bundle: .main) }
+                .accessibilityIdentifier("history.clear.confirm")
         }
     }
 }

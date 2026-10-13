@@ -28,16 +28,30 @@ struct UnitConverterPanel: View {
                 .frame(width: plan.contentRect.width, height: plan.contentRect.height, alignment: .top)
                 .offset(x: plan.contentRect.minX, y: plan.contentRect.minY)
         case .sheet:
-            content
-                .padding(.horizontal, 16)
-                .padding(.top, 20)
-                .padding(.bottom, 12)
+            // Scrolls: a phone in landscape (or at accessibility sizes, or with the decimal pad up) is shorter than
+            // the cards, and the sheet is then a full-screen cover whose only way out is the Done button.
+            NavigationStack {
+                ScrollView {
+                    content
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 12)
+                }
+                .scrollDismissesKeyboard(.interactively)
+                .navigationTitle(Text(model.converter.category.titleKey, bundle: .main))
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button { dismiss() } label: { Text("converter.close", bundle: .main) }
+                            .accessibilityIdentifier("converter.close")
+                    }
+                }
+            }
         }
     }
 
     private var content: some View {
         VStack(spacing: 14) {
-            header
+            if presentation == .panel { header }
             categoryChips
             switch presentation {
             case .panel:
@@ -54,39 +68,56 @@ struct UnitConverterPanel: View {
                     toCard
                 }
             }
-            HStack {
-                Button {
-                    Task {
-                        if let value = await model.currentValue() {
-                            model.converter.inputText = formatter.format(value).replacingOccurrences(of: formatter.separators.grouping, with: "")
-                        }
-                    }
-                } label: {
-                    Label { Text("converter.useCalculatorValue", bundle: .main) } icon: { Image(systemName: "arrow.down.doc") }
+            ViewThatFits(in: .horizontal) {
+                HStack {
+                    actionButtons
+                    Spacer(minLength: 0)
                 }
-                .buttonStyle(.glass)
-                Button {
-                    if let value = model.converter.result(separators: formatter.separators) {
-                        model.mode = .scientific
-                        model.send(.recall(value))
-                        if presentation == .sheet { dismiss() }
-                    }
-                } label: {
-                    Label { Text("converter.sendToCalculator", bundle: .main) } icon: { Image(systemName: "function") }
+                VStack(alignment: .leading, spacing: 10) {
+                    actionButtons
                 }
-                .buttonStyle(.glass)
-                .disabled(model.converter.result(separators: formatter.separators) == nil)
-                Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            table
+            switch presentation {
+            case .panel:
+                ScrollView { tableRows }
+                    .scrollEdgeEffectStyle(.soft, for: .vertical)
+            case .sheet:
+                tableRows   // the sheet's own scroll view carries it
+            }
         }
         .animation(Motion.digits, value: resultText)
+    }
+
+    @ViewBuilder
+    private var actionButtons: some View {
+        Button {
+            Task {
+                if let value = await model.currentValue() {
+                    model.converter.inputText = formatter.format(value).replacingOccurrences(of: formatter.separators.grouping, with: "")
+                }
+            }
+        } label: {
+            Label { Text("converter.useCalculatorValue", bundle: .main) } icon: { Image(systemName: "arrow.down.doc") }
+        }
+        .buttonStyle(.glass)
+        Button {
+            if !model.isBusy, let value = model.converter.result(separators: formatter.separators) {
+                model.mode = .scientific
+                model.send(.recall(value))
+                if presentation == .sheet { dismiss() }
+            }
+        } label: {
+            Label { Text("converter.sendToCalculator", bundle: .main) } icon: { Image(systemName: "function") }
+        }
+        .buttonStyle(.glass)
+        .disabled(model.isBusy || model.converter.result(separators: formatter.separators) == nil)
     }
 
     private var fromCard: some View {
         @Bindable var model = model
         return card(titleKey: "converter.from") {
-            unitPicker(selection: $model.converter.fromUnitID)
+            unitPicker(selection: $model.converter.fromUnitID, labelKey: "converter.fromUnit")
             TextField("", text: $model.converter.inputText, prompt: Text(verbatim: "0"))
                 .keyboardType(.decimalPad)
                 .font(.system(size: 34, weight: .light, design: .rounded))
@@ -105,7 +136,7 @@ struct UnitConverterPanel: View {
     private var toCard: some View {
         @Bindable var model = model
         return card(titleKey: "converter.to") {
-            unitPicker(selection: $model.converter.toUnitID)
+            unitPicker(selection: $model.converter.toUnitID, labelKey: "converter.toUnit")
             Text(verbatim: resultText)
                 .font(.system(size: 34, weight: .light, design: .rounded))
                 .lineLimit(1)
@@ -130,41 +161,30 @@ struct UnitConverterPanel: View {
         .accessibilityLabel(Text("converter.swap", bundle: .main))
     }
 
+    /// Converter math runs on the main actor only while the worker is idle: BigDecimal's caches are not thread-safe.
     private var resultText: String {
-        guard let result = model.converter.result(separators: formatter.separators) else { return "—" }
+        guard !model.isBusy, let result = model.converter.result(separators: formatter.separators) else { return "—" }
         return formatter.format(result)
     }
 
-    @ViewBuilder
+    /// Panel header: the mode menu and the category title (the sheet shows the title in its navigation bar).
     private var header: some View {
         @Bindable var model = model
-        switch presentation {
-        case .panel:
-            HStack {
-                Menu {
-                    Picker(selection: $model.mode) {
-                        ForEach(CalculatorModel.Mode.allCases) { mode in
-                            Label { Text(mode.titleKey, bundle: .main) } icon: { Image(systemName: mode.symbolName) }.tag(mode)
-                        }
-                    } label: { EmptyView() }
-                    .pickerStyle(.inline)
-                } label: {
-                    Label { Text(model.mode.titleKey, bundle: .main) } icon: { Image(systemName: model.mode.symbolName) }
-                }
-                .buttonStyle(.glass)
-                Spacer()
-                Text(model.converter.category.titleKey, bundle: .main)
-                    .font(.title2.weight(.semibold))
+        return HStack {
+            Menu {
+                Picker(selection: $model.mode) {
+                    ForEach(CalculatorModel.Mode.allCases) { mode in
+                        Label { Text(mode.titleKey, bundle: .main) } icon: { Image(systemName: mode.symbolName) }.tag(mode)
+                    }
+                } label: { EmptyView() }
+                .pickerStyle(.inline)
+            } label: {
+                Label { Text(model.mode.titleKey, bundle: .main) } icon: { Image(systemName: model.mode.symbolName) }
             }
-        case .sheet:
-            HStack {
-                Text(model.converter.category.titleKey, bundle: .main)
-                    .font(.title2.weight(.semibold))
-                    .accessibilityAddTraits(.isHeader)
-                Spacer()
-                Button { dismiss() } label: { Text("converter.close", bundle: .main) }
-                    .buttonStyle(.glass)
-            }
+            .buttonStyle(.glass)
+            Spacer()
+            Text(model.converter.category.titleKey, bundle: .main)
+                .font(.title2.weight(.semibold))
         }
     }
 
@@ -202,39 +222,38 @@ struct UnitConverterPanel: View {
         .background(GlassShapes.panel.fill(Color.primary.opacity(scheme == .dark ? 0.06 : 0.04)))
     }
 
-    private func unitPicker(selection: Binding<String>) -> some View {
-        Picker("", selection: selection) {
+    private func unitPicker(selection: Binding<String>, labelKey: LocalizedStringKey) -> some View {
+        Picker(selection: selection) {
             ForEach(UnitCatalog.units(in: model.converter.category)) { unit in
-                (Text(verbatim: "\(unit.symbol) · ").foregroundStyle(.secondary) + Text(LocalizedStringKey(unit.nameKey), bundle: .main))
+                Text(verbatim: "\(unit.symbol) · \(String(localized: String.LocalizationValue(unit.nameKey), bundle: .main))")
                     .tag(unit.id)
             }
+        } label: {
+            Text(labelKey, bundle: .main)
         }
         .pickerStyle(.menu)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private var table: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                if let value = model.converter.inputValue(separators: formatter.separators) {
-                    ForEach(UnitConverter.table(value, from: model.converter.fromUnit), id: \.unit.id) { row in
-                        HStack {
-                            Text(LocalizedStringKey(row.unit.nameKey), bundle: .main)
-                                .foregroundStyle(.secondary)
-                            Spacer()
-                            Text(verbatim: row.value.map(formatter.format) ?? "—")
-                                .font(.system(.body, design: .rounded).monospacedDigit())
-                            Text(verbatim: row.unit.symbol)
-                                .foregroundStyle(.tertiary)
-                                .frame(width: 56, alignment: .leading)
-                        }
-                        .padding(.vertical, 8)
-                        Divider().opacity(0.4)
+    private var tableRows: some View {
+        VStack(spacing: 0) {
+            if !model.isBusy, let value = model.converter.inputValue(separators: formatter.separators) {
+                ForEach(UnitConverter.table(value, from: model.converter.fromUnit), id: \.unit.id) { row in
+                    HStack {
+                        Text(LocalizedStringKey(row.unit.nameKey), bundle: .main)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text(verbatim: row.value.map(formatter.format) ?? "—")
+                            .font(.system(.body, design: .rounded).monospacedDigit())
+                        Text(verbatim: row.unit.symbol)
+                            .foregroundStyle(.secondary)
+                            .frame(minWidth: 56, alignment: .leading)
                     }
+                    .padding(.vertical, 8)
+                    Divider().opacity(0.4)
                 }
             }
         }
-        .scrollEdgeEffectStyle(.soft, for: .vertical)
     }
 }
 
