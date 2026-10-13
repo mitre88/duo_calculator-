@@ -16,7 +16,7 @@ final class SmokeUITests: XCTestCase {
     @MainActor
     private func launch() -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments += ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launchArguments += ["-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-duo.uitest.reset", "YES"]
         app.launch()
         XCTAssertTrue(app.buttons["key.equals"].waitForExistence(timeout: 10), "the calculator did not appear")
         return app
@@ -39,6 +39,15 @@ final class SmokeUITests: XCTestCase {
     @MainActor
     private func value(_ app: XCUIApplication) -> String {
         String(describing: display(app).value ?? "")
+    }
+
+    /// Waits for the display to satisfy `matches` (the result animates in), then reports what it shows.
+    @MainActor
+    private func expectValue(_ app: XCUIApplication, timeout: TimeInterval = 5, _ matches: (String) -> Bool,
+                             file: StaticString = #filePath, line: UInt = #line) {
+        let deadline = Date().addingTimeInterval(timeout)
+        while !matches(value(app)), Date() < deadline { RunLoop.current.run(until: Date().addingTimeInterval(0.2)) }
+        XCTAssertTrue(matches(value(app)), "display shows \(value(app))", file: file, line: line)
     }
 
     @MainActor
@@ -70,22 +79,22 @@ final class SmokeUITests: XCTestCase {
     func testArithmeticAndErrors() throws {
         let app = launch()
         press(app, "allClear", "allClear", "digit.2", "add", "digit.3", "equals")
-        XCTAssertTrue(value(app).contains("5"), value(app))
+        expectValue(app) { $0.contains("5") }
         press(app, "equals", "equals")
-        XCTAssertTrue(value(app).contains("11"), value(app))
+        expectValue(app) { $0.contains("11") }
         press(app, "allClear", "allClear", "digit.1", "divide", "digit.0", "equals")
         XCTAssertEqual(display(app).label, "Error")
         press(app, "allClear", "digit.7", "multiply", "digit.6", "equals")
-        XCTAssertTrue(value(app).contains("42"), value(app))
+        expectValue(app) { $0.contains("42") }
     }
 
     @MainActor
     func testHistoryRecallsAResult() throws {
         let app = launch()
         press(app, "allClear", "allClear", "digit.1", "digit.2", "multiply", "digit.3", "equals")
-        XCTAssertTrue(value(app).contains("36"), value(app))
+        expectValue(app) { $0.contains("36") }
         press(app, "allClear", "digit.2", "add", "digit.2", "equals")
-        XCTAssertTrue(value(app).contains("4"), value(app))
+        expectValue(app) { $0 == "4" }
 
         openHistory(app)
         let rows = app.buttons.matching(identifier: "history.row")
@@ -94,9 +103,9 @@ final class SmokeUITests: XCTestCase {
         // Newest first: "2 + 2 = 4", then "12 × 3 = 36".
         rows.element(boundBy: 1).tap()
         XCTAssertTrue(app.buttons["key.equals"].waitForExistence(timeout: 5))
-        XCTAssertTrue(value(app).contains("36"), value(app))
+        expectValue(app) { $0.contains("36") }
         press(app, "add", "digit.4", "equals")
-        XCTAssertTrue(value(app).contains("40"), value(app))
+        expectValue(app) { $0.contains("40") }
     }
 
     @MainActor
@@ -107,9 +116,7 @@ final class SmokeUITests: XCTestCase {
         let clear = app.buttons["history.clear"]
         XCTAssertTrue(clear.waitForExistence(timeout: 5))
         clear.tap()
-        let confirm = app.sheets.buttons["Clear History"].exists
-            ? app.sheets.buttons["Clear History"]
-            : app.buttons.matching(NSPredicate(format: "label == 'Clear History'")).element(boundBy: 1)
+        let confirm = app.buttons["history.clear.confirm"]
         XCTAssertTrue(confirm.waitForExistence(timeout: 5), "no confirmation")
         confirm.tap()
         XCTAssertTrue(app.staticTexts["No Calculations Yet"].waitForExistence(timeout: 5), "History is not empty")
@@ -130,7 +137,7 @@ final class SmokeUITests: XCTestCase {
         scientific.tap()
         XCTAssertTrue(app.buttons["key.sine"].waitForExistence(timeout: 5), "scientific keys did not appear")
         press(app, "allClear", "allClear", "digit.3", "digit.0", "sine", "equals")
-        XCTAssertTrue(value(app).contains("0.5"), value(app))
+        expectValue(app) { $0.contains("0.5") }
 
         _ = openModeMenu(app)
         app.buttons["Units"].firstMatch.tap()
@@ -138,7 +145,7 @@ final class SmokeUITests: XCTestCase {
         XCTAssertTrue(field.waitForExistence(timeout: 5), "the converter sheet did not open")
         let result = app.descendants(matching: .any).matching(NSPredicate(format: "label == 'conversion result'")).firstMatch
         XCTAssertTrue(result.exists)
-        app.buttons["Done"].firstMatch.tap()
+        app.buttons["converter.close"].tap()
         XCTAssertTrue(app.buttons["key.equals"].waitForExistence(timeout: 5))
 
         _ = openModeMenu(app)
@@ -158,7 +165,7 @@ final class SmokeUITests: XCTestCase {
         XCTAssertTrue(app.buttons["HEX"].waitForExistence(timeout: 5))
         app.buttons["HEX"].tap()
         for label in ["AC", "F", "AND", "3", "="] { app.buttons[label].firstMatch.tap() }
-        XCTAssertTrue(value(app).contains("3"), value(app))
+        expectValue(app) { $0.contains("3") }
 
         app.buttons["Programmer"].firstMatch.tap()      // the panel's own mode menu
         let units = app.buttons["Units"]
@@ -185,7 +192,7 @@ final class SmokeUITests: XCTestCase {
         defer { XCUIDevice.shared.orientation = .portrait }
         XCTAssertTrue(app.buttons["key.sine"].waitForExistence(timeout: 5), "no scientific keys in landscape")
         press(app, "allClear", "allClear", "digit.9", "squareRoot", "equals")
-        XCTAssertTrue(value(app).contains("3"), value(app))
+        expectValue(app) { $0.contains("3") }
     }
 
     /// 7! = 5040, then 5040! has 16 474 digits: the display's doubleValue used to trap on it (build 5).
@@ -198,11 +205,10 @@ final class SmokeUITests: XCTestCase {
             app.buttons["Scientific"].firstMatch.tap()
         }
         press(app, "allClear", "allClear", "digit.7", "factorial", "factorial", "equals")
-        XCTAssertTrue(display(app).waitForExistence(timeout: 30))
+        expectValue(app, timeout: 30) { $0.contains("16473") || $0.contains("16,473") }
         XCTAssertEqual(app.state, .runningForeground)
-        XCTAssertTrue(value(app).contains("16473") || value(app).contains("16,473"), value(app))
         press(app, "allClear", "digit.2", "add", "digit.2", "equals")
-        XCTAssertTrue(value(app).contains("4"), value(app))
+        expectValue(app) { $0 == "4" }
         if switchedToScientific {
             _ = openModeMenu(app)
             app.buttons["Basic"].firstMatch.tap()
@@ -217,6 +223,6 @@ final class SmokeUITests: XCTestCase {
         press(app, "allClear", "allClear", "digit.1", "digit.2", "digit.3", "add", "digit.4", "digit.5")
         sleep(25)                                      // the host flips the Duo's posture meanwhile
         press(app, "equals")
-        XCTAssertTrue(value(app).contains("168"), value(app))
+        expectValue(app) { $0.contains("168") }
     }
 }
