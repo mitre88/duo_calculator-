@@ -183,6 +183,19 @@ extension CalcEngineTests {
             #expect(decoded == engine.state)
         }
 
+        /// A future or damaged entry costs that entry only, never the expression, memory or the rest of History.
+        @Test func oneUnreadableHistoryEntryDoesNotDropTheRest() throws {
+            var engine = Self.engine()
+            Self.send([.digit(2), .binary(.add), .digit(3), .equals, .equals], to: &engine)
+            var object = try #require(JSONSerialization.jsonObject(with: JSONEncoder().encode(engine.state)) as? [String: Any])
+            var history = try #require(object["history"] as? [[String: Any]])
+            history[0]["result"] = "not a value"
+            object["history"] = history
+            let decoded = try JSONDecoder().decode(CalculatorState.self, from: JSONSerialization.data(withJSONObject: object))
+            #expect(decoded.history.map(\.result) == [CalcValue(8)])
+            #expect(decoded.lastResult == CalcValue(8))
+        }
+
         @Test func stateSavedBeforeHistoryStillDecodes() throws {
             var engine = Self.engine()
             Self.send([.digit(2), .binary(.add), .digit(3), .equals], to: &engine)

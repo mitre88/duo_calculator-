@@ -53,8 +53,10 @@ public struct CalculatorState: Sendable, Codable, Hashable {
         angleMode = try container.decode(AngleMode.self, forKey: .angleMode)
         isSecondActive = try container.decode(Bool.self, forKey: .isSecondActive)
         lastResult = try container.decodeIfPresent(CalcValue.self, forKey: .lastResult)
-        // States saved before the History panel have no `history` (their old `results` key is ignored).
-        history = try container.decodeIfPresent([HistoryEntry].self, forKey: .history) ?? []
+        // States saved before the History panel have no `history` (their old `results` key is ignored), and an
+        // unreadable entry (a future format) costs that entry only, never the rest of the state.
+        let entries = (try? container.decodeIfPresent([Lossy<HistoryEntry>].self, forKey: .history)) ?? nil
+        history = entries?.compactMap(\.value) ?? []
     }
 
     public var isError: Bool {
@@ -63,4 +65,13 @@ public struct CalculatorState: Sendable, Codable, Hashable {
     }
 
     public var isEntering: Bool { phase == .entering }
+}
+
+/// Decodes to `nil` instead of failing the enclosing array.
+private struct Lossy<Wrapped: Decodable>: Decodable {
+    let value: Wrapped?
+
+    init(from decoder: Decoder) throws {
+        value = try? Wrapped(from: decoder)
+    }
 }
