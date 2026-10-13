@@ -6,6 +6,12 @@ enum KeyShapeStyle: Hashable {
     case roundedRectangle
 }
 
+/// Which preference the mode bar's Basic/Scientific button flips: compact layouts choose per orientation.
+enum ScientificToggle: Hashable {
+    case portrait
+    case landscape
+}
+
 /// The resolved geometry: where the display and the keypad(s) go and how the keys are shaped.
 struct LayoutPlan: Equatable {
     var mode: LayoutMode
@@ -31,6 +37,10 @@ struct LayoutPlan: Equatable {
     var panelsAvailable: Bool = true
     /// Space above the mode bar inside `displayFrame` that keeps it clear of the status bar and cameras.
     var displayTopInset: CGFloat = DisplayMetrics.minimumTopInset
+    /// Set when this compact layout has a Basic/Scientific alternative that fits (`nil`: nothing to switch).
+    var scientificToggle: ScientificToggle? = nil
+    /// Where the History panel opens on the inner display (beside an active fold, never across it); `nil`: a sheet.
+    var historyFrame: CGRect? = nil
 
     /// Height left for the main result line once the display chrome (mode bar, expression, preview, pills) is laid out.
     var primaryLineHeight: CGFloat {

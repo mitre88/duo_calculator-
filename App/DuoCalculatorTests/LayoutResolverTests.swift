@@ -67,6 +67,34 @@ struct LayoutResolverTests {
                                             safeArea: EdgeInsets(top: 0, leading: 62, bottom: 21, trailing: 62),
                                             sizeClass: .compactCompact)
 
+    /// Regular iPhones in portrait (iPhone 17, 12/13 mini, SE) and in landscape (SE has no Dynamic Island).
+    static let phonePortrait = LayoutInput(size: CGSize(width: 402, height: 874),
+                                           safeArea: EdgeInsets(top: 62, leading: 0, bottom: 34, trailing: 0),
+                                           sizeClass: .compactRegular)
+    static let proMaxPortrait = LayoutInput(size: CGSize(width: 440, height: 956),
+                                            safeArea: EdgeInsets(top: 62, leading: 0, bottom: 34, trailing: 0),
+                                            sizeClass: .compactRegular)
+    static let miniPortrait = LayoutInput(size: CGSize(width: 375, height: 812),
+                                          safeArea: EdgeInsets(top: 50, leading: 0, bottom: 34, trailing: 0),
+                                          sizeClass: .compactRegular)
+    static let sePortrait = LayoutInput(size: CGSize(width: 375, height: 667),
+                                        safeArea: EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0),
+                                        sizeClass: .compactRegular)
+    static let seLandscape = LayoutInput(size: CGSize(width: 667, height: 375),
+                                         sizeClass: .compactCompact)
+
+    static func scientificPortrait(_ input: LayoutInput) -> LayoutInput {
+        var input = input
+        input.prefersScientificInCompactPortrait = true
+        return input
+    }
+
+    static func basicLandscape(_ input: LayoutInput) -> LayoutInput {
+        var input = input
+        input.prefersScientificInCompactLandscape = false
+        return input
+    }
+
     static func fold(_ frame: CGRect, active: Bool) -> ReservedRegionInfo {
         ReservedRegionInfo(kind: .division, frame: frame, margins: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), isActive: active)
     }
@@ -91,16 +119,65 @@ struct LayoutResolverTests {
         #expect(LayoutResolver.resolve(Self.ipad).mode == .scientific)
         // Plus / Pro Max phones report a regular width in landscape, but the pane is as short as any phone's.
         #expect(LayoutResolver.resolve(Self.proMaxLandscape).mode == .scientificCompact)
-        // Below that, even 36 pt keys leave no room for a legible result: the side-by-side basic layout takes over.
-        #expect(LayoutResolver.resolve(Self.phoneLandscape).mode == .basicLandscape)
+        // Below that, even 36 pt keys leave no room for a legible result above them: the display moves beside the
+        // scientific keys instead, and the basic side-by-side layout stays one tap away.
+        #expect(LayoutResolver.resolve(Self.phoneLandscape).mode == .scientificSideBySide)
+        #expect(LayoutResolver.resolve(Self.basicLandscape(Self.phoneLandscape)).mode == .basicLandscape)
         var accessibility = Self.innerPortrait
         accessibility.isAccessibilitySize = true
         #expect(LayoutResolver.resolve(accessibility).mode == .basic)
     }
 
+    /// Regular iPhones keep everything LiquidCalculator sold: a scientific layout in both orientations.
+    @Test func phonesReachTheScientificKeypad() {
+        for phone in [Self.phonePortrait, Self.proMaxPortrait, Self.miniPortrait] {
+            #expect(LayoutResolver.resolve(phone).mode == .basic)
+            let scientific = LayoutResolver.resolve(Self.scientificPortrait(phone))
+            #expect(scientific.mode == .scientificStacked, "\(phone.size)")
+            #expect(scientific.isCompactWidth && scientific.displayProfile == .compact)
+            #expect(LayoutResolver.resolve(phone).scientificToggle == .portrait)
+        }
+        #expect(LayoutResolver.resolve(Self.phoneLandscape).scientificToggle == .landscape)
+        #expect(LayoutResolver.resolve(Self.proMaxLandscape).scientificToggle == .landscape)
+        // iPhone SE: ten rows of 44 pt keys do not fit under a legible display, in either orientation.
+        #expect(LayoutResolver.resolve(Self.scientificPortrait(Self.sePortrait)).mode == .basic)
+        #expect(LayoutResolver.resolve(Self.sePortrait).scientificToggle == nil)
+        #expect(LayoutResolver.resolve(Self.seLandscape).mode == .basicLandscape)
+        #expect(LayoutResolver.resolve(Self.seLandscape).scientificToggle == nil)
+        // Wide layouts are scientific already; accessibility sizes keep the big basic keys.
+        #expect(LayoutResolver.resolve(Self.innerPortrait).scientificToggle == nil)
+        var accessibility = Self.phonePortrait
+        accessibility.isAccessibilitySize = true
+        #expect(LayoutResolver.resolve(accessibility).scientificToggle == nil)
+    }
+
+    @Test func sideBySideKeepsTheDisplayBesideTheKeys() {
+        let plan = LayoutResolver.resolve(Self.phoneLandscape)
+        #expect(plan.displayFrame.maxX <= plan.keypadFrame.minX + 0.5)
+        #expect(plan.displayFrame.width >= LayoutResolver.sideBySideMinimumDisplayWidth - 0.5)
+        #expect(plan.keypadSpec.name == "scientific")
+        #expect(!plan.panelsAvailable)
+    }
+
+    /// History opens inside the inner display, never across an active fold; elsewhere it is a sheet.
+    @Test func historyAvoidsTheFold() throws {
+        let tabletop = LayoutResolver.resolve(Self.tabletop)
+        let laptopFrame = try #require(tabletop.historyFrame)
+        #expect(!laptopFrame.intersects(Self.tabletop.activeHorizontalDivision!.expandedFrame))
+        let book = LayoutResolver.resolve(Self.book)
+        let bookFrame = try #require(book.historyFrame)
+        #expect(!bookFrame.intersects(Self.book.verticalDivision!.expandedFrame))
+        #expect(LayoutResolver.resolve(Self.innerPortrait).historyFrame != nil)
+        #expect(LayoutResolver.resolve(Self.phonePortrait).historyFrame == nil)
+        #expect(LayoutResolver.resolve(Self.outerPortrait).historyFrame == nil)
+    }
+
     static var allPoses: [LayoutInput] {
         [outerPortrait, outerLandscape, innerPortrait, innerLandscape, tabletop, book, splitHalf, splitTwoThirds, ipad, stacked,
-         innerBookLandscape, innerPortraitStatusBar, proMaxLandscape, phoneLandscape]
+         innerBookLandscape, innerPortraitStatusBar, proMaxLandscape, phoneLandscape, basicLandscape(phoneLandscape),
+         phonePortrait, proMaxPortrait, miniPortrait, sePortrait, seLandscape,
+         scientificPortrait(phonePortrait), scientificPortrait(proMaxPortrait), scientificPortrait(miniPortrait),
+         scientificPortrait(sePortrait), scientificPortrait(outerPortrait)]
     }
 
     @Test func invariants() {
@@ -148,6 +225,12 @@ struct LayoutResolverTests {
             }
         }
         if plan.isCompactWidth { #expect(!plan.panelsAvailable) }
+        if let history = plan.historyFrame {
+            #expect(content.insetBy(dx: -0.5, dy: -0.5).contains(history), "history \(history) escapes content in \(plan.mode)")
+            for region in input.regions where region.kind == .division && region.isActive {
+                #expect(!history.intersects(region.expandedFrame), "history \(history) crosses the fold in \(plan.mode)")
+            }
+        }
         checkDisplay(plan)
     }
 
@@ -158,7 +241,9 @@ struct LayoutResolverTests {
         if let block = plan.secondaryKeypadFrame {
             #expect(plan.displayFrame.maxY <= block.minY + 0.5, "display runs into the function block in \(plan.mode)")
         }
-        if plan.mode != .basicLandscape {
+        if plan.mode == .basicLandscape || plan.mode == .scientificSideBySide {
+            #expect(plan.displayFrame.maxX <= plan.keypadFrame.minX + 0.5, "display runs into the keypad in \(plan.mode)")
+        } else {
             #expect(plan.displayFrame.maxY <= plan.keypadFrame.minY + 0.5, "display runs into the keypad in \(plan.mode)")
         }
         // Only a pane already squeezed to minimum-size keys may shave the result line.

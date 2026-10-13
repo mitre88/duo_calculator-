@@ -32,19 +32,23 @@ struct LayoutInput: Equatable {
     var regions: [ReservedRegionInfo]
     var isAccessibilitySize: Bool
     var prefersScientificInCompactLandscape: Bool
+    /// Compact width in portrait (phones, the folded Duo) shows the function block above the basic keys.
+    var prefersScientificInCompactPortrait: Bool
 
     init(size: CGSize,
          safeArea: EdgeInsets = EdgeInsets(),
          sizeClass: SizeClassPair,
          regions: [ReservedRegionInfo] = [],
          isAccessibilitySize: Bool = false,
-         prefersScientificInCompactLandscape: Bool = true) {
+         prefersScientificInCompactLandscape: Bool = true,
+         prefersScientificInCompactPortrait: Bool = false) {
         self.size = size
         self.safeArea = safeArea
         self.sizeClass = sizeClass
         self.regions = regions
         self.isAccessibilitySize = isAccessibilitySize
         self.prefersScientificInCompactLandscape = prefersScientificInCompactLandscape
+        self.prefersScientificInCompactPortrait = prefersScientificInCompactPortrait
     }
 
     /// Content rectangle inside the safe area.

@@ -2,6 +2,12 @@ import SwiftUI
 import UIKit
 import CalcEngine
 
+/// What the root presents over the calculator. On the inner display History is a fold-aware panel instead of a sheet.
+enum RootSheet: String, Identifiable {
+    case settings, history, converter
+    var id: String { rawValue }
+}
+
 /// Root of the UI. Measures the window, resolves the layout plan (size classes + reserved regions),
 /// and hosts the background, the calculator and the panels. Hinge data only feeds effects.
 struct CalculatorRootView: View {
@@ -15,8 +21,20 @@ struct CalculatorRootView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.scenePhase) private var scenePhase
 
-    @State private var showSettings = false
+    @State private var sheet: RootSheet?
     @FocusState private var keyboardFocused: Bool
+
+    /// Hardware keys drive the calculator only while it is on screen (not the programmer/converter panels or a sheet).
+    private var keysReachCalculator: Bool {
+        sheet == nil && (!deviceContext.plan.panelsAvailable || model.mode == .scientific)
+    }
+
+    /// History opens as a panel where the plan has a place for it; everything else is a sheet.
+    private var presentedSheet: Binding<RootSheet?> {
+        Binding(
+            get: { sheet == .history && deviceContext.plan.historyFrame != nil ? nil : sheet },
+            set: { sheet = $0 })
+    }
 
     var body: some View {
         // The outer reader respects the safe area only to read its insets; the inner one spans the whole
@@ -38,8 +56,11 @@ struct CalculatorRootView: View {
         .focusable()
         .focused($keyboardFocused)
         .focusEffectDisabled()
-        .onKeyPress { press in model.handleKeyPress(press) }
+        .onKeyPress { press in keysReachCalculator ? model.handleKeyPress(press) : .ignored }
         .onAppear { keyboardFocused = true }
+        .onChange(of: sheet) { _, presented in
+            if presented == nil { keyboardFocused = true }
+        }
         .onChange(of: scenePhase) { _, phase in
             if phase == .background || phase == .inactive { model.saveNow() }
         }
@@ -49,10 +70,20 @@ struct CalculatorRootView: View {
         .onChange(of: settings.keepScreenAwake, initial: true) { _, awake in
             UIApplication.shared.isIdleTimerDisabled = awake
         }
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
-                .environment(settings)
-                .environment(model)
+        .sheet(item: presentedSheet) { item in
+            Group {
+                switch item {
+                case .settings:
+                    SettingsView()
+                case .history:
+                    HistorySheet()
+                case .converter:
+                    UnitConverterPanel(plan: deviceContext.plan, presentation: .sheet)
+                        .presentationDetents([.large])
+                }
+            }
+            .environment(settings)
+            .environment(model)
         }
         .statusBarHidden(false)
     }
@@ -66,7 +97,8 @@ struct CalculatorRootView: View {
                                          vertical: verticalSizeClass == .compact ? .compact : .regular),
                 regions: proxy.duoReservedRegions(),
                 isAccessibilitySize: dynamicTypeSize.isAccessibilitySize,
-                prefersScientificInCompactLandscape: settings.scientificInFoldedLandscape)
+                prefersScientificInCompactLandscape: settings.scientificInFoldedLandscape,
+                prefersScientificInCompactPortrait: settings.scientificInCompactPortrait)
             let plan = LayoutResolver.resolve(input)
 
             ZStack(alignment: .topLeading) {
@@ -76,7 +108,7 @@ struct CalculatorRootView: View {
                                  reduceMotion: reduceMotion,
                                  accent: settings.accent.color,
                                  interactionTick: model.hapticTick)
-                FoldAwareContainer(plan: plan, showSettings: $showSettings)
+                FoldAwareContainer(plan: plan, sheet: $sheet)
             }
             .frame(width: proxy.size.width, height: proxy.size.height, alignment: .topLeading)
             // Only a *mode* change animates (the fold morph); raw resize frames follow instantly, no jitter.

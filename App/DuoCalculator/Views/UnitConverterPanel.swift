@@ -1,59 +1,57 @@
 import SwiftUI
 import CalcEngine
 
-/// Unit converter (inner display only). Exact arithmetic through the category's base unit.
+/// Unit converter. Exact arithmetic through the category's base unit.
 struct UnitConverterPanel: View {
+    /// `.panel`: a mode of the flat inner display; `.sheet`: opened from the mode menu of a compact layout (phones,
+    /// the folded Duo), with the two cards stacked.
+    enum Presentation { case panel, sheet }
+
     let plan: LayoutPlan
+    var presentation: Presentation = .panel
 
     @Environment(CalculatorModel.self) private var model
     @Environment(AppSettings.self) private var settings
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dismiss) private var dismiss
     @FocusState private var inputFocused: Bool
 
     private var formatter: DisplayFormatter { model.formatter }
 
     var body: some View {
-        @Bindable var model = model
+        switch presentation {
+        case .panel:
+            content
+                .padding(.horizontal, 20)
+                .padding(.top, plan.displayTopInset)   // same clearance as the scientific mode bar: only occlusions over the top strip count
+                .padding(.bottom, 16)
+                .frame(width: plan.contentRect.width, height: plan.contentRect.height, alignment: .top)
+                .offset(x: plan.contentRect.minX, y: plan.contentRect.minY)
+        case .sheet:
+            content
+                .padding(.horizontal, 16)
+                .padding(.top, 20)
+                .padding(.bottom, 12)
+        }
+    }
+
+    private var content: some View {
         VStack(spacing: 14) {
             header
             categoryChips
-            HStack(alignment: .top, spacing: 12) {
-                card(titleKey: "converter.from") {
-                    unitPicker(selection: $model.converter.fromUnitID)
-                    TextField("", text: $model.converter.inputText, prompt: Text(verbatim: "0"))
-                        .keyboardType(.decimalPad)
-                        .font(.system(size: 34, weight: .light, design: .rounded))
-                        .multilineTextAlignment(.trailing)
-                        .focused($inputFocused)
-                        .accessibilityLabel(Text("converter.inputValue", bundle: .main))
-                        .toolbar {
-                            ToolbarItemGroup(placement: .keyboard) {
-                                Spacer()
-                                Button { inputFocused = false } label: { Text("converter.done", bundle: .main) }
-                            }
-                        }
+            switch presentation {
+            case .panel:
+                HStack(alignment: .top, spacing: 12) {
+                    fromCard
+                    swapButton(symbol: "arrow.left.arrow.right")
+                        .padding(.top, 48)
+                    toCard
                 }
-                Button {
-                    withAnimation(Motion.panel) { model.converter.swap() }
-                } label: {
-                    Image(systemName: "arrow.left.arrow.right")
-                        .frame(width: 40, height: 40)
-                }
-                .buttonStyle(.glass)
-                .buttonBorderShape(.circle)
-                .padding(.top, 48)
-                .accessibilityLabel(Text("converter.swap", bundle: .main))
-                card(titleKey: "converter.to") {
-                    unitPicker(selection: $model.converter.toUnitID)
-                    Text(verbatim: resultText)
-                        .font(.system(size: 34, weight: .light, design: .rounded))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.4)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .contentTransition(.numericText())
-                        .textSelection(.enabled)
-                        .accessibilityLabel(Text("converter.result", bundle: .main))
-                        .accessibilityValue(Text(verbatim: SpokenNumber.spoken(resultText)))
+            case .sheet:
+                VStack(spacing: 8) {
+                    fromCard
+                    swapButton(symbol: "arrow.up.arrow.down")
+                    toCard
                 }
             }
             HStack {
@@ -71,6 +69,7 @@ struct UnitConverterPanel: View {
                     if let value = model.converter.result(separators: formatter.separators) {
                         model.mode = .scientific
                         model.send(.recall(value))
+                        if presentation == .sheet { dismiss() }
                     }
                 } label: {
                     Label { Text("converter.sendToCalculator", bundle: .main) } icon: { Image(systemName: "function") }
@@ -81,12 +80,54 @@ struct UnitConverterPanel: View {
             }
             table
         }
-        .padding(.horizontal, 20)
-        .padding(.top, plan.displayTopInset)   // same clearance as the scientific mode bar: only occlusions over the top strip count
-        .padding(.bottom, 16)
-        .frame(width: plan.contentRect.width, height: plan.contentRect.height, alignment: .top)
-        .offset(x: plan.contentRect.minX, y: plan.contentRect.minY)
         .animation(Motion.digits, value: resultText)
+    }
+
+    private var fromCard: some View {
+        @Bindable var model = model
+        return card(titleKey: "converter.from") {
+            unitPicker(selection: $model.converter.fromUnitID)
+            TextField("", text: $model.converter.inputText, prompt: Text(verbatim: "0"))
+                .keyboardType(.decimalPad)
+                .font(.system(size: 34, weight: .light, design: .rounded))
+                .multilineTextAlignment(.trailing)
+                .focused($inputFocused)
+                .accessibilityLabel(Text("converter.inputValue", bundle: .main))
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button { inputFocused = false } label: { Text("converter.done", bundle: .main) }
+                    }
+                }
+        }
+    }
+
+    private var toCard: some View {
+        @Bindable var model = model
+        return card(titleKey: "converter.to") {
+            unitPicker(selection: $model.converter.toUnitID)
+            Text(verbatim: resultText)
+                .font(.system(size: 34, weight: .light, design: .rounded))
+                .lineLimit(1)
+                .minimumScaleFactor(0.4)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .contentTransition(.numericText())
+                .textSelection(.enabled)
+                .accessibilityLabel(Text("converter.result", bundle: .main))
+                .accessibilityValue(Text(verbatim: SpokenNumber.spoken(resultText)))
+        }
+    }
+
+    private func swapButton(symbol: String) -> some View {
+        Button {
+            withAnimation(Motion.panel) { model.converter.swap() }
+        } label: {
+            Image(systemName: symbol)
+                .frame(width: 40, height: 40)
+        }
+        .buttonStyle(.glass)
+        .buttonBorderShape(.circle)
+        .accessibilityLabel(Text("converter.swap", bundle: .main))
     }
 
     private var resultText: String {
@@ -94,23 +135,36 @@ struct UnitConverterPanel: View {
         return formatter.format(result)
     }
 
+    @ViewBuilder
     private var header: some View {
         @Bindable var model = model
-        return HStack {
-            Menu {
-                Picker(selection: $model.mode) {
-                    ForEach(CalculatorModel.Mode.allCases) { mode in
-                        Label { Text(mode.titleKey, bundle: .main) } icon: { Image(systemName: mode.symbolName) }.tag(mode)
-                    }
-                } label: { EmptyView() }
-                .pickerStyle(.inline)
-            } label: {
-                Label { Text(model.mode.titleKey, bundle: .main) } icon: { Image(systemName: model.mode.symbolName) }
+        switch presentation {
+        case .panel:
+            HStack {
+                Menu {
+                    Picker(selection: $model.mode) {
+                        ForEach(CalculatorModel.Mode.allCases) { mode in
+                            Label { Text(mode.titleKey, bundle: .main) } icon: { Image(systemName: mode.symbolName) }.tag(mode)
+                        }
+                    } label: { EmptyView() }
+                    .pickerStyle(.inline)
+                } label: {
+                    Label { Text(model.mode.titleKey, bundle: .main) } icon: { Image(systemName: model.mode.symbolName) }
+                }
+                .buttonStyle(.glass)
+                Spacer()
+                Text(model.converter.category.titleKey, bundle: .main)
+                    .font(.title2.weight(.semibold))
             }
-            .buttonStyle(.glass)
-            Spacer()
-            Text(model.converter.category.titleKey, bundle: .main)
-                .font(.title2.weight(.semibold))
+        case .sheet:
+            HStack {
+                Text(model.converter.category.titleKey, bundle: .main)
+                    .font(.title2.weight(.semibold))
+                    .accessibilityAddTraits(.isHeader)
+                Spacer()
+                Button { dismiss() } label: { Text("converter.close", bundle: .main) }
+                    .buttonStyle(.glass)
+            }
         }
     }
 

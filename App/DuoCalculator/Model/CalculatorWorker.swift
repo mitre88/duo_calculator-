@@ -23,6 +23,10 @@ actor CalculatorWorker {
         engine.currentValue()
     }
 
+    func history(formatter: DisplayFormatter) -> [HistoryRow] {
+        engine.historyRows(formatter: formatter)
+    }
+
     func state() -> CalculatorState {
         engine.state
     }

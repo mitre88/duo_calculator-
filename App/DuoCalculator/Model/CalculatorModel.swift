@@ -25,6 +25,8 @@ final class CalculatorModel {
     }
 
     private(set) var snapshot: DisplaySnapshot = .empty
+    /// Committed calculations, newest first, formatted like the display.
+    private(set) var history: [HistoryRow] = []
     var mode: Mode = .scientific
     var programmer = ProgrammerEngine() {
         didSet { StatePersistence.saveProgrammer(programmer) }
@@ -70,11 +72,15 @@ final class CalculatorModel {
             await worker.restore(saved)
         }
         snapshot = await worker.snapshot(formatter: formatter)
+        history = await worker.history(formatter: formatter)
     }
 
     func refresh() {
         let formatter = formatter
-        Task { snapshot = await worker.snapshot(formatter: formatter) }
+        Task {
+            snapshot = await worker.snapshot(formatter: formatter)
+            history = await worker.history(formatter: formatter)
+        }
     }
 
     // MARK: Input
@@ -128,7 +134,31 @@ final class CalculatorModel {
             hapticTick += 1
             resultTick += 1
         }
+        switch event {
+        case .equals, .clearHistory, .deleteHistoryEntry: refreshHistory()
+        default: break
+        }
         scheduleSave()
+    }
+
+    // MARK: History
+
+    /// Puts a past result back into the calculator (it replaces the number being typed, like MR).
+    func recall(_ row: HistoryRow) {
+        send(.recall(row.value), haptic: .selection)
+    }
+
+    func deleteHistoryEntry(_ row: HistoryRow) {
+        send(.deleteHistoryEntry(row.id))
+    }
+
+    func clearHistory() {
+        send(.clearHistory)
+    }
+
+    private func refreshHistory() {
+        let formatter = formatter
+        Task { history = await worker.history(formatter: formatter) }
     }
 
     private func scheduleSave() {

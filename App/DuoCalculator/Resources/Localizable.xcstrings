@@ -2,6 +2,23 @@
   "sourceLanguage": "es-MX",
   "version": "1.0",
   "strings": {
+    "converter.close": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      }
+    },
     "converter.done": {
       "extractionState": "manual",
       "localizations": {
@@ -389,6 +406,125 @@
           "stringUnit": {
             "state": "translated",
             "value": "Toggles the keypad mode."
+          }
+        }
+      }
+    },
+    "history.clear": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar historial"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear History"
+          }
+        }
+      }
+    },
+    "history.clear.confirm": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Borrar todo el historial?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear the whole history?"
+          }
+        }
+      }
+    },
+    "history.done": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      }
+    },
+    "history.empty.message": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cada resultado con = aparece aquí. Tócalo para volver a usarlo."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every result you get with = shows up here. Tap one to use it again."
+          }
+        }
+      }
+    },
+    "history.empty.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin cálculos aún"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Calculations Yet"
+          }
+        }
+      }
+    },
+    "history.reuse.hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa este resultado en la calculadora"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uses this result in the calculator"
+          }
+        }
+      }
+    },
+    "history.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Historial"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
           }
         }
       }
@@ -1515,6 +1651,23 @@
         }
       }
     },
+    "mode.basic": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Básica"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basic"
+          }
+        }
+      }
+    },
     "mode.converter": {
       "extractionState": "manual",
       "localizations": {
@@ -1617,6 +1770,23 @@
         }
       }
     },
+    "modebar.history": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "historial"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "history"
+          }
+        }
+      }
+    },
     "modebar.mode": {
       "extractionState": "manual",
       "localizations": {
@@ -1630,6 +1800,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mode"
+          }
+        }
+      }
+    },
+    "modebar.more": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "más"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "more"
           }
         }
       }
@@ -1855,6 +2042,23 @@
         }
       }
     },
+    "settings.clearHistory": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar historial"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear History"
+          }
+        }
+      }
+    },
     "settings.done": {
       "extractionState": "manual",
       "localizations": {
@@ -1906,6 +2110,23 @@
         }
       }
     },
+    "settings.historyFooter": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se guarda solo en este iPhone: tus últimos 50 cálculos."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stored only on this iPhone: your last 50 calculations."
+          }
+        }
+      }
+    },
     "settings.keepAwake": {
       "extractionState": "manual",
       "localizations": {
@@ -1946,13 +2167,30 @@
         "es-MX": {
           "stringUnit": {
             "state": "translated",
-            "value": "Científica al plegar en horizontal"
+            "value": "Científica en horizontal"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Scientific when folded in landscape"
+            "value": "Scientific in landscape"
+          }
+        }
+      }
+    },
+    "settings.scientificPortrait": {
+      "extractionState": "manual",
+      "localizations": {
+        "es-MX": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Científica en vertical"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scientific in portrait"
           }
         }
       }

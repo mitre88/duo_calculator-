@@ -5,7 +5,7 @@ import CalcEngine
 /// inside **one** `GlassEffectContainer` so they can morph between arrangements.
 struct FoldAwareContainer: View {
     let plan: LayoutPlan
-    @Binding var showSettings: Bool
+    @Binding var sheet: RootSheet?
 
     @Environment(CalculatorModel.self) private var model
     @Environment(AppSettings.self) private var settings
@@ -33,14 +33,22 @@ struct FoldAwareContainer: View {
                 UnitConverterPanel(plan: plan)
                     .transition(.asymmetric(insertion: .move(edge: .trailing).combined(with: .opacity), removal: .opacity))
             }
+            // On the inner display History opens beside the fold (see `LayoutResolver.historyFrame`).
+            if sheet == .history, effectiveMode == .scientific, let frame = plan.historyFrame {
+                HistoryPanel { sheet = nil }
+                    .frame(width: frame.width, height: frame.height)
+                    .offset(x: frame.minX, y: frame.minY)
+                    .transition(.opacity.combined(with: .scale(scale: 0.97)))
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .animation(Motion.layout(reduceMotion: reduceMotion), value: effectiveMode)
+        .animation(Motion.panel, value: sheet == .history)
     }
 
     private var calculator: some View {
         ZStack(alignment: .topLeading) {
-            DisplayView(snapshot: model.snapshot, plan: plan, hinge: deviceContext.hinge, showSettings: $showSettings)
+            DisplayView(snapshot: model.snapshot, plan: plan, hinge: deviceContext.hinge, sheet: $sheet)
                 .frame(width: plan.displayFrame.width, height: plan.displayFrame.height)
                 .offset(x: plan.displayFrame.minX, y: plan.displayFrame.minY)
 

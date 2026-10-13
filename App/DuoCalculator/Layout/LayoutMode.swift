@@ -11,8 +11,10 @@ enum LayoutMode: String, Hashable, Codable, CaseIterable {
     case scientificCompact
     /// Regular width (inner display): 10×5 scientific keypad under the display.
     case scientific
-    /// Medium width (Split View ⅔): function block above the basic keypad.
+    /// Medium width (Split View ⅔), or a phone in portrait with Scientific on: function block above the basic keypad.
     case scientificStacked
+    /// Phone landscape too short for `.scientificCompact` (6.1"/6.3"): display leading, 10×5 keypad trailing.
+    case scientificSideBySide
     /// Partially folded with a horizontal hinge (Laptop pose): display above the fold, keypad below it.
     case tabletop
     /// Partially folded with a vertical hinge (Book pose): 5 | 5 keypad with the channel exactly on the fold.

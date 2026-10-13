@@ -52,6 +52,8 @@ final class AppSettings {
     var usesGrouping: Bool { didSet { store(usesGrouping, "grouping") } }
     /// Folded + landscape shows the compact scientific keypad (iPhone convention) instead of the basic one.
     var scientificInFoldedLandscape: Bool { didSet { store(scientificInFoldedLandscape, "sciLandscape") } }
+    /// Phones and the folded Duo in portrait show the function block above the basic keys.
+    var scientificInCompactPortrait: Bool { didSet { store(scientificInCompactPortrait, "sciPortrait") } }
     var auroraEnabled: Bool { didSet { store(auroraEnabled, "aurora") } }
     var keepScreenAwake: Bool { didSet { store(keepScreenAwake, "keepAwake") } }
 
@@ -66,6 +68,7 @@ final class AppSettings {
         soundEnabled = defaults.object(forKey: "duo.settings.sound") as? Bool ?? false
         usesGrouping = defaults.object(forKey: "duo.settings.grouping") as? Bool ?? true
         scientificInFoldedLandscape = defaults.object(forKey: "duo.settings.sciLandscape") as? Bool ?? true
+        scientificInCompactPortrait = defaults.object(forKey: "duo.settings.sciPortrait") as? Bool ?? false
         auroraEnabled = defaults.object(forKey: "duo.settings.aurora") as? Bool ?? true
         keepScreenAwake = defaults.object(forKey: "duo.settings.keepAwake") as? Bool ?? false
     }

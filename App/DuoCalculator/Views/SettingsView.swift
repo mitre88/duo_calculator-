@@ -5,6 +5,7 @@ struct SettingsView: View {
     @Environment(AppSettings.self) private var settings
     @Environment(CalculatorModel.self) private var model
     @Environment(\.dismiss) private var dismiss
+    @State private var confirmClearHistory = false
 
     var body: some View {
         @Bindable var settings = settings
@@ -26,9 +27,25 @@ struct SettingsView: View {
 
                 Section {
                     Toggle(isOn: $settings.hapticsEnabled) { Text("settings.haptics", bundle: .main) }
+                    Toggle(isOn: $settings.scientificInCompactPortrait) { Text("settings.scientificPortrait", bundle: .main) }
                     Toggle(isOn: $settings.scientificInFoldedLandscape) { Text("settings.scientificLandscape", bundle: .main) }
                     Toggle(isOn: $settings.keepScreenAwake) { Text("settings.keepAwake", bundle: .main) }
                 } header: { Text("settings.section.interaction", bundle: .main) }
+
+                Section {
+                    Button(role: .destructive) { confirmClearHistory = true } label: {
+                        Text("settings.clearHistory", bundle: .main)
+                    }
+                    .disabled(model.history.isEmpty)
+                    .confirmationDialog(Text("history.clear.confirm", bundle: .main), isPresented: $confirmClearHistory,
+                                        titleVisibility: .visible) {
+                        Button(role: .destructive) { model.clearHistory() } label: { Text("history.clear", bundle: .main) }
+                    }
+                } header: {
+                    Text("history.title", bundle: .main)
+                } footer: {
+                    Text("settings.historyFooter", bundle: .main)
+                }
 
                 Section {
                     Toggle(isOn: $settings.usesGrouping) { Text("settings.grouping", bundle: .main) }

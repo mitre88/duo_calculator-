@@ -14,7 +14,17 @@ enum LayoutResolver {
     /// …and the width of the 64-bit grid (~600 pt with the panel padding).
     static let panelMinimumWidth: CGFloat = 600
 
+    /// Side-by-side scientific (short phone landscape): the display keeps at least this width beside the keys.
+    static let sideBySideMinimumDisplayWidth: CGFloat = 180
+
     static func resolve(_ input: LayoutInput) -> LayoutPlan {
+        var plan = basePlan(input)
+        plan.scientificToggle = scientificToggle(input)
+        plan.historyFrame = historyFrame(for: plan, input: input)
+        return plan
+    }
+
+    private static func basePlan(_ input: LayoutInput) -> LayoutPlan {
         let content = input.contentRect
         let mode = chooseMode(input)
         switch mode {
@@ -32,7 +42,9 @@ enum LayoutResolver {
             }
             return bookPlan(input, content: content, fold: fold)
         case .scientificStacked:
-            return stackedPlan(input, content: content)
+            return stackedPlan(input, content: content, compact: isCompactWidth(input))
+        case .scientificSideBySide:
+            return sideBySidePlan(input, content: content)
         case .tabletop:
             return tabletopPlan(input, content: content)
         }
@@ -40,14 +52,22 @@ enum LayoutResolver {
 
     // MARK: Mode
 
+    static func isCompactWidth(_ input: LayoutInput) -> Bool {
+        input.sizeClass.horizontal == .compact || input.contentRect.width < stackedMinimumWidth
+    }
+
+    static func isCompactHeight(_ input: LayoutInput) -> Bool {
+        input.sizeClass.vertical == .compact || input.contentRect.height < compactHeightThreshold
+    }
+
     static func chooseMode(_ input: LayoutInput) -> LayoutMode {
         let content = input.contentRect
-        let compactWidth = input.sizeClass.horizontal == .compact || content.width < stackedMinimumWidth
-        let compactHeight = input.sizeClass.vertical == .compact || content.height < compactHeightThreshold
+        let compactWidth = isCompactWidth(input)
+        let compactHeight = isCompactHeight(input)
         if input.isAccessibilitySize { return compactHeight ? .basicLandscape : .basic }
         if compactWidth {
             if compactHeight { return shortLandscapeMode(input) }
-            return .basic
+            return input.prefersScientificInCompactPortrait && compactStackedFits(input) ? .scientificStacked : .basic
         }
         // Plus / Pro Max phones report a regular width in landscape, yet the pane is as short as any phone's:
         // the full scientific chrome would leave no room for the result line.
@@ -68,7 +88,7 @@ enum LayoutResolver {
     }
 
     /// Compact scientific needs its display stack (with a legible result) above five rows of compact keys;
-    /// shorter panes (6.1"/6.3" phones in landscape) get the side-by-side basic layout instead.
+    /// shorter panes (6.1"/6.3" phones in landscape) put the display beside the scientific keys instead.
     static var scientificCompactMinimumHeight: CGFloat {
         DisplayMetrics.minimumHeight(topInset: DisplayMetrics.minimumTopInset, compact: true)
             + KeypadMetrics.keypadHeight(keyHeight: KeypadMetrics.minimumCompactKeyHeight,
@@ -77,9 +97,74 @@ enum LayoutResolver {
     }
 
     static func shortLandscapeMode(_ input: LayoutInput) -> LayoutMode {
-        guard input.prefersScientificInCompactLandscape,
-              input.contentRect.height >= scientificCompactMinimumHeight else { return .basicLandscape }
-        return .scientificCompact
+        guard input.prefersScientificInCompactLandscape else { return .basicLandscape }
+        if input.contentRect.height >= scientificCompactMinimumHeight { return .scientificCompact }
+        return sideBySideFits(input.contentRect) ? .scientificSideBySide : .basicLandscape
+    }
+
+    /// Phones in portrait: ten rows (function block + basic keys) of ≥ 44 pt keys under a compact display.
+    static func compactStackedFits(_ input: LayoutInput) -> Bool {
+        let content = input.contentRect
+        let spacing = KeypadMetrics.compactSpacing
+        let margin = KeypadMetrics.compactMargin
+        let rows = KeyGridSpec.basic.rows + KeyGridSpec.functionBlock.rows
+        let display = DisplayMetrics.minimumHeight(topInset: displayTopInset(input, area: content, compact: true), compact: true)
+        let keyHeight = KeypadMetrics.keyHeight(available: content.height - display - margin - spacing, rows: rows, spacing: spacing)
+        let blockKeyWidth = KeypadMetrics.keyWidth(available: content.width, columns: KeyGridSpec.functionBlock.columns,
+                                                   spacing: spacing, margin: margin)
+        return keyHeight >= KeypadMetrics.minimumKeySide && blockKeyWidth >= KeypadMetrics.minimumKeySide
+    }
+
+    static func sideBySideKeyWidth(_ content: CGRect) -> CGFloat {
+        KeypadMetrics.keyWidth(available: content.width - sideBySideMinimumDisplayWidth, columns: KeyGridSpec.scientific.columns,
+                               spacing: KeypadMetrics.compactSpacing, margin: KeypadMetrics.compactMargin)
+    }
+
+    static func sideBySideKeyHeight(_ content: CGRect) -> CGFloat {
+        KeypadMetrics.keyHeight(available: content.height - 2 * KeypadMetrics.compactMargin,
+                                rows: KeyGridSpec.scientific.rows, spacing: KeypadMetrics.compactSpacing)
+    }
+
+    static func sideBySideFits(_ content: CGRect) -> Bool {
+        sideBySideKeyWidth(content) >= KeypadMetrics.minimumKeySide && sideBySideKeyHeight(content) >= KeypadMetrics.minimumKeySide
+    }
+
+    /// The mode bar offers Basic/Scientific only where the other arrangement actually fits (never at accessibility sizes,
+    /// which keep the big basic keys, and never on wide layouts, which are scientific already).
+    static func scientificToggle(_ input: LayoutInput) -> ScientificToggle? {
+        guard !input.isAccessibilitySize else { return nil }
+        if isCompactHeight(input) {
+            var scientific = input
+            scientific.prefersScientificInCompactLandscape = true
+            return shortLandscapeMode(scientific) == .basicLandscape ? nil : .landscape
+        }
+        if isCompactWidth(input) {
+            return compactStackedFits(input) ? .portrait : nil
+        }
+        return nil
+    }
+
+    // MARK: History
+
+    /// On the inner display History opens as a panel inside the content, on the near side of an active fold
+    /// (above it in Laptop pose, on the left half in Book pose); compact layouts present a sheet instead.
+    static func historyFrame(for plan: LayoutPlan, input: LayoutInput) -> CGRect? {
+        let content = plan.contentRect
+        let frame: CGRect
+        switch plan.mode {
+        case .tabletop:
+            frame = plan.displayFrame
+        case .book:
+            guard let fold = input.verticalDivision, fold.isActive else { return nil }
+            frame = CGRect(x: content.minX, y: content.minY, width: max(0, fold.expandedFrame.minX - content.minX), height: content.height)
+        case .scientific where !plan.isCompactWidth && !isCompactHeight(input):
+            let width = min(380, content.width * 0.5)
+            frame = CGRect(x: content.maxX - width, y: content.minY, width: width, height: content.height)
+        default:
+            return nil
+        }
+        let crossesFold = input.regions.contains { $0.kind == .division && $0.isActive && $0.expandedFrame.intersects(frame) }
+        return crossesFold || frame.width < 240 ? nil : frame
     }
 
     // MARK: Display
@@ -246,7 +331,8 @@ enum LayoutResolver {
                           panelsAvailable: false, displayTopInset: topInset)
     }
 
-    private static func stackedPlan(_ input: LayoutInput, content: CGRect) -> LayoutPlan {
+    /// `compact`: a phone (or the folded Duo) in portrait, where the compact display chrome leaves room for ten rows.
+    private static func stackedPlan(_ input: LayoutInput, content: CGRect, compact: Bool) -> LayoutPlan {
         let spacing = KeypadMetrics.compactSpacing
         let margin = KeypadMetrics.compactMargin
         let basic = KeyGridSpec.basic
@@ -254,9 +340,9 @@ enum LayoutResolver {
         let keyWidthBasic = KeypadMetrics.keyWidth(available: content.width, columns: basic.columns, spacing: spacing, margin: margin)
         let keyWidthBlock = KeypadMetrics.keyWidth(available: content.width, columns: block.columns, spacing: spacing, margin: margin)
         let totalRows = basic.rows + block.rows
-        let topInset = displayTopInset(input, area: content, compact: false)
-        let displayHeight = Self.displayHeight(preferred: max(minimumDisplayHeight, content.height * 0.22),
-                                          topInset: topInset, compact: false, content: content,
+        let topInset = displayTopInset(input, area: content, compact: compact)
+        let displayHeight = Self.displayHeight(preferred: max(minimumDisplayHeight, content.height * (compact ? 0.26 : 0.22)),
+                                          topInset: topInset, compact: compact, content: content,
                                           margin: margin + spacing, rows: totalRows, spacing: spacing)
         let available = content.height - displayHeight - margin - spacing
         let keyHeight = max(KeypadMetrics.minimumKeySide, min(keyWidthBasic, KeypadMetrics.keyHeight(available: available, rows: totalRows, spacing: spacing)))
@@ -270,10 +356,32 @@ enum LayoutResolver {
         return LayoutPlan(mode: .scientificStacked, contentRect: content, displayFrame: displayFrame, keypadFrame: basicFrame,
                           keypadSpec: basic, secondaryKeypadFrame: blockFrame, secondaryKeypadSpec: block,
                           keySpacing: spacing, centerGutter: 0, keyShape: .roundedRectangle,
-                          keySize: CGSize(width: keyWidthBasic, height: keyHeight), displayProfile: .regular,
-                          isCompactWidth: false, avoidRects: input.activeOcclusions.map(\.expandedFrame),
+                          keySize: CGSize(width: keyWidthBasic, height: keyHeight), displayProfile: compact ? .compact : .regular,
+                          isCompactWidth: compact, avoidRects: input.activeOcclusions.map(\.expandedFrame),
                           secondaryKeySize: CGSize(width: keyWidthBlock, height: keyHeight), panelsAvailable: false,
                           displayTopInset: topInset)
+    }
+
+    /// Short phone landscape: the display on the leading side, the 10×5 scientific keypad trailing (toward the thumb).
+    private static func sideBySidePlan(_ input: LayoutInput, content: CGRect) -> LayoutPlan {
+        let spacing = KeypadMetrics.compactSpacing
+        let margin = KeypadMetrics.compactMargin
+        let spec = KeyGridSpec.scientific
+        let keyWidth = sideBySideKeyWidth(content)
+        let keyHeight = max(KeypadMetrics.minimumKeySide, min(sideBySideKeyHeight(content), keyWidth * 1.3))
+        let keypadWidth = keyWidth * CGFloat(spec.columns) + spacing * CGFloat(spec.columns - 1)
+        let keypadHeight = KeypadMetrics.keypadHeight(keyHeight: keyHeight, rows: spec.rows, spacing: spacing)
+        let keypadFrame = CGRect(x: content.maxX - margin - keypadWidth,
+                                 y: content.midY - keypadHeight / 2,
+                                 width: keypadWidth, height: keypadHeight)
+        let displayFrame = CGRect(x: content.minX, y: content.minY, width: keypadFrame.minX - content.minX, height: content.height)
+        let topInset = displayTopInset(input, area: displayFrame, compact: true)
+        return LayoutPlan(mode: .scientificSideBySide, contentRect: content, displayFrame: displayFrame, keypadFrame: keypadFrame,
+                          keypadSpec: spec, secondaryKeypadFrame: nil, secondaryKeypadSpec: nil,
+                          keySpacing: spacing, centerGutter: 0, keyShape: .roundedRectangle,
+                          keySize: CGSize(width: keyWidth, height: keyHeight), displayProfile: .compact,
+                          isCompactWidth: true, avoidRects: input.activeOcclusions.map(\.expandedFrame),
+                          panelsAvailable: false, displayTopInset: topInset)
     }
 
     private static func tabletopPlan(_ input: LayoutInput, content: CGRect) -> LayoutPlan {

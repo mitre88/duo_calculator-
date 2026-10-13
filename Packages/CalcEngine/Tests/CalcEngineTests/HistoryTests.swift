@@ -140,6 +140,21 @@ extension CalcEngineTests {
             #expect(entry.result.approx == computed.approx)
         }
 
+        @Test func rowsAreNewestFirstAndFormattedLikeTheDisplay() throws {
+            var engine = Self.engine()
+            Self.send([.digit(1), .digit(2), .decimalSeparator, .digit(5), .binary(.multiply), .digit(2), .equals], to: &engine)
+            Self.send([.digit(7), .binary(.add), .digit(1), .equals], to: &engine)
+            for _ in 0..<40 { Self.send([.digit(1), .binary(.add)], to: &engine) }
+            Self.send([.digit(1), .equals], to: &engine)
+            let mexican = DisplayFormatter(profile: .regular, separators: .named("es_MX"), usesGrouping: true)
+            let rows = engine.historyRows(formatter: mexican)
+            #expect(rows.map(\.result) == ["41", "8", "25"])
+            #expect(rows[0].expression == nil)
+            #expect(rows[1].expression == "7 + 1")
+            #expect(rows[2].expression == ExpressionRenderer.text(engine.state.history[0].tokens, formatter: mexican))
+            #expect(rows.map(\.id) == engine.state.history.reversed().map(\.id))
+        }
+
         @Test func historySurvivesCoding() throws {
             var engine = Self.engine()
             Self.send([.digit(2), .binary(.add), .digit(3), .equals], to: &engine)

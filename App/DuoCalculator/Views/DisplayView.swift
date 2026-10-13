@@ -7,7 +7,7 @@ struct DisplayView: View {
     let snapshot: DisplaySnapshot
     let plan: LayoutPlan
     let hinge: HingeState
-    @Binding var showSettings: Bool
+    @Binding var sheet: RootSheet?
 
     @Environment(CalculatorModel.self) private var model
     @Environment(AppSettings.self) private var settings
@@ -19,7 +19,7 @@ struct DisplayView: View {
     var body: some View {
         VStack(alignment: .trailing, spacing: DisplayMetrics.stackSpacing(compact: compact)) {
             // Heights below follow `DisplayMetrics`, the budget `LayoutResolver` sized this display with.
-            ModeBar(snapshot: snapshot, plan: plan, showSettings: $showSettings)
+            ModeBar(snapshot: snapshot, plan: plan, sheet: $sheet)
                 .frame(height: DisplayMetrics.modeBarHeight(compact: compact))
                 .padding(.top, plan.displayTopInset)
             Spacer(minLength: 0)
