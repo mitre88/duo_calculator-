@@ -13,6 +13,8 @@ import Glibc
 ///     swift run calc --keys "2,0,0,+,1,0,%,="  → 220   (key names as in ios_sequences.json)
 ///     swift run calc --canon "1/3"           → 3.33333333333333333333333333333E-1
 ///     swift run -c release calc --bench      → latency / throughput / memory report
+///     swift run calc --keys "…" --date 1791914460 --dump-state s.json
+///                                            → the persisted `CalculatorState` (screenshot seeding)
 struct CLI {
     static func run(_ arguments: [String]) -> Int32 {
         var args = Array(arguments.dropFirst())
@@ -21,6 +23,8 @@ struct CLI {
         var keys: String?
         var compact = false
         var locale = "en_US"
+        var statePath: String?
+        var fixedDate: Date?
 
         while let first = args.first, first.hasPrefix("--") {
             args.removeFirst()
@@ -31,6 +35,8 @@ struct CLI {
             case "--compact": compact = true
             case "--keys": keys = args.isEmpty ? nil : args.removeFirst()
             case "--locale": locale = args.isEmpty ? locale : args.removeFirst()
+            case "--dump-state": statePath = args.isEmpty ? nil : args.removeFirst()
+            case "--date": fixedDate = args.isEmpty ? nil : TimeInterval(args.removeFirst()).map(Date.init(timeIntervalSince1970:))
             case "--bench": return Bench.run(iterations: args.first.flatMap { Int($0) } ?? 50)
             case "--help", "-h": printUsage(); return 0
             default:
@@ -43,7 +49,8 @@ struct CLI {
                                          separators: .named(locale), usesGrouping: true)
 
         if let keys {
-            var engine = CalculatorEngine(random: SeededRandomSource(seed: 1))
+            let clock: any DateSource = fixedDate.map { FixedDateSource(date: $0) as any DateSource } ?? SystemDateSource()
+            var engine = CalculatorEngine(random: SeededRandomSource(seed: 1), clock: clock)
             engine.send(.setAngleMode(angle))
             for raw in keys.split(separator: ",") {
                 guard let event = CalculatorEvent(testName: String(raw)) else {
@@ -51,6 +58,14 @@ struct CLI {
                     return 2
                 }
                 engine.send(event)
+            }
+            if let statePath {
+                do {
+                    try JSONEncoder().encode(engine.state).write(to: URL(fileURLWithPath: statePath))
+                } catch {
+                    FileHandle.standardError.write(Data("cannot write \(statePath): \(error)\n".utf8))
+                    return 2
+                }
             }
             let snapshot = engine.snapshot(formatter: formatter)
             print(snapshot.expressionText.isEmpty ? snapshot.primary : "\(snapshot.expressionText)\n\(snapshot.primary)")
@@ -74,10 +89,16 @@ struct CLI {
     static func printUsage() {
         print("""
         usage: calc [--deg|--rad] [--canon] [--compact] [--locale ID] "expression"
-               calc [--deg|--rad] --keys "2,0,0,add,1,0,pct,eq"
+               calc [--deg|--rad] --keys "2,0,0,add,1,0,pct,eq" [--date EPOCH] [--dump-state FILE]
                calc --bench [iterations]
         """)
     }
+}
+
+/// `--date`: every History entry gets the same timestamp, so seeded screenshots are reproducible.
+struct FixedDateSource: DateSource {
+    var date: Date
+    func now() -> Date { date }
 }
 
 /// `calc --bench`: the same measurements as the package's PerformanceTests, printed as a table, so the
